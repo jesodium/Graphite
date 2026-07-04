@@ -2,10 +2,10 @@
   "name": "graphite",
   "version": "0.1.0",
   "description": "User-friendly onboarding for homebrewing your consoles.",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "test": "node test-engine.js",
+    "test": "node test/engine.test.js",
     "dist": "electron-builder"
   },
   "dependencies": {

@@ -12,12 +12,12 @@ function createWindow() {
     height: 700,
     webPreferences: { preload: path.join(__dirname, 'preload.js') },
   });
-  win.loadFile('index.html');
+  win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 }
 
 // List bundled guides (metadata only) for the picker.
 ipcMain.handle('guides:list', async () => {
-  const dir = path.join(__dirname, 'guides');
+  const dir = path.join(__dirname, '..', 'guides');
   const files = await fs.promises.readdir(dir);
   return Promise.all(
     files.filter(f => f.endsWith('.json')).map(async f => {
@@ -28,7 +28,7 @@ ipcMain.handle('guides:list', async () => {
 });
 
 ipcMain.handle('guides:load', async (_e, file) => {
-  const p = path.join(__dirname, 'guides', path.basename(file)); // basename = no traversal
+  const p = path.join(__dirname, '..', 'guides', path.basename(file)); // basename = no traversal
   return JSON.parse(await fs.promises.readFile(p, 'utf8'));
 });
 

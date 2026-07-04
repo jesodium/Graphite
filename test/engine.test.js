@@ -5,7 +5,7 @@ const os = require('os');
 const path = require('path');
 const crypto = require('crypto');
 const { execSync } = require('child_process');
-const { runAction, safeJoin, download } = require('./engine');
+const { runAction, safeJoin, download } = require('../src/engine');
 
 async function main() {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'graphite-'));
