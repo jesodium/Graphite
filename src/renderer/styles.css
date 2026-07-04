@@ -1,0 +1,26 @@
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font: 15px/1.5 system-ui, sans-serif;
+}
+#app { max-width: 720px; margin: 0 auto; padding: 24px; }
+header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  border-bottom: 1px solid #8884; padding-bottom: 12px; margin-bottom: 24px;
+}
+h1 { margin: 0; font-size: 22px; }
+#sd-label { font-size: 12px; opacity: .6; }
+button {
+  font: inherit; padding: 8px 16px; border: 1px solid #8886;
+  border-radius: 6px; background: #8881; cursor: pointer;
+}
+button:hover:not(:disabled) { background: #8883; }
+button:disabled { opacity: .4; cursor: default; }
+#guide-list { list-style: none; padding: 0; display: grid; gap: 8px; }
+#progress { height: 4px; background: #8882; border-radius: 2px; margin-bottom: 24px; }
+#progress-bar { height: 100%; background: #4a90d9; border-radius: 2px; transition: width .2s; }
+#step-body code { background: #8882; padding: 1px 5px; border-radius: 4px; }
+#step-action { margin: 16px 0; }
+#step-status { min-height: 1.5em; opacity: .8; }
+footer { display: flex; justify-content: space-between; margin-top: 32px; }

@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="styles.css" />
+<div id="app">
+  <header>
+    <h1>Graphite</h1>
+    <span id="sd-label"></span>
+  </header>
+
+  <section id="picker">
+    <h2>Pick your console</h2>
+    <ul id="guide-list"></ul>
+  </section>
+
+  <section id="guide" hidden>
+    <div id="progress"><div id="progress-bar"></div></div>
+    <h2 id="step-title"></h2>
+    <div id="step-body"></div>
+    <div id="step-action"></div>
+    <p id="step-status"></p>
+    <footer>
+      <button id="back">Back</button>
+      <button id="next">Next</button>
+    </footer>
+  </section>
+</div>
+<script src="renderer.js"></script>

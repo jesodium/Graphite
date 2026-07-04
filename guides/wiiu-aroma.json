@@ -1,0 +1,57 @@
+{
+  "console": "Wii U",
+  "method": "Aroma",
+  "requirements": [
+    "SD card formatted FAT32",
+    "Wii U on the latest official firmware",
+    "A few minutes"
+  ],
+  "_note": "PLACEHOLDER content. Real download URLs + sha256 hashes must be filled from wiiu.hacks.guide / official Aroma releases before shipping. Steps with an empty sha256 skip verification — do NOT ship them empty.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "This walks you through installing **Aroma**, the current custom firmware for the Wii U.\n\nMake sure your SD card is formatted **FAT32** and your Wii U is on the latest firmware.",
+      "action": null
+    },
+    {
+      "id": "download-aroma",
+      "title": "Download Aroma",
+      "body": "Downloading the Aroma package and verifying it hasn't been corrupted.",
+      "action": {
+        "type": "download",
+        "url": "https://REPLACE_ME/aroma.zip",
+        "sha256": "",
+        "dest": "aroma.zip"
+      }
+    },
+    {
+      "id": "extract-aroma",
+      "title": "Copy Aroma to your SD card",
+      "body": "Extracting Aroma to the root of your SD card. This creates the `wiiu` folder and payloads.",
+      "action": {
+        "type": "extract",
+        "archive": "aroma.zip",
+        "destSubpath": ""
+      }
+    },
+    {
+      "id": "eject",
+      "title": "Put the SD card back in your Wii U",
+      "body": "Safely eject the SD card and insert it into your **Wii U**.",
+      "action": { "type": "manual" }
+    },
+    {
+      "id": "boot-exploit",
+      "title": "Launch the exploit",
+      "body": "On the Wii U, open the **Internet Browser** and go to the exploit page (see wiiu.hacks.guide). Aroma will load.\n\nTap **I did this** once it boots.",
+      "action": { "type": "manual" }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Aroma is installed. From now on it loads automatically. You can add homebrew apps to the `wiiu/apps` folder on your SD card.",
+      "action": null
+    }
+  ]
+}
