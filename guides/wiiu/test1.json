@@ -1,0 +1,15 @@
+{
+  "console": "Wii U",
+  "title": "test1",
+  "recommended": false,
+  "requiresStorageSelection": false,
+  "_note": "PLACEHOLDER guide.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "test1 method",
+      "body": "Placeholder content for **test1**.",
+      "action": null
+    }
+  ]
+}

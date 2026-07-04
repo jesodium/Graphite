@@ -8,7 +8,7 @@
     "Wii U on the latest official firmware",
     "A few minutes"
   ],
-  "_note": "PLACEHOLDER content. Real download URLs + sha256 hashes must be filled from wiiu.hacks.guide / official Aroma releases before shipping. Steps with an empty sha256 skip verification — do NOT ship them empty.",
+  "_note": "PLACEHOLDER content. Real download URLs + sha256 hashes must be filled from wiiu.hacks.guide / official Aroma releases before shipping.",
   "steps": [
     {
       "id": "intro",

@@ -1,0 +1,36 @@
+{
+  "console": "Nintendo Switch",
+  "title": "Modchip install (OLED/Mariko)",
+  "wip": true,
+  "recommended": false,
+  "models": ["Switch OLED", "Switch V2 (Mariko)"],
+  "recommendedModels": ["Switch OLED", "Switch V2 (Mariko)"],
+  "warnings": ["Requires soldering", "Advanced hardware work"],
+  "requirements": [
+    "Compatible modchip",
+    "Fine soldering tools",
+    "Microscope or magnification",
+    "Backup and recovery setup"
+  ],
+  "_note": "PLACEHOLDER guide. Use only vetted documentation and safety checks before publishing.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "This path is for **OLED/Mariko** hardware and requires hardware installation work.",
+      "action": null
+    },
+    {
+      "id": "hardware-install",
+      "title": "Install modchip hardware",
+      "body": "Install and inspect all solder points before first boot.",
+      "action": { "type": "manual" }
+    },
+    {
+      "id": "validate-boot",
+      "title": "Validate payload boot",
+      "body": "Confirm the payload boots and the system remains stable.",
+      "action": { "type": "manual" }
+    }
+  ]
+}

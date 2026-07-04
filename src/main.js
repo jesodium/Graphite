@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const { runAction } = require('./engine');
+const { normalizeGuideMetadata } = require('./guide-index');
 
 const stateFile = () => path.join(app.getPath('userData'), 'state.json');
 const cacheDir = () => path.join(app.getPath('userData'), 'cache');
@@ -25,7 +26,9 @@ ipcMain.handle('guides:list', async () => {
     for (const f of await fs.promises.readdir(sub)) {
       if (!f.endsWith('.json')) continue;
       const g = JSON.parse(await fs.promises.readFile(path.join(sub, f), 'utf8'));
-      out.push({ file: `${e.name}/${f}`, console: g.console, title: g.title, recommended: !!g.recommended });
+      const meta = normalizeGuideMetadata(`${e.name}/${f}`, g);
+      if (meta.wip) continue;
+      out.push(meta);
     }
   }
   return out;

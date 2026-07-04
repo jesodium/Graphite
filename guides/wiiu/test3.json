@@ -1,0 +1,14 @@
+{
+  "console": "Wii U",
+  "title": "test3",
+  "recommended": false,
+  "_note": "PLACEHOLDER guide.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "test3 method",
+      "body": "Placeholder content for **test3**.",
+      "action": null
+    }
+  ]
+}

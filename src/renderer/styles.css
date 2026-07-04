@@ -43,3 +43,70 @@ button:disabled { opacity: .4; cursor: default; }
 #step-action { margin: 16px 0; }
 #step-status { min-height: 1.5em; opacity: .8; }
 footer { display: flex; justify-content: space-between; margin-top: 32px; }
+
+#onboarding {
+  display: grid;
+  gap: 10px;
+}
+
+#onboarding h2 {
+  margin: 0;
+}
+
+#onboarding p {
+  margin: 0;
+}
+
+#onboarding-points {
+  margin: 0;
+  padding-left: 20px;
+}
+
+#onboarding-source {
+  width: 100%;
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid #8886;
+  border-radius: 6px;
+  background: #8881;
+}
+
+.onboarding-note {
+  opacity: .8;
+  font-size: 13px;
+}
+
+.onboarding-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: #0007;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.modal[hidden] { display: none; }
+
+.modal-card {
+  width: min(420px, 100%);
+  border: 1px solid #8885;
+  border-radius: 8px;
+  background: Canvas;
+  color: CanvasText;
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.modal-card p { margin: 0; }
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

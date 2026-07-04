@@ -1,0 +1,34 @@
+{
+  "console": "Nintendo Switch",
+  "title": "RCM softmod (v1/Erista)",
+  "wip": true,
+  "recommended": false,
+  "models": ["Switch v1 (Erista)"],
+  "recommendedModels": ["Switch v1 (Erista)"],
+  "requirements": [
+    "Switch v1 (Erista) unit",
+    "SD card formatted FAT32",
+    "USB-C cable and payload launcher"
+  ],
+  "_note": "PLACEHOLDER guide. Verify all payload and tool links before release.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "This path is for **unpatched v1 (Erista)** systems that can use RCM payload injection.",
+      "action": null
+    },
+    {
+      "id": "prepare-sd",
+      "title": "Prepare your SD card",
+      "body": "Copy the required files to your SD card as directed by the official guide.",
+      "action": { "type": "manual" }
+    },
+    {
+      "id": "inject-payload",
+      "title": "Inject payload",
+      "body": "Enter RCM mode and inject your payload with your launcher tool.",
+      "action": { "type": "manual" }
+    }
+  ]
+}

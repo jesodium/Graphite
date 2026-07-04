@@ -5,7 +5,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "test": "node test/engine.test.js",
+    "test": "node test/engine.test.js && node test/guide-index.test.js && node test/picker-logic.test.js && node test/guide-storage.test.js",
     "dist": "electron-builder"
   },
   "dependencies": {
