@@ -7,4 +7,7 @@ contextBridge.exposeInMainWorld('graphite', {
   runAction: (action, root) => ipcRenderer.invoke('action:run', action, root),
   getState: () => ipcRenderer.invoke('state:get'),
   setState: state => ipcRenderer.invoke('state:set', state),
+  clearState: () => ipcRenderer.invoke('state:clear'),
+  getPlatform: () => ipcRenderer.invoke('app:platform'),
+  getView: name => ipcRenderer.invoke('renderer:view', name),
 });

@@ -1,5 +1,7 @@
 {
   "console": "Wii U",
+  "title": "Aroma",
+  "recommended": true,
   "method": "Aroma",
   "requirements": [
     "SD card formatted FAT32",

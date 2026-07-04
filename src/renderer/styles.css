@@ -18,6 +18,25 @@ button {
 button:hover:not(:disabled) { background: #8883; }
 button:disabled { opacity: .4; cursor: default; }
 #guide-list { list-style: none; padding: 0; display: grid; gap: 8px; }
+#guide-list .sep { text-align: center; opacity: .4; user-select: none; }
+#guide-list .meta-title { font-weight: 600; margin-top: 8px; }
+#guide-list .meta-item { opacity: .9; }
+#guide-list .meta-note { opacity: .8; font-size: 14px; }
+#guide-list .meta-instruction {
+  margin-top: 4px;
+  padding: 10px 12px;
+  border: 1px solid #8884;
+  border-radius: 6px;
+}
+#resume-home { margin-top: 16px; }
+.resume-box {
+  border: 1px solid #8884;
+  border-radius: 8px;
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+}
+.resume-actions { display: flex; gap: 8px; }
 #progress { height: 4px; background: #8882; border-radius: 2px; margin-bottom: 24px; }
 #progress-bar { height: 100%; background: #4a90d9; border-radius: 2px; transition: width .2s; }
 #step-body code { background: #8882; padding: 1px 5px; border-radius: 4px; }

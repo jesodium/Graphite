@@ -15,20 +15,26 @@ function createWindow() {
   win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 }
 
-// List bundled guides (metadata only) for the picker.
+// List bundled guides (metadata only) for the picker. Folders = console.
 ipcMain.handle('guides:list', async () => {
   const dir = path.join(__dirname, '..', 'guides');
-  const files = await fs.promises.readdir(dir);
-  return Promise.all(
-    files.filter(f => f.endsWith('.json')).map(async f => {
-      const g = JSON.parse(await fs.promises.readFile(path.join(dir, f), 'utf8'));
-      return { file: f, console: g.console, method: g.method };
-    })
-  );
+  const out = [];
+  for (const e of await fs.promises.readdir(dir, { withFileTypes: true })) {
+    if (!e.isDirectory()) continue;
+    const sub = path.join(dir, e.name);
+    for (const f of await fs.promises.readdir(sub)) {
+      if (!f.endsWith('.json')) continue;
+      const g = JSON.parse(await fs.promises.readFile(path.join(sub, f), 'utf8'));
+      out.push({ file: `${e.name}/${f}`, console: g.console, title: g.title, recommended: !!g.recommended });
+    }
+  }
+  return out;
 });
 
 ipcMain.handle('guides:load', async (_e, file) => {
-  const p = path.join(__dirname, '..', 'guides', path.basename(file)); // basename = no traversal
+  const dir = path.join(__dirname, '..', 'guides');
+  const p = path.join(dir, file);
+  if (!p.startsWith(dir + path.sep)) throw new Error('bad guide path'); // no traversal
   return JSON.parse(await fs.promises.readFile(p, 'utf8'));
 });
 
@@ -51,6 +57,21 @@ ipcMain.handle('state:get', async () => {
 ipcMain.handle('state:set', async (_e, state) => {
   await fs.promises.writeFile(stateFile(), JSON.stringify(state, null, 2));
   return true;
+});
+
+ipcMain.handle('state:clear', async () => {
+  await fs.promises.rm(stateFile(), { force: true });
+  return true;
+});
+
+ipcMain.handle('app:platform', async () => process.platform);
+
+ipcMain.handle('renderer:view', async (_e, name) => {
+  if (name !== path.basename(name) || !name.endsWith('.html')) {
+    throw new Error('bad view name');
+  }
+  const p = path.join(__dirname, 'renderer', 'views', name);
+  return fs.promises.readFile(p, 'utf8');
 });
 
 app.whenReady().then(() => {
