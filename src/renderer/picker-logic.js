@@ -28,9 +28,12 @@
 
   function splitMethodsByRecommendation(methods, selectedModel) {
     const applicable = methods.filter(method => methodAppliesToModel(method, selectedModel));
+    const notRecommended = applicable.filter(method => !methodIsRecommended(method, selectedModel));
     return {
       recommended: applicable.filter(method => methodIsRecommended(method, selectedModel)),
-      rest: applicable.filter(method => !methodIsRecommended(method, selectedModel)),
+      // "rest" = other CFW methods; "extras" = auxiliary guides flagged with `extra`.
+      rest: notRecommended.filter(method => !method.extra),
+      extras: notRecommended.filter(method => method.extra),
     };
   }
 

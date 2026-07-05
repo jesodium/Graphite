@@ -1,0 +1,117 @@
+{
+  "console": "Wii U",
+  "title": "Mocha CFW",
+  "tileImage": "../images/methods/mocha.png",
+  "recommended": false,
+  "method": "Mocha",
+  "requirements": [
+    "A Wii U on the latest firmware (5.5.6 or lower in North America, 5.5.5 or lower elsewhere)",
+    "An SD card formatted as FAT32 (a microSD with an adapter is fine)",
+    "The Wii U connected to the internet",
+    "About 15 minutes"
+  ],
+  "warnings": [
+    "Mocha is a legacy method. Aroma is the recommended way to hack a Wii U today.",
+    "Every time you modify a Wii U there is a small chance of an unrecoverable brick. Follow each step exactly.",
+    "Mocha CFW is temporary and is not compatible with the Homebrew Launcher Channel.",
+    "Make a NAND backup when the guide tells you to. Don't skip it."
+  ],
+  "_note": "Legacy Mocha method (online-exploit entrypoint, with optional Indexiine for offline persistence), transcribed from the old homebrew-guide (docsify) Wii U guide. Files are downloaded by hand from the linked sources — Graphite does not automate these legacy downloads.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "**Mocha** is the free Wii U CFW — it needs no purchased game. It runs through the browser exploit and is **temporary**: you re-launch it after every reboot.\n\nThis guide uses the **Online Exploit** entrypoint (needs internet each launch). You can optionally add **Indexiine** at the end so the Homebrew Launcher triggers offline from the browser.\n\nModern hacking uses **Aroma** — only use Mocha if you have a specific reason. Make sure your Wii U is on the **latest firmware** and your SD card is **FAT32** (verified below). Never name the SD card `wiiu`.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-prep",
+      "title": "Put the files on your SD card",
+      "body": "Graphite downloads the latest homebrew and unpacks each piece into the right folder on your SD card:\n\n- The **Homebrew Launcher** and its installer payload\n- **WUP Installer GX2**, the **Wii U NAND Dumper**, and the **Homebrew App Store** installer\n- **Mocha CFW**\n- The **Indexiine Installer** (for the optional offline-launch step later)\n\nThis is everything the guide would normally have you download by hand. Just press the button and wait.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://github.com/wiiu-env/homebrew_launcher_installer/releases/latest/download/payload.zip",
+            "dest": "payload.zip",
+            "to": "wiiu",
+            "sha256": ""
+          },
+          {
+            "url": "https://github.com/dimok789/homebrew_launcher/releases/latest/download/homebrew_launcher.v1.5.zip",
+            "dest": "homebrew_launcher.zip",
+            "sha256": ""
+          },
+          {
+            "url": "https://wiiu.cdn.fortheusers.org/zips/wup_installer_gx2.zip",
+            "dest": "wup_installer_gx2.zip",
+            "sha256": ""
+          },
+          {
+            "url": "https://github.com/koolkdev/wiiu-nanddumper/releases/latest/download/nanddumper.zip",
+            "dest": "nanddumper.zip",
+            "sha256": ""
+          },
+          {
+            "url": "https://github.com/vgmoose/hbas/releases/latest/download/wiiu-extracttosd.zip",
+            "dest": "wiiu-extracttosd.zip",
+            "sha256": ""
+          },
+          {
+            "url": "https://wiiu.cdn.fortheusers.org/zips/mocha.zip",
+            "dest": "mocha.zip",
+            "sha256": ""
+          },
+          {
+            "url": "https://github.com/GaryOderNichts/indexiine-installer/releases/latest/download/indexiine-installer.zip",
+            "dest": "indexiine-installer.zip",
+            "sha256": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "browser-exploit",
+      "title": "Run the browser exploit",
+      "body": "Put the SD card back into the **Wii U** and make sure it's online.\n\nOpen the **Internet Browser** and go to `wiiuexploit.xyz`. Tap **Run Homebrew Launcher!** — the console should boot into the **Homebrew Launcher**.\n\nIf the screen freezes or goes white, wait a few seconds; if nothing happens, reboot, clear the browser's saved data, and try again.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "nand-backup",
+      "title": "Make a NAND backup",
+      "body": "Your safety net. In the Homebrew Launcher, open **Wii U NAND Dumper**.\n\nSet it up like the picture: **SLC: Yes, SLCCMPT: Yes, OTP: Yes, SEEPROM: Yes**. Leave **MLC** on **No** unless your SD card is bigger than the console's storage.\n\nPress **A** to dump. When it finishes, power off, move the card to your computer, and copy `slc.bin`, `slccmpt.bin`, `seeprom.bin`, `otp.bin` (and any `mlc.bin.part` files) somewhere safe. Delete them from the card to free space.",
+      "image": "https://wiiu.hacks.guide/assets/img/guide/NAND.png",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "launching-cfw",
+      "title": "Launch Mocha CFW",
+      "body": "Put the card back in the Wii U and run the browser exploit to reach the Homebrew Launcher.\n\n1. Open the **Mocha CFW** app.\n2. It returns you to the Homebrew Launcher with **CFW enabled**.\n\nThat's it — but CFW is temporary. You must **re-do these steps every reboot** to re-enable Mocha. To skip re-visiting the exploit URL each time, add Indexiine in the next (optional) step.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "indexiine",
+      "title": "Install Indexiine for offline launch (optional)",
+      "body": "Indexiine modifies the browser's saved home page so the Homebrew Launcher triggers **without an internet connection**. It requires editing a system file, so it's optional.\n\n1. Launch the Homebrew Launcher via the browser exploit (as above).\n2. Open the **Indexiine Installer** app and press **A** to install.\n3. When done, close the Homebrew Launcher to return to the Wii U Menu.\n\nNow the Homebrew Launcher launches every time you open the Internet Browser, even offline. (To visit a real website, open it *before* Indexiine triggers.) You still open **Mocha CFW** each boot to enable CFW.",
+      "action": {
+        "type": "manual",
+        "optional": true
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Mocha CFW is set up. Launch the Homebrew Launcher, then the **Mocha CFW** app, each time you boot to enable CFW. Drop homebrew into `wiiu/apps` on the SD card.\n\nNote: Mocha is not compatible with the Homebrew Launcher Channel. If you want automatic boot-time CFW, look at **CBHC** instead (requires a paid DS game).",
+      "action": null
+    }
+  ]
+}

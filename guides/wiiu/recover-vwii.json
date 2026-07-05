@@ -1,0 +1,75 @@
+{
+  "console": "Wii U",
+  "title": "Recover a vWii IOS / channel",
+  "tileImage": "../images/methods/recover-vwii.png",
+  "recommended": false,
+  "extra": true,
+  "method": "Extra",
+  "requirements": [
+    "A Wii U already running Aroma (a working homebrew setup)",
+    "An SD card (a microSD with an adapter is fine)",
+    "About 15 minutes"
+  ],
+  "warnings": [
+    "This works on the vWii NAND. If misused it can destroy vWii — read each mode's description before choosing.",
+    "Disable the FTPiiu plugin before starting.",
+    "Remove any system update blocks before starting, since you finish with a system update."
+  ],
+  "_note": "Transcribed from wiiu.hacks.guide/recover-vwii-ioses-channels. Uses vWii Decaffeinator.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "This fixes a **vWii** (the Wii U's built-in Wii mode) that's broken from a bad softmod, using **vWii Decaffeinator**. You need a working **Aroma** setup, the FTPiiu plugin disabled, and update blocks removed (this ends with a system update).",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-prep",
+      "title": "Put vWii Decaffeinator on your SD card",
+      "body": "Graphite downloads the latest **vWii Decaffeinator** and copies it onto your SD card. Just press the button and wait.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://github.com/GaryOderNichts/vWii-Decaffeinator/releases/latest/download/decaffeinator.zip",
+            "dest": "decaffeinator.zip",
+            "sha256": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "launch",
+      "title": "Launch vWii Decaffeinator",
+      "body": "Power on the Wii U and boot into **Aroma**, then launch **vWii Decaffeinator** from the Wii U Menu.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "choose-mode",
+      "title": "Choose a recovery mode",
+      "body": "Pick the least aggressive mode that fixes your problem:\n\n- **Advanced Options** — clears only the IOSes/channels you specify; keeps everything else, including custom IOSes.\n- **Light Mode** — reinstalls the System Menu, message board save, IOSes and system titles; **erases custom IOSes** but keeps other data.\n- **Aggressive Mode** — clears **everything** back to a clean stock vWii; all custom modifications and saves are lost.\n\nSelect your mode and let it run.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "post-update",
+      "title": "Finish with a system update",
+      "body": "When the app finishes, let it launch **System Settings**, then perform a **system update** to reinstall the clean vWii titles.\n\n(Re-block updates afterwards if you want to keep your Wii U CFW exploits intact.)",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your vWii IOSes/channels are restored. If vWii still misbehaves, re-run a more aggressive mode.",
+      "action": null
+    }
+  ]
+}

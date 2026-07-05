@@ -23,6 +23,11 @@ const methods = [
     title: 'Generic legacy flow',
     recommended: false,
   },
+  {
+    title: 'Dump games',
+    recommended: false,
+    extra: true,
+  },
 ];
 
 function testCollectModels() {
@@ -49,6 +54,8 @@ function testSplitMethods() {
   const split = splitMethodsByRecommendation(methods, 'Switch OLED');
   assert.deepStrictEqual(split.recommended.map(m => m.title), ['Modchip install (OLED/Mariko)']);
   assert.deepStrictEqual(split.rest.map(m => m.title), ['Generic legacy flow']);
+  // `extra`-flagged guides split out of rest into their own section.
+  assert.deepStrictEqual(split.extras.map(m => m.title), ['Dump games']);
 }
 
 testCollectModels();

@@ -11,16 +11,20 @@ function normalizeGuideMetadata(file, guide) {
   const recommendedModels = cleanStringArray(guide.recommendedModels)
     .filter(model => models.includes(model));
   const warnings = cleanStringArray(guide.warnings);
+  const requirements = cleanStringArray(guide.requirements);
   return {
     file,
     console: guide.console,
     title: guide.title,
     recommended: !!guide.recommended,
+    extra: !!guide.extra,
+    tileImage: typeof guide.tileImage === 'string' ? guide.tileImage : null,
     wip: !!guide.wip,
     requiresStorageSelection: guide.requiresStorageSelection !== false,
     models,
     recommendedModels,
     warnings,
+    requirements,
   };
 }
 

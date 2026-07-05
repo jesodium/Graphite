@@ -1,0 +1,90 @@
+{
+  "console": "Wii U",
+  "title": "Dump your Wii U games",
+  "tileImage": "../images/methods/dump-games.png",
+  "recommended": false,
+  "extra": true,
+  "method": "Extra",
+  "requirements": [
+    "A Wii U already running Aroma",
+    "An SD card with enough free space for the game (a microSD with an adapter is fine)",
+    "Optionally a USB HDD to install the game to (a Y-cable may be needed)",
+    "About 15 minutes plus dump time"
+  ],
+  "warnings": [
+    "It is ILLEGAL to share the files you dump with this guide. They are for personal backups of games you own.",
+    "Formatting a USB drive on the Wii U erases everything on it."
+  ],
+  "_note": "Transcribed from wiiu.hacks.guide/dump-games. Files are downloaded by hand from the linked sources.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "This backs up a disc or installed game to your SD card using **wudd**, then optionally re-installs it to your console or a USB drive with **WUP Installer GX2**. You need **Aroma** already installed.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-prep",
+      "title": "Put the tools on your SD card",
+      "body": "Graphite downloads the latest **WUP Installer GX2** and **wudd** and copies both onto your SD card. Just press the button and wait.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://wiiu.cdn.fortheusers.org/zips/wup_installer_gx2_wuhb.zip",
+            "dest": "wup_installer_gx2_wuhb.zip",
+            "sha256": ""
+          },
+          {
+            "url": "https://github.com/wiiu-env/wudd/releases/download/v1.2.2/wuud_1_2_2_wuhb.zip",
+            "dest": "wudd.zip",
+            "sha256": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "dump",
+      "title": "Dump the game with wudd",
+      "body": "1. Power on and boot into **Aroma**. If dumping a disc game, insert the disc.\n2. Launch **wudd** from the Wii U Menu.\n3. Select **Dump partition as .app**.\n4. Select the **Game** partition.\n5. Wait for it to finish, then exit wudd.\n\nYour dump is saved to `sd:/wudump/WUP-X-XXXX` on the card.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "prepare-install",
+      "title": "Move the dump into an install folder",
+      "body": "Take the SD card to your computer.\n\n1. Create a folder called `install` at the root of the SD card (if it doesn't exist).\n2. Move the `GMXXXXXXXXXXXXXXXX` folder from `sd:/wudump/WUP-X-XXXX` into that `install` folder.\n\nPut the card back in the Wii U.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "install",
+      "title": "Install the game (optional)",
+      "body": "If you just wanted the backup files, you can stop here. To install the game onto the console or a USB drive:\n\n1. Open **WUP Installer GX2**.\n2. Select your game, press **Install**, confirm with **Yes**.\n3. Choose the destination: **USB** or **NAND**. (NAND isn't recommended — the internal storage is small.)\n4. Exit to the Wii U Menu — the game now appears installed and ready to play.",
+      "action": {
+        "type": "manual",
+        "optional": true
+      }
+    },
+    {
+      "id": "cleanup",
+      "title": "Clean up",
+      "body": "Once the game is installed and working, take the SD card back to your computer and delete the `GMXXXXXXXXXXXXXXXX` folder from the `install` directory to free up space.",
+      "action": {
+        "type": "manual",
+        "optional": true
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your game is backed up (and optionally installed). Keep the dumped files to yourself — sharing them is illegal.",
+      "action": null
+    }
+  ]
+}

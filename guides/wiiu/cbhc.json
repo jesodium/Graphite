@@ -1,0 +1,137 @@
+{
+  "console": "Wii U",
+  "title": "CBHC (Coldboot Haxchi)",
+  "tileImage": "../images/methods/cbhc.png",
+  "recommended": false,
+  "method": "CBHC",
+  "requirements": [
+    "A Wii U on the latest firmware (5.5.6 or lower in North America, 5.5.5 or lower elsewhere)",
+    "A legitimately purchased, digitally installed DS Virtual Console game from the eShop",
+    "An SD card formatted as FAT32 (a microSD with an adapter is fine)",
+    "The Wii U connected to the internet",
+    "About 25 minutes"
+  ],
+  "warnings": [
+    "CBHC is a legacy method with a HIGH brick risk. Aroma is the recommended way to hack a Wii U today.",
+    "The DS game MUST be legitimately installed from the eShop.",
+    "Don't format the system while CBHC is installed.",
+    "Don't delete the user account that bought the DS VC game.",
+    "Don't re-install the same game using WUP Installer or from the eShop.",
+    "Don't install Haxchi over CBHC.",
+    "Don't uninstall the DS VC game without properly uninstalling CBHC first.",
+    "Don't move the DS VC game to a USB drive.",
+    "Breaking any of these rules WILL brick your console. Make a NAND backup and don't skip it."
+  ],
+  "_note": "Legacy CBHC method, transcribed from the old homebrew-guide (docsify) Wii U guide. Files are downloaded by hand from the linked GitHub releases — Graphite does not automate these legacy downloads.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "**CBHC (Coldboot Haxchi)** extends a Haxchi install so CFW launches **automatically on every boot** — no need to run the game each time. The trade-off is risk: installed incorrectly, CBHC **will brick your Wii U**.\n\nRead the warnings on this guide carefully. CBHC requires a **legitimately installed, paid DS VC game**. Modern hacking uses **Aroma** — only use CBHC if you have a specific reason.\n\nMake sure your Wii U is on the **latest firmware** and your SD card is **FAT32** (verified below). Never name the SD card `wiiu`.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "ds-vc-choice",
+      "title": "Choose and buy a DS VC game",
+      "body": "Pick a compatible DS Virtual Console game and buy it from the eShop as a **digital download**. It **must** be legitimately installed from the eShop — a WUP-installed copy will brick when CBHC runs.\n\nIf you don't already own one, **Brain Age** (North America) / **Brain Training** (Europe) is usually the cheapest.\n\nCompatible games include: Animal Crossing: Wild World, Big Brain Academy, Brain Age / Brain Training, Donkey Kong: Jungle Climber, the Kirby DS titles, The Legend of Zelda: Phantom Hourglass / Spirit Tracks, Mario & Luigi: Partners in Time, Mario Kart DS, New Super Mario Bros., Pokémon Mystery Dungeon: Explorers of Sky, Star Fox Command, Super Mario 64 DS, Wario: Master of Disguise, WarioWare: Touched!, Yoshi's Island DS, and Yoshi Touch & Go.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "sd-prep",
+      "title": "Put the files on your SD card",
+      "body": "Graphite downloads the latest homebrew and unpacks each piece into the right folder on your SD card:\n\n- The **Homebrew Launcher** and its installer payload\n- **WUP Installer GX2** and the **Homebrew Launcher Channel**\n- The **Wii U NAND Dumper** and the **Homebrew App Store** installer\n- **Haxchi** and **CBHC**\n\nThis is everything the guide would normally have you download by hand. Just press the button and wait.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://github.com/wiiu-env/homebrew_launcher_installer/releases/latest/download/payload.zip",
+            "dest": "payload.zip",
+            "to": "wiiu",
+            "sha256": ""
+          },
+          {
+            "url": "https://github.com/dimok789/homebrew_launcher/releases/latest/download/homebrew_launcher.v1.5.zip",
+            "dest": "homebrew_launcher.zip",
+            "sha256": ""
+          },
+          {
+            "url": "https://wiiu.cdn.fortheusers.org/zips/wup_installer_gx2.zip",
+            "dest": "wup_installer_gx2.zip",
+            "sha256": ""
+          },
+          {
+            "url": "https://github.com/GaryOderNichts/homebrew_launcher/releases/download/v2.1_fix/homebrew_launcher_channel.v2.1_fix.zip",
+            "dest": "hblc.zip",
+            "to": "install",
+            "sha256": ""
+          },
+          {
+            "url": "https://github.com/koolkdev/wiiu-nanddumper/releases/latest/download/nanddumper.zip",
+            "dest": "nanddumper.zip",
+            "sha256": ""
+          },
+          {
+            "url": "https://github.com/vgmoose/hbas/releases/latest/download/wiiu-extracttosd.zip",
+            "dest": "wiiu-extracttosd.zip",
+            "sha256": ""
+          },
+          {
+            "url": "https://github.com/FIX94/haxchi/releases/download/v2.5u2_v1.6/Haxchi_v2.5u2.zip",
+            "dest": "haxchi.zip",
+            "sha256": ""
+          },
+          {
+            "url": "https://github.com/FIX94/haxchi/releases/download/v2.5u2_v1.6/CBHC_v1.6.zip",
+            "dest": "cbhc.zip",
+            "sha256": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "browser-exploit",
+      "title": "Run the browser exploit",
+      "body": "Put the SD card back into the **Wii U** and make sure it's online.\n\nOpen the **Internet Browser** and go to `wiiuexploit.xyz`. Tap **Run Homebrew Launcher!** — the console should boot into the **Homebrew Launcher**.\n\nIf the screen freezes or goes white, wait a few seconds; if nothing happens, reboot, clear the browser's saved data, and try again.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "nand-backup",
+      "title": "Make a NAND backup",
+      "body": "This is critical for CBHC — it's your only way back from a brick. In the Homebrew Launcher, open **Wii U NAND Dumper**.\n\nSet it up like the picture: **SLC: Yes, SLCCMPT: Yes, OTP: Yes, SEEPROM: Yes**. Leave **MLC** on **No** unless your SD card is bigger than the console's storage.\n\nPress **A** to dump. When it finishes, power off, move the card to your computer, and copy `slc.bin`, `slccmpt.bin`, `seeprom.bin`, `otp.bin` (and any `mlc.bin.part` files) somewhere safe. Delete them from the card to free space.",
+      "image": "https://wiiu.hacks.guide/assets/img/guide/NAND.png",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "launching-cfw",
+      "title": "Install Haxchi, then CBHC",
+      "body": "Put the card back in the Wii U and run the browser exploit to reach the Homebrew Launcher. If you haven't downloaded your DS VC game from the eShop yet, do it now.\n\n1. Open **Haxchi**, highlight your DS VC game with the D-Pad, press **A** to inject it.\n2. Back at the Wii U Menu, launch the modified game — the console reboots with CFW.\n3. Launch the modified game **again holding A** to reopen the Homebrew Launcher.\n4. Open the **CBHC** app, highlight the **same game**, press **A** to install CBHC.\n5. Back at the Wii U Menu, **reboot**. If CBHC installed correctly you'll see a new boot menu.\n6. With the D-Pad, set **Autoboot: Disabled** → press **A** until it reads **Autoboot: System Menu**.\n7. Select **Boot System Menu** and press **A** — the Wii U Menu launches with CFW.\n\nYour console now boots into CFW automatically every time. Re-attach any USB devices.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "installing-hblc",
+      "title": "Install the Homebrew Launcher Channel (optional)",
+      "body": "Adds a Homebrew Launcher icon to the Wii U Menu.\n\n1. Power on (it autoboots into CFW). During the `Autobooting...` screen, press **Home** to reach the boot menu.\n2. Select **Boot Homebrew Launcher**.\n3. Open **WUP Installer GX2**, select `Homebrew Launcher Channel`, press **Install**, confirm **Yes**.\n4. Choose **NAND** as the destination.\n5. Press **Home** until you're back at the Wii U Menu — the channel now appears there.",
+      "action": {
+        "type": "manual",
+        "optional": true
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "CBHC is installed and your Wii U boots straight into CFW every time. Drop homebrew into `wiiu/apps` on the SD card.\n\nRemember the brick rules — especially, never uninstall or reinstall the injected DS game without **uninstalling CBHC first** (see the Uninstall legacy CFW guide).",
+      "action": null
+    }
+  ]
+}

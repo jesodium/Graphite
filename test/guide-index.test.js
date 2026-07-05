@@ -12,11 +12,14 @@ function testLegacyGuideFallback() {
     console: 'Wii U',
     title: 'Aroma',
     recommended: true,
+    extra: false,
+    tileImage: null,
     wip: false,
     requiresStorageSelection: true,
     models: [],
     recommendedModels: [],
     warnings: [],
+    requirements: [],
   });
 }
 
@@ -34,11 +37,14 @@ function testModelMetadataSanitization() {
     console: 'Nintendo Switch',
     title: 'Modchip install',
     recommended: false,
+    extra: false,
+    tileImage: null,
     wip: false,
     requiresStorageSelection: true,
     models: ['Switch OLED', 'Switch V2 (Mariko)'],
     recommendedModels: ['Switch OLED'],
     warnings: ['Requires soldering', 'Advanced hardware work'],
+    requirements: [],
   });
 }
 

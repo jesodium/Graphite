@@ -1,9 +1,36 @@
 // Pure Node step engine — no Electron. Runs one guide action against a chosen root dir.
 // Consumed by main.js (IPC) and test-engine.js.
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const crypto = require('crypto');
 const extract = require('extract-zip');
+
+// First free "<base>", "<base> (2)", "<base> (3)"… under `parent`.
+function uniqueDir(parent, base) {
+  let name = base;
+  for (let n = 2; fs.existsSync(path.join(parent, name)); n++) name = `${base} (${n})`;
+  return path.join(parent, name);
+}
+
+const MAC_JUNK = ['.Spotlight-V100', '.Trashes', '.fseventsd', '.TemporaryItems', '.apdisk'];
+
+// Recursively strip the hidden files macOS scatters onto FAT32 cards.
+// Best-effort: some entries (e.g. SIP-protected .Spotlight-V100) can't be removed
+// or even scanned — skip those rather than aborting the whole clean.
+async function removeMacJunk(dir) {
+  let entries;
+  try { entries = await fs.promises.readdir(dir, { withFileTypes: true }); }
+  catch { return; }
+  for (const e of entries) {
+    const p = path.join(dir, e.name);
+    if (e.name === '.DS_Store' || e.name.startsWith('._') || MAC_JUNK.includes(e.name)) {
+      await fs.promises.rm(p, { recursive: true, force: true }).catch(() => {});
+    } else if (e.isDirectory()) {
+      await removeMacJunk(p);
+    }
+  }
+}
 
 // Resolve `sub` under `root` and refuse anything that escapes it (zip-slip / `..`).
 function safeJoin(root, sub) {
@@ -59,6 +86,54 @@ async function runAction(action, { root, cache }) {
       return dest;
     }
 
+    // Download one or more zips and extract each onto the SD card — the whole
+    // "put the files on your card" job in a single guide step. Each download may
+    // set `to` (a subfolder like "install" or "wiiu"); default is the SD root
+    // (or action.destSubpath). yauzl guards against entries escaping the dir.
+    case 'sdinstall': {
+      const rootDir = safeJoin(root, action.destSubpath);
+      await fs.promises.mkdir(rootDir, { recursive: true });
+      for (const dl of action.downloads || []) {
+        const zip = path.join(cache, dl.dest);
+        await download(dl.url, zip, dl.sha256);
+        const dir = dl.to ? safeJoin(root, dl.to) : rootDir;
+        await fs.promises.mkdir(dir, { recursive: true });
+        await extract(zip, { dir });
+      }
+      return rootDir;
+    }
+
+    // Copy the NAND backup files the console dumped to the SD root into a fresh
+    // Desktop folder, then clear them off the card. The dump itself is on-console.
+    case 'backupnand': {
+      const core = ['slc.bin', 'slccmpt.bin', 'seeprom.bin', 'otp.bin'];
+      // Card may be unplugged (ENOENT) — treat that the same as "no backup here".
+      const entries = await fs.promises.readdir(root).catch(() => []);
+      const files = entries.filter(f => core.includes(f) || f.startsWith('mlc.bin.part'));
+      if (!files.length) {
+        throw new Error('No NAND backup registered — plug the SD card back into your computer and make sure you ran the dump on your Wii U first.');
+      }
+      const destDir = uniqueDir(path.join(os.homedir(), 'Desktop'), action.name || 'Wii U NAND Backup');
+      await fs.promises.mkdir(destDir, { recursive: true });
+      for (const f of files) {
+        await fs.promises.copyFile(path.join(root, f), path.join(destDir, f));
+      }
+      for (const f of files) await fs.promises.rm(path.join(root, f), { force: true });
+      return destDir;
+    }
+
+    // macOS only: strip the hidden junk macOS wrote to the card, then eject it.
+    case 'cleaneject': {
+      await removeMacJunk(root);
+      if (process.platform === 'darwin') {
+        await new Promise((res, rej) => {
+          require('child_process').execFile('diskutil', ['eject', root], err =>
+            err ? rej(new Error('Cleaned the card, but could not eject it: ' + err.message)) : res());
+        });
+      }
+      return root;
+    }
+
     case 'manual':
       return null; // user does it on the console; nothing to automate
 
@@ -67,4 +142,4 @@ async function runAction(action, { root, cache }) {
   }
 }
 
-module.exports = { runAction, safeJoin, sha256, download };
+module.exports = { runAction, safeJoin, sha256, download, removeMacJunk };
