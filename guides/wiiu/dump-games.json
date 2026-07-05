@@ -12,7 +12,7 @@
     "About 15 minutes plus dump time"
   ],
   "warnings": [
-    "It is ILLEGAL to share the files you dump with this guide. They are for personal backups of games you own.",
+    "It is !!ILLEGAL!! to share the files you dump with this guide. They are for personal backups of games you own.",
     "Formatting a USB drive on the Wii U erases everything on it."
   ],
   "_note": "Transcribed from wiiu.hacks.guide/dump-games. Files are downloaded by hand from the linked sources.",
@@ -65,7 +65,7 @@
     {
       "id": "install",
       "title": "Install the game (optional)",
-      "body": "If you just wanted the backup files, you can stop here. To install the game onto the console or a USB drive:\n\n1. Open **WUP Installer GX2**.\n2. Select your game, press **Install**, confirm with **Yes**.\n3. Choose the destination: **USB** or **NAND**. (NAND isn't recommended — the internal storage is small.)\n4. Exit to the Wii U Menu — the game now appears installed and ready to play.",
+      "body": "If you just wanted the backup files, you can stop here. To install the game onto the console or a USB drive:\n\n1. Open **WUP Installer GX2**.\n2. Select your game, press **Install**, confirm with **Yes**.\n3. Choose the destination: **USB** or **NAND**. (NAND isn't recommended because the internal storage is small.)\n4. Exit to the Wii U Menu, and the game now appears installed and ready to play.",
       "action": {
         "type": "manual",
         "optional": true
@@ -83,7 +83,7 @@
     {
       "id": "done",
       "title": "You're done",
-      "body": "Your game is backed up (and optionally installed). Keep the dumped files to yourself — sharing them is illegal.",
+      "body": "Your game is backed up (and optionally installed). Keep the dumped files to yourself; sharing them is !!illegal!!.",
       "action": null
     }
   ]

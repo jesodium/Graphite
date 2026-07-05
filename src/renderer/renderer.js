@@ -38,11 +38,12 @@ async function buildShell() {
   $('app').innerHTML = [header, picker, guideView].join('\n');
 }
 
-// Tiny markdown: **bold**, `code`, and paragraphs. Enough for guide bodies.
+// Tiny markdown: **bold**, `code`, `!!danger!!`, and paragraphs. Enough for guide bodies.
 function md(text) {
   return text.split('\n\n').map(p =>
     '<p>' + p
       .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/!!(.+?)!!/g, '<span class="danger">$1</span>')
       .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
       .replace(/`(.+?)`/g, '<code>$1</code>') + '</p>'
   ).join('');
@@ -183,7 +184,7 @@ function confirmLegacyMethod() {
 function addTextLine(text, className) {
   const li = document.createElement('li');
   if (className) li.className = className;
-  li.textContent = text;
+  li.innerHTML = md(text).replace(/<\/?p>/g, '');
   $('guide-list').appendChild(li);
 }
 

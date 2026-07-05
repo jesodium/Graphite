@@ -577,6 +577,7 @@ h1 {
 #step-body p { margin: 0 0 14px; }
 #step-body p:last-child { margin-bottom: 0; }
 #step-body b { color: var(--ink); font-weight: 700; }
+.danger { color: var(--joy-red); font-weight: 700; }
 #step-body code {
   font: 500 13px/1 var(--mono);
   background: var(--shell-sunk);

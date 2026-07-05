@@ -13,16 +13,16 @@
   ],
   "warnings": [
     "Haxchi is a legacy method. Unless you specifically need it, Aroma is the recommended way to hack a Wii U today.",
-    "Every time you modify a Wii U there is a small chance of an unrecoverable brick. Follow each step exactly.",
+    "Every time you modify a Wii U there is a !!small chance of an unrecoverable brick!!. Follow each step exactly.",
     "The DS VC game you inject Haxchi into stops being playable until you uninstall Haxchi and reinstall the game.",
     "Make a NAND backup when the guide tells you to. Don't skip it."
   ],
-  "_note": "Legacy Haxchi method, transcribed from the old homebrew-guide (docsify) Wii U guide. Files are downloaded by hand from the linked GitHub releases — Graphite does not automate these legacy downloads.",
+  "_note": "Legacy Haxchi method, transcribed from the old homebrew-guide (docsify) Wii U guide. Files are downloaded by hand from the linked GitHub releases. Graphite does not automate these legacy downloads.",
   "steps": [
     {
       "id": "intro",
       "title": "Before you start",
-      "body": "**Haxchi** injects custom firmware into a paid DS Virtual Console game. Launching that game from the Wii U Menu boots into CFW. It has to be re-launched every reboot to re-enable CFW (if you want it to boot automatically, use **CBHC** instead).\n\nHaxchi requires a **legitimately installed, paid DS VC game** bought from the eShop. Modern hacking uses **Aroma** instead — only follow this if you have a specific reason.\n\nFirst, make sure your Wii U is on the **latest firmware** and your SD card is **FAT32** (Graphite verifies this below). Never name the SD card `wiiu`.",
+      "body": "**Haxchi** injects custom firmware into a paid DS Virtual Console game. Launching that game from the Wii U Menu boots into CFW. It has to be re-launched every reboot to re-enable CFW (if you want it to boot automatically, use **CBHC** instead).\n\nHaxchi requires a **legitimately installed, paid DS VC game** bought from the eShop. Modern hacking uses **Aroma** instead, so only follow this if you have a specific reason.\n\nFirst, make sure your Wii U is on the **latest firmware** and your SD card is **FAT32** (Graphite verifies this below). Never name the SD card `wiiu`.",
       "action": {
         "type": "fat32"
       }
@@ -30,7 +30,7 @@
     {
       "id": "ds-vc-choice",
       "title": "Choose and buy a DS VC game",
-      "body": "Pick a compatible DS Virtual Console game and buy it from the eShop as a **digital download** (it must install to the console). The game you inject won't be playable until you later uninstall Haxchi.\n\nIf you don't already own one, **Brain Age** (North America) / **Brain Training** (Europe) is usually the cheapest and least missed.\n\nCompatible games include: Animal Crossing: Wild World, Big Brain Academy, Brain Age / Brain Training, Donkey Kong: Jungle Climber, the Kirby DS titles, The Legend of Zelda: Phantom Hourglass / Spirit Tracks, Mario & Luigi: Partners in Time, Mario Kart DS, New Super Mario Bros., Pokémon Mystery Dungeon: Explorers of Sky, Star Fox Command, Super Mario 64 DS, Wario: Master of Disguise, WarioWare: Touched!, Yoshi's Island DS, and Yoshi Touch & Go.\n\n(European consoles may already own Dr. Kawashima's Brain Training free — check your previously downloaded titles first.)",
+      "body": "Pick a compatible DS Virtual Console game and buy it from the eShop as a **digital download** (it must install to the console). The game you inject won't be playable until you later uninstall Haxchi.\n\nIf you don't already own one, **Brain Age** (North America) / **Brain Training** (Europe) is usually the cheapest and least missed.\n\nCompatible games include: Animal Crossing: Wild World, Big Brain Academy, Brain Age / Brain Training, Donkey Kong: Jungle Climber, the Kirby DS titles, The Legend of Zelda: Phantom Hourglass / Spirit Tracks, Mario & Luigi: Partners in Time, Mario Kart DS, New Super Mario Bros., Pokémon Mystery Dungeon: Explorers of Sky, Star Fox Command, Super Mario 64 DS, Wario: Master of Disguise, WarioWare: Touched!, Yoshi's Island DS, and Yoshi Touch & Go.\n\n(European consoles may already own Dr. Kawashima's Brain Training free, so check your previously downloaded titles first.)",
       "action": {
         "type": "manual"
       }
@@ -86,7 +86,7 @@
     {
       "id": "browser-exploit",
       "title": "Run the browser exploit",
-      "body": "Put the SD card back into the **Wii U** and make sure it's online.\n\nOpen the **Internet Browser** and go to `wiiuexploit.xyz`. Tap **Run Homebrew Launcher!** — the console should boot into the **Homebrew Launcher**.\n\nIf the screen freezes or goes white, wait a few seconds; if nothing happens, reboot, clear the browser's saved data, and try again.",
+      "body": "Put the SD card back into the **Wii U** and make sure it's online.\n\nOpen the **Internet Browser** and go to `wiiuexploit.xyz`. Tap **Run Homebrew Launcher!** The console should boot into the **Homebrew Launcher**.\n\nIf the screen freezes or goes white, wait a few seconds; if nothing happens, reboot, clear the browser's saved data, and try again.",
       "action": {
         "type": "manual"
       }
@@ -94,7 +94,7 @@
     {
       "id": "nand-backup",
       "title": "Make a NAND backup",
-      "body": "This is your safety net. In the Homebrew Launcher, open **Wii U NAND Dumper**.\n\nSet it up like the picture: **SLC: Yes, SLCCMPT: Yes, OTP: Yes, SEEPROM: Yes**. Leave **MLC** on **No** unless your SD card is bigger than the console's storage — MLC is optional and not needed to fix most bricks.\n\nPress **A** to dump. When it finishes, power off, move the card to your computer, and copy `slc.bin`, `slccmpt.bin`, `seeprom.bin`, `otp.bin` (and any `mlc.bin.part` files) somewhere safe. Then delete them from the card to free space.",
+      "body": "!!This is your safety net!!. In the Homebrew Launcher, open **Wii U NAND Dumper**.\n\nSet it up like the picture: **SLC: Yes, SLCCMPT: Yes, OTP: Yes, SEEPROM: Yes**. Leave **MLC** on **No** unless your SD card is bigger than the console's storage, since MLC is optional and not needed to fix most bricks.\n\nPress **A** to dump. When it finishes, power off, move the card to your computer, and copy `slc.bin`, `slccmpt.bin`, `seeprom.bin`, `otp.bin` (and any `mlc.bin.part` files) somewhere safe. Then delete them from the card to free space.",
       "image": "https://wiiu.hacks.guide/assets/img/guide/NAND.png",
       "action": {
         "type": "manual"
@@ -103,7 +103,7 @@
     {
       "id": "launching-cfw",
       "title": "Install Haxchi and launch CFW",
-      "body": "Put the card back in the Wii U and run the browser exploit again to reach the Homebrew Launcher.\n\n1. Open the **Haxchi** app.\n2. With the D-Pad, highlight the DS VC game you bought and press **A** to inject Haxchi into it.\n3. When it finishes, you'll return to the Wii U Menu and the game's icon is now a **Haxchi** icon.\n4. Launch the modified game — the console reboots with **CFW enabled**.\n\nCFW is temporary: you must **run the Haxchi game every reboot** to re-enable it. You can now re-attach any USB devices.",
+      "body": "Put the card back in the Wii U and run the browser exploit again to reach the Homebrew Launcher.\n\n1. Open the **Haxchi** app.\n2. With the D-Pad, highlight the DS VC game you bought and press **A** to inject Haxchi into it.\n3. When it finishes, you'll return to the Wii U Menu and the game's icon is now a **Haxchi** icon.\n4. Launch the modified game, and the console reboots with **CFW enabled**.\n\nCFW is temporary: you must **run the Haxchi game every reboot** to re-enable it. You can now re-attach any USB devices.",
       "action": {
         "type": "manual"
       }
@@ -111,7 +111,7 @@
     {
       "id": "installing-hblc",
       "title": "Install the Homebrew Launcher Channel (optional)",
-      "body": "This adds a Homebrew Launcher icon to the Wii U Menu so you don't have to hold **A**. It's optional — you can always open the Launcher by holding **A** while launching the Haxchi game.\n\n1. Launch the Haxchi game to enable CFW, then launch it again **holding A** to open the Homebrew Launcher.\n2. Open **WUP Installer GX2**.\n3. Select `Homebrew Launcher Channel`, press **Install**, confirm **Yes**.\n4. Choose **NAND** as the destination.\n5. When done, press **Home** until you're back at the Wii U Menu — the channel now appears there.",
+      "body": "This adds a Homebrew Launcher icon to the Wii U Menu so you don't have to hold **A**. It's optional; you can always open the Launcher by holding **A** while launching the Haxchi game.\n\n1. Launch the Haxchi game to enable CFW, then launch it again **holding A** to open the Homebrew Launcher.\n2. Open **WUP Installer GX2**.\n3. Select `Homebrew Launcher Channel`, press **Install**, confirm **Yes**.\n4. Choose **NAND** as the destination.\n5. When done, press **Home** until you're back at the Wii U Menu, and the channel now appears there.",
       "action": {
         "type": "manual",
         "optional": true

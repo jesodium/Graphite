@@ -18,13 +18,13 @@
     {
       "id": "intro",
       "title": "Before you start",
-      "body": "Aroma's PayloadLoader already blocks updates on its own, but deleting the update folder adds extra protection against future patches. This all happens on the Wii U — make sure you have the **latest Aroma beta**.",
+      "body": "Aroma's PayloadLoader already blocks updates on its own, but deleting the update folder adds extra protection against future patches. This all happens on the Wii U, so make sure you have the **latest Aroma beta**.",
       "action": null
     },
     {
       "id": "block",
       "title": "Block updates",
-      "body": "Boot the Wii U into **Aroma**.\n\n- If a **yellow warning screen** appears saying an update folder exists, press **X** to block updates.\n- If no warning appears, hold **+ (Plus)** and **- (Minus)** together until the AutobootMenu confirms **\"Updates are blocked\"**.\n\nThat's it — updates are now blocked.",
+      "body": "Boot the Wii U into **Aroma**.\n\n- If a **yellow warning screen** appears saying an update folder exists, press **X** to block updates.\n- If no warning appears, hold **+ (Plus)** and **- (Minus)** together until the AutobootMenu confirms **\"Updates are blocked\"**.\n\nThat's it; updates are now blocked.",
       "action": {
         "type": "manual"
       }

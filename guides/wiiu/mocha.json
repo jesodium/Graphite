@@ -12,16 +12,16 @@
   ],
   "warnings": [
     "Mocha is a legacy method. Aroma is the recommended way to hack a Wii U today.",
-    "Every time you modify a Wii U there is a small chance of an unrecoverable brick. Follow each step exactly.",
+    "Every time you modify a Wii U there is a !!small chance of an unrecoverable brick!!. Follow each step exactly.",
     "Mocha CFW is temporary and is not compatible with the Homebrew Launcher Channel.",
     "Make a NAND backup when the guide tells you to. Don't skip it."
   ],
-  "_note": "Legacy Mocha method (online-exploit entrypoint, with optional Indexiine for offline persistence), transcribed from the old homebrew-guide (docsify) Wii U guide. Files are downloaded by hand from the linked sources — Graphite does not automate these legacy downloads.",
+  "_note": "Legacy Mocha method (online-exploit entrypoint, with optional Indexiine for offline persistence), transcribed from the old homebrew-guide (docsify) Wii U guide. Files are downloaded by hand from the linked sources. Graphite does not automate these legacy downloads.",
   "steps": [
     {
       "id": "intro",
       "title": "Before you start",
-      "body": "**Mocha** is the free Wii U CFW — it needs no purchased game. It runs through the browser exploit and is **temporary**: you re-launch it after every reboot.\n\nThis guide uses the **Online Exploit** entrypoint (needs internet each launch). You can optionally add **Indexiine** at the end so the Homebrew Launcher triggers offline from the browser.\n\nModern hacking uses **Aroma** — only use Mocha if you have a specific reason. Make sure your Wii U is on the **latest firmware** and your SD card is **FAT32** (verified below). Never name the SD card `wiiu`.",
+      "body": "**Mocha** is the free Wii U CFW that needs no purchased game. It runs through the browser exploit and is **temporary**: you re-launch it after every reboot.\n\nThis guide uses the **Online Exploit** entrypoint (needs internet each launch). You can optionally add **Indexiine** at the end so the Homebrew Launcher triggers offline from the browser.\n\nModern hacking uses **Aroma**, so only use Mocha if you have a specific reason. Make sure your Wii U is on the **latest firmware** and your SD card is **FAT32** (verified below). Never name the SD card `wiiu`.",
       "action": {
         "type": "fat32"
       }
@@ -76,7 +76,7 @@
     {
       "id": "browser-exploit",
       "title": "Run the browser exploit",
-      "body": "Put the SD card back into the **Wii U** and make sure it's online.\n\nOpen the **Internet Browser** and go to `wiiuexploit.xyz`. Tap **Run Homebrew Launcher!** — the console should boot into the **Homebrew Launcher**.\n\nIf the screen freezes or goes white, wait a few seconds; if nothing happens, reboot, clear the browser's saved data, and try again.",
+      "body": "Put the SD card back into the **Wii U** and make sure it's online.\n\nOpen the **Internet Browser** and go to `wiiuexploit.xyz`. Tap **Run Homebrew Launcher!** The console should boot into the **Homebrew Launcher**.\n\nIf the screen freezes or goes white, wait a few seconds; if nothing happens, reboot, clear the browser's saved data, and try again.",
       "action": {
         "type": "manual"
       }
@@ -84,7 +84,7 @@
     {
       "id": "nand-backup",
       "title": "Make a NAND backup",
-      "body": "Your safety net. In the Homebrew Launcher, open **Wii U NAND Dumper**.\n\nSet it up like the picture: **SLC: Yes, SLCCMPT: Yes, OTP: Yes, SEEPROM: Yes**. Leave **MLC** on **No** unless your SD card is bigger than the console's storage.\n\nPress **A** to dump. When it finishes, power off, move the card to your computer, and copy `slc.bin`, `slccmpt.bin`, `seeprom.bin`, `otp.bin` (and any `mlc.bin.part` files) somewhere safe. Delete them from the card to free space.",
+      "body": "!!Your safety net!!. In the Homebrew Launcher, open **Wii U NAND Dumper**.\n\nSet it up like the picture: **SLC: Yes, SLCCMPT: Yes, OTP: Yes, SEEPROM: Yes**. Leave **MLC** on **No** unless your SD card is bigger than the console's storage.\n\nPress **A** to dump. When it finishes, power off, move the card to your computer, and copy `slc.bin`, `slccmpt.bin`, `seeprom.bin`, `otp.bin` (and any `mlc.bin.part` files) somewhere safe. Delete them from the card to free space.",
       "image": "https://wiiu.hacks.guide/assets/img/guide/NAND.png",
       "action": {
         "type": "manual"
@@ -93,7 +93,7 @@
     {
       "id": "launching-cfw",
       "title": "Launch Mocha CFW",
-      "body": "Put the card back in the Wii U and run the browser exploit to reach the Homebrew Launcher.\n\n1. Open the **Mocha CFW** app.\n2. It returns you to the Homebrew Launcher with **CFW enabled**.\n\nThat's it — but CFW is temporary. You must **re-do these steps every reboot** to re-enable Mocha. To skip re-visiting the exploit URL each time, add Indexiine in the next (optional) step.",
+      "body": "Put the card back in the Wii U and run the browser exploit to reach the Homebrew Launcher.\n\n1. Open the **Mocha CFW** app.\n2. It returns you to the Homebrew Launcher with **CFW enabled**.\n\nThat's it, but CFW is temporary. You must **re-do these steps every reboot** to re-enable Mocha. To skip re-visiting the exploit URL each time, add Indexiine in the next (optional) step.",
       "action": {
         "type": "manual"
       }

@@ -11,7 +11,7 @@
     "About 15 minutes"
   ],
   "warnings": [
-    "This works on the vWii NAND. If misused it can destroy vWii — read each mode's description before choosing.",
+    "This works on the vWii NAND. If misused it can !!destroy vWii!!, so read each mode's description before choosing.",
     "Disable the FTPiiu plugin before starting.",
     "Remove any system update blocks before starting, since you finish with a system update."
   ],
@@ -52,7 +52,7 @@
     {
       "id": "choose-mode",
       "title": "Choose a recovery mode",
-      "body": "Pick the least aggressive mode that fixes your problem:\n\n- **Advanced Options** — clears only the IOSes/channels you specify; keeps everything else, including custom IOSes.\n- **Light Mode** — reinstalls the System Menu, message board save, IOSes and system titles; **erases custom IOSes** but keeps other data.\n- **Aggressive Mode** — clears **everything** back to a clean stock vWii; all custom modifications and saves are lost.\n\nSelect your mode and let it run.",
+      "body": "Pick the least aggressive mode that fixes your problem:\n\n- **Advanced Options**: clears only the IOSes/channels you specify; keeps everything else, including custom IOSes.\n- **Light Mode**: reinstalls the System Menu, message board save, IOSes and system titles; **erases custom IOSes** but keeps other data.\n- **Aggressive Mode**: clears **everything** back to a clean stock vWii; all custom modifications and saves are lost.\n\nSelect your mode and let it run.",
       "action": {
         "type": "manual"
       }
