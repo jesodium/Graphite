@@ -1,0 +1,80 @@
+{
+  "_source": "Text from https://wiiu.hacks.guide/common-issues-fixes.html — kept locally so errors show in-app.",
+  "wiiu-browser-errors": {
+    "title": "Browser errors",
+    "items": [
+      {
+        "error": "FSGetMountSource failed",
+        "fix": "Same as the -3 error: the SD card isn't detected. Check the card isn't locked (the physical switch on the side) and isn't labeled **WIIU** — both cause conflicts. Re-insert it and make sure it's FAT32."
+      },
+      {
+        "error": "FSOpenFile failed [...] payload.elf",
+        "fix": "The console can't find the payload. You need **payload.elf** inside the **wiiu** folder, and the **wiiu** folder on the **root** of the SD card."
+      },
+      {
+        "error": "FSOpenFile failed",
+        "fix": "Missing **homebrew_launcher.elf** in the `/wiiu/apps/homebrew_launcher` folder. Re-copy the Homebrew Launcher files onto the card."
+      },
+      {
+        "error": "SD Mount Failed",
+        "fix": "The console sees the card but can't mount it. Reformat it as FAT32, and use a reputable-brand SD card — cheap/counterfeit cards often fail to mount."
+      }
+    ]
+  },
+  "wiiu-haxchi-errors": {
+    "title": "Haxchi common errors",
+    "items": [
+      {
+        "error": "-3: No SD Card detected",
+        "fix": "\"Re-insert the SD Card and try again. Make sure the SD Card is in FAT32 format.\" If it still fails, clean the SD slot with compressed air. !!Do not blow into it with your mouth!! — moisture can damage the console."
+      },
+      {
+        "error": "-4: SD detected but could not mount",
+        "fix": "Make sure the card uses **MBR** partitioning, not GPT. If it has multiple partitions, consolidate them into one."
+      },
+      {
+        "error": "-5: Missing files on the SD",
+        "fix": "Haxchi is looking for the Homebrew Launcher at `/wiiu/apps/homebrew_launcher/homebrew_launcher.elf`. Re-copy those files onto the card."
+      }
+    ]
+  },
+  "wiiu-vwii-recovery": {
+    "title": "vWii recovery errors",
+    "items": [
+      {
+        "error": "Error Code 160-0101 when booting up after vWii Decaffeinator",
+        "fix": "Take out the inserted disc and unplug any external drives, then restart the system."
+      },
+      {
+        "error": "Error Code 105-3102 when performing the system update",
+        "fix": "Restart your console and reattempt the update."
+      }
+    ]
+  },
+  "wiiu-uninstall-errors": {
+    "title": "Uninstall errors",
+    "items": [
+      {
+        "error": "A system-memory error has occurred. Turn off the console, and then try again. (while deleting DON'T TOUCH ME)",
+        "fix": "Restart the system and try to delete the application again. Make sure you followed **all** the uninstall steps before deleting it — the Wii U must no longer autoboot into CBHC."
+      }
+    ]
+  },
+  "wiiu-general": {
+    "title": "Other common issues",
+    "items": [
+      {
+        "error": "Data Management asks to delete unnecessary data",
+        "fix": "This is leftover files from incomplete installs. Always choose **Yes** to delete it — it just wastes space. If the deletion loops forever, manually clear the `/storage_mlc/usr/import` folder with FTPiiU Everywhere (or `/storage_usb/usr/import` if you're on USB). The `import` folder should always be empty."
+      },
+      {
+        "error": "My HDD doesn't work or makes a clicking sound",
+        "fix": "The Wii U doesn't push enough power through a single USB port to run a hard drive. Use a **powered external drive**, or a **Y-cable** that connects the HDD to two USB ports. Same fix if a drive that used to work suddenly stops."
+      },
+      {
+        "error": "Lost online connectivity with an HDD on top of the console",
+        "fix": "The internal Wi-Fi antenna is being interfered with by the hard drive's magnet. Move the drive to a different spot on the console, or off it entirely, to restore the connection."
+      }
+    ]
+  }
+}

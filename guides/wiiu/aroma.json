@@ -68,7 +68,11 @@
       "id": "browser-exploit",
       "title": "Run the browser exploit",
       "body": "On the Wii U, open the **Internet Browser** and go to `wiiuexploit.xyz`.\n\nTap **Run Exploit!**, then hold the **B** button. Keep holding for about 20 seconds until the menu in the picture appears; you'll need it for the NAND backup next.\n\nIf the screen freezes or goes white, wait a few seconds; if nothing happens, reboot, clear the browser's saved data, and try again. If you land on the EnvironmentLoader instead, you didn't hold B long enough, so retry.",
-      "image": "https://wiiu.hacks.guide/assets/img/guide/PLL.png",
+      "image": "../images/steps/PLL.png",
+      "troubleshoot": {
+        "label": "I've got an error on the browser",
+        "topic": "wiiu-browser-errors"
+      },
       "action": {
         "type": "manual"
       }
@@ -77,7 +81,7 @@
       "id": "nand-backup",
       "title": "Make a NAND backup",
       "body": "This is !!your safety net!!; if anything ever goes wrong, this backup can bring the console back.\n\nUse the GamePad to highlight **nanddumper** and press **A**. On the next screen set it up like the picture: **SLC: Yes, SLCCMPT: Yes, OTP: Yes, SEEPROM: Yes**. Leave **MLC** on **No** unless you have a spare SD card bigger than your console's storage, since MLC is optional and not needed to fix a brick.\n\nPress **A** to start the dump. When it finishes, power off the Wii U.",
-      "image": "https://wiiu.hacks.guide/assets/img/guide/NAND.png",
+      "image": "../images/steps/NAND.png",
       "action": {
         "type": "manual"
       }
@@ -97,10 +101,14 @@
       "title": "Boot into Aroma",
       "body": "Run the browser exploit again exactly like before (`wiiuexploit.xyz` → **Run Exploit!**) but this time hold **X** instead of B. That opens the **Environment Loader**.\n\nPress **A** on `aroma` to launch it. You'll see a warning that an update folder exists, and that's normal; press **X** to block updates. Then press **A** to load the **Wii U Menu**.",
       "image": [
-        "https://wiiu.hacks.guide/assets/img/guide/EL.png",
-        "https://wiiu.hacks.guide/assets/img/guide/Warn.png",
-        "https://wiiu.hacks.guide/assets/img/guide/ABM.png"
+        "../images/steps/EL.png",
+        "../images/steps/Warn.png",
+        "../images/steps/ABM.png"
       ],
+      "troubleshoot": {
+        "label": "I've got an error on the browser",
+        "topic": "wiiu-browser-errors"
+      },
       "action": {
         "type": "manual"
       }
@@ -109,7 +117,7 @@
       "id": "install-payloadloader",
       "title": "Install the PayloadLoader",
       "body": "This makes Aroma reachable without the browser exploit every time.\n\nBack on the Wii U Menu, find the new **PayloadLoader Installer** title (a rocket coming out of a box) and open it. Press **A** to check, and it should say the PayloadLoader can be installed onto the **Health and Safety Information** app. Press **A** to choose **Install / Update**, use the D-Pad to pick **Install**, and press **A**.\n\nWhen it's done, press **A** to shut down the console.",
-      "image": "https://wiiu.hacks.guide/assets/img/guide/PLLI.png",
+      "image": "../images/steps/PLLI.png",
       "action": {
         "type": "manual"
       }
@@ -119,8 +127,8 @@
       "title": "Make Aroma load automatically",
       "body": "From now on, turn the Wii U on and open the **Health and Safety Information** app to reach Aroma. To skip even that and boot straight into Aroma every time:\n\nOpen the Health and Safety app, launch `aroma`, then open the **PayloadLoader Installer** again. Choose **Check**, then **Boot options**, then **Switch to PayloadLoader**, and press **A** to shut down.\n\nBoot the console once more. On the Environment Loader, press **Y** on `aroma` to set it as default, then **A**. On the Aroma Boot Selector, `Wii U Menu` is already highlighted, so press **Y** to make it the default, then **A**. Done: Aroma now loads on every boot, straight into the Wii U Menu.\n\n(Hold **X** while booting to reach the Environment Loader again, or hold **START (+)** for the Aroma Boot Selector.)",
       "image": [
-        "https://wiiu.hacks.guide/assets/img/guide/EL_Highlight.png",
-        "https://wiiu.hacks.guide/assets/img/guide/ABM_Highlight.png"
+        "../images/steps/EL_Highlight.png",
+        "../images/steps/ABM_Highlight.png"
       ],
       "action": {
         "type": "manual"

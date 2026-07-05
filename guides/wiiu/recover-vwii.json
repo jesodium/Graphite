@@ -42,9 +42,19 @@
       }
     },
     {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS quietly scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii U homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull the card out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
       "id": "launch",
       "title": "Launch vWii Decaffeinator",
-      "body": "Power on the Wii U and boot into **Aroma**, then launch **vWii Decaffeinator** from the Wii U Menu.",
+      "body": "Put the SD card back into the **Wii U**.\n\nPower on the console and boot into **Aroma**, then launch **vWii Decaffeinator** from the Wii U Menu.",
       "action": {
         "type": "manual"
       }
@@ -52,7 +62,12 @@
     {
       "id": "choose-mode",
       "title": "Choose a recovery mode",
-      "body": "Pick the least aggressive mode that fixes your problem:\n\n- **Advanced Options**: clears only the IOSes/channels you specify; keeps everything else, including custom IOSes.\n- **Light Mode**: reinstalls the System Menu, message board save, IOSes and system titles; **erases custom IOSes** but keeps other data.\n- **Aggressive Mode**: clears **everything** back to a clean stock vWii; all custom modifications and saves are lost.\n\nSelect your mode and let it run.",
+      "body": "Pick the least aggressive mode that fixes your problem:\n\n- **Advanced Options**: clears only the IOSes/channels you specify; keeps everything else, including custom IOSes. The pictures show everything this mode can recover.\n- **Light Mode**: reinstalls the System Menu, message board save, IOSes and system titles; **erases custom IOSes** but keeps other data.\n- **Aggressive Mode**: clears **everything** back to a clean stock vWii; all custom modifications and saves are lost.\n\nSelect your mode and let it run.",
+      "image": [
+        "../images/steps/Advanced-options.jpg",
+        "../images/steps/Advanced-options2.jpg",
+        "../images/steps/Advanced-options3.jpg"
+      ],
       "action": {
         "type": "manual"
       }
@@ -61,6 +76,10 @@
       "id": "post-update",
       "title": "Finish with a system update",
       "body": "When the app finishes, let it launch **System Settings**, then perform a **system update** to reinstall the clean vWii titles.\n\n(Re-block updates afterwards if you want to keep your Wii U CFW exploits intact.)",
+      "troubleshoot": {
+        "label": "I've got an error code",
+        "topic": "wiiu-vwii-recovery"
+      },
       "action": {
         "type": "manual"
       }

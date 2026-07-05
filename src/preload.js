@@ -12,4 +12,5 @@ contextBridge.exposeInMainWorld('graphite', {
   clearState: () => ipcRenderer.invoke('state:clear'),
   getPlatform: () => ipcRenderer.invoke('app:platform'),
   getView: name => ipcRenderer.invoke('renderer:view', name),
+  getTroubleshoot: folder => ipcRenderer.invoke('troubleshoot:get', folder),
 });

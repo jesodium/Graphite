@@ -30,7 +30,7 @@ ipcMain.handle('guides:list', async () => {
     try { cfg = JSON.parse(await fs.promises.readFile(path.join(sub, 'console.json'), 'utf8')); }
     catch { /* no console.json for this folder */ }
     for (const f of await fs.promises.readdir(sub)) {
-      if (!f.endsWith('.json') || f === 'console.json') continue;
+      if (!f.endsWith('.json') || f === 'console.json' || f === 'troubleshoot.json') continue;
       const g = JSON.parse(await fs.promises.readFile(path.join(sub, f), 'utf8'));
       const meta = normalizeGuideMetadata(`${e.name}/${f}`, g);
       if (meta.wip) continue;
@@ -54,37 +54,72 @@ ipcMain.handle('sd:pick', async () => {
   return r.canceled ? null : r.filePaths[0];
 });
 
-ipcMain.handle('sd:check', async (_e, path) => {
-  if (process.platform !== 'darwin') return { ok: false, error: 'unsupported platform' };
-  const { execFile } = require('child_process');
-  return new Promise(resolve => {
-    execFile('diskutil', ['info', path], (err, stdout) => {
-      if (err) return resolve({ ok: false, error: err.message });
+const execFileP = require('util').promisify(require('child_process').execFile);
+
+// Real FAT32 only. exFAT/NTFS report strings that contain "FAT" but are not valid for Wii U.
+function isFat32Fs(fsName) {
+  const s = (fsName || '').toLowerCase();
+  if (s.includes('exfat')) return false;
+  return /fat32|vfat|ms-dos/.test(s);
+}
+
+ipcMain.handle('sd:check', async (_e, target) => {
+  try {
+    if (process.platform === 'darwin') {
+      const { stdout } = await execFileP('diskutil', ['info', target]);
       const m = stdout.match(/File System Personality:\s+(.+)/);
       const fsName = m ? m[1].trim() : '';
-      const isFAT32 = fsName.includes('FAT') || fsName.includes('MS-DOS');
-      resolve({ ok: true, isFAT32, fsName });
-    });
-  });
+      return { ok: true, isFAT32: isFat32Fs(fsName), fsName };
+    }
+    if (process.platform === 'win32') {
+      const { stdout } = await execFileP('powershell', ['-NoProfile', '-Command',
+        `(Get-Volume -FilePath '${target}').FileSystem`]);
+      const fsName = stdout.trim();
+      return { ok: true, isFAT32: isFat32Fs(fsName), fsName };
+    }
+    // linux
+    const { stdout } = await execFileP('findmnt', ['-n', '-o', 'FSTYPE', '--target', target]);
+    const fsName = stdout.trim();
+    return { ok: true, isFAT32: isFat32Fs(fsName), fsName };
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
 });
 
-ipcMain.handle('sd:format', async (_e, path) => {
-  if (process.platform !== 'darwin') return { ok: false, error: 'unsupported platform' };
-  const { execFile } = require('child_process');
-  return new Promise(resolve => {
-    execFile('diskutil', ['info', path], (err, stdout) => {
-      if (err) return resolve({ ok: false, error: err.message });
+ipcMain.handle('sd:format', async (_e, target) => {
+  try {
+    if (process.platform === 'darwin') {
+      const { stdout } = await execFileP('diskutil', ['info', target]);
+      // "Device Identifier" is the partition (disk6s1); eraseDisk needs the whole disk (disk6).
+      const wholeMatch = stdout.match(/Part of Whole:\s+(.+)/);
       const idMatch = stdout.match(/Device Identifier:\s+(.+)/);
+      const disk = (wholeMatch || idMatch)?.[1].trim();
+      if (!disk) return { ok: false, error: 'no device identifier' };
+      // FAT32 labels must be uppercase, alnum, <=11 chars — reuse the card's name but sanitize.
       const volMatch = stdout.match(/Volume Name:\s+(.+)/);
-      if (!idMatch) return resolve({ ok: false, error: 'no device identifier' });
-      const diskId = idMatch[1].trim();
-      const volName = volMatch ? volMatch[1].trim() : 'SD_CARD';
-      execFile('diskutil', ['eraseDisk', 'FAT32', volName, diskId], (err2) => {
-        if (err2) return resolve({ ok: false, error: err2.message });
-        resolve({ ok: true });
-      });
-    });
-  });
+      const raw = volMatch ? volMatch[1].trim() : '';
+      const volName = (raw.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 11)) || 'SDCARD';
+      await execFileP('diskutil', ['eraseDisk', 'FAT32', volName, disk]);
+      return { ok: true, mount: `/Volumes/${volName}` }; // eraseDisk remounts here
+    }
+    if (process.platform === 'win32') {
+      // IMPORTANT NOTE: format.com caps FAT32 at 32GB and needs an elevated shell.
+      // Larger cards or a UAC denial surface as an error → tell the user to use guiformat/Rufus.
+      const drive = String(target).slice(0, 2); // "E:"
+      await execFileP('cmd', ['/c', 'format', drive, '/FS:FAT32', '/Q', '/Y']);
+      return { ok: true }; // drive letter is unchanged by format
+    }
+    // linux — IMPORTANT NOTE: mkfs.vfat needs root and the device unmounted; a failure
+    // surfaces the stderr so the user can run it manually with sudo.
+    const { stdout } = await execFileP('findmnt', ['-n', '-o', 'SOURCE', '--target', target]);
+    const device = stdout.trim();
+    if (!device) return { ok: false, error: 'could not resolve device for path' };
+    await execFileP('umount', [device]).catch(() => {}); // may already be unmounted
+    await execFileP('mkfs.vfat', ['-F', '32', device]);
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
 });
 
 ipcMain.handle('action:run', async (_e, action, root) => {
@@ -109,6 +144,15 @@ ipcMain.handle('state:clear', async () => {
 });
 
 ipcMain.handle('app:platform', async () => process.platform);
+
+// Return a console's local troubleshooting content (error → fix), shown in-app.
+// `folder` is the guide's console folder, e.g. "wiiu". Empty {} if none exists.
+ipcMain.handle('troubleshoot:get', async (_e, folder) => {
+  if (folder !== path.basename(folder || '')) throw new Error('bad folder'); // no traversal
+  const p = path.join(__dirname, '..', 'guides', folder, 'troubleshoot.json');
+  try { return JSON.parse(await fs.promises.readFile(p, 'utf8')); }
+  catch { return {}; }
+});
 
 ipcMain.handle('renderer:view', async (_e, name) => {
   if (name !== path.basename(name) || !name.endsWith('.html')) {

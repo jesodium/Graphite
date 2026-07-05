@@ -17,7 +17,7 @@
     "The DS VC game you inject Haxchi into stops being playable until you uninstall Haxchi and reinstall the game.",
     "Make a NAND backup when the guide tells you to. Don't skip it."
   ],
-  "_note": "Legacy Haxchi method, transcribed from the old homebrew-guide (docsify) Wii U guide. Files are downloaded by hand from the linked GitHub releases. Graphite does not automate these legacy downloads.",
+  "_note": "Legacy Haxchi method, transcribed from the old homebrew-guide (docsify) Wii U guide. Downloads come live from the linked GitHub releases and the fortheusers CDN.",
   "steps": [
     {
       "id": "intro",
@@ -84,9 +84,23 @@
       }
     },
     {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS quietly scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii U homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull the card out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
       "id": "browser-exploit",
       "title": "Run the browser exploit",
-      "body": "Put the SD card back into the **Wii U** and make sure it's online.\n\nOpen the **Internet Browser** and go to `wiiuexploit.xyz`. Tap **Run Homebrew Launcher!** The console should boot into the **Homebrew Launcher**.\n\nIf the screen freezes or goes white, wait a few seconds; if nothing happens, reboot, clear the browser's saved data, and try again.",
+      "body": "Put the SD card into the **Wii U** and make sure it's online.\n\nOpen the **Internet Browser** and go to `wiiuexploit.xyz`. Tap **Run Homebrew Launcher!** The console should boot into the **Homebrew Launcher**.\n\nIf the screen freezes or goes white, wait a few seconds; if nothing happens, reboot, clear the browser's saved data, and try again.",
+      "troubleshoot": {
+        "label": "I've got an error on the browser",
+        "topic": "wiiu-browser-errors"
+      },
       "action": {
         "type": "manual"
       }
@@ -94,16 +108,30 @@
     {
       "id": "nand-backup",
       "title": "Make a NAND backup",
-      "body": "!!This is your safety net!!. In the Homebrew Launcher, open **Wii U NAND Dumper**.\n\nSet it up like the picture: **SLC: Yes, SLCCMPT: Yes, OTP: Yes, SEEPROM: Yes**. Leave **MLC** on **No** unless your SD card is bigger than the console's storage, since MLC is optional and not needed to fix most bricks.\n\nPress **A** to dump. When it finishes, power off, move the card to your computer, and copy `slc.bin`, `slccmpt.bin`, `seeprom.bin`, `otp.bin` (and any `mlc.bin.part` files) somewhere safe. Then delete them from the card to free space.",
-      "image": "https://wiiu.hacks.guide/assets/img/guide/NAND.png",
+      "body": "!!This is your safety net!!. In the Homebrew Launcher, open **Wii U NAND Dumper**.\n\nSet it up like the picture: **SLC: Yes, SLCCMPT: Yes, OTP: Yes, SEEPROM: Yes**. Leave **MLC** on **No** unless your SD card is bigger than the console's storage, since MLC is optional and not needed to fix most bricks.\n\nPress **A** to dump. When it finishes, power off the Wii U.",
+      "image": "../images/steps/NAND.png",
       "action": {
         "type": "manual"
+      }
+    },
+    {
+      "id": "save-backup",
+      "title": "Save your NAND backup",
+      "body": "Take the SD card out of the Wii U and plug it back into this computer.\n\nPress the button and Graphite grabs the backup the console just made (`slc.bin`, `otp.bin`, and the rest), copies it into a folder on your **Desktop**, and clears the files off the SD card to free up space. If a backup folder already exists, it saves a new one alongside it.\n\nThis is optional; you can skip ahead with **Next**, but keeping the backup is strongly recommended.",
+      "action": {
+        "type": "backupnand",
+        "label": "Copy backup to Desktop",
+        "optional": true
       }
     },
     {
       "id": "launching-cfw",
       "title": "Install Haxchi and launch CFW",
       "body": "Put the card back in the Wii U and run the browser exploit again to reach the Homebrew Launcher.\n\n1. Open the **Haxchi** app.\n2. With the D-Pad, highlight the DS VC game you bought and press **A** to inject Haxchi into it.\n3. When it finishes, you'll return to the Wii U Menu and the game's icon is now a **Haxchi** icon.\n4. Launch the modified game, and the console reboots with **CFW enabled**.\n\nCFW is temporary: you must **run the Haxchi game every reboot** to re-enable it. You can now re-attach any USB devices.",
+      "troubleshoot": {
+        "label": "I've got a Haxchi error",
+        "topic": "wiiu-haxchi-errors"
+      },
       "action": {
         "type": "manual"
       }
@@ -112,6 +140,10 @@
       "id": "installing-hblc",
       "title": "Install the Homebrew Launcher Channel (optional)",
       "body": "This adds a Homebrew Launcher icon to the Wii U Menu so you don't have to hold **A**. It's optional; you can always open the Launcher by holding **A** while launching the Haxchi game.\n\n1. Launch the Haxchi game to enable CFW, then launch it again **holding A** to open the Homebrew Launcher.\n2. Open **WUP Installer GX2**.\n3. Select `Homebrew Launcher Channel`, press **Install**, confirm **Yes**.\n4. Choose **NAND** as the destination.\n5. When done, press **Home** until you're back at the Wii U Menu, and the channel now appears there.",
+      "troubleshoot": {
+        "label": "The install failed or Data Management complains",
+        "topic": "wiiu-general"
+      },
       "action": {
         "type": "manual",
         "optional": true

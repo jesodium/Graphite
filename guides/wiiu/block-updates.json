@@ -24,7 +24,8 @@
     {
       "id": "block",
       "title": "Block updates",
-      "body": "Boot the Wii U into **Aroma**.\n\n- If a **yellow warning screen** appears saying an update folder exists, press **X** to block updates.\n- If no warning appears, hold **+ (Plus)** and **- (Minus)** together until the AutobootMenu confirms **\"Updates are blocked\"**.\n\nThat's it; updates are now blocked.",
+      "body": "Boot the Wii U into **Aroma**.\n\n- If a **yellow warning screen** like the picture appears saying an update folder exists, press **X** to block updates.\n- If no warning appears, hold **+ (Plus)** and **- (Minus)** together until the AutobootMenu confirms **\"Updates are blocked\"**.\n\nThat's it; updates are now blocked.",
+      "image": "../images/steps/Warn.png",
       "action": {
         "type": "manual"
       }

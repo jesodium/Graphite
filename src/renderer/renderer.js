@@ -30,12 +30,34 @@ function withCurtain(fn) {
 }
 
 async function buildShell() {
-  const [header, picker, guideView] = await Promise.all([
+  const [header, picker, guideView, market] = await Promise.all([
     g.getView('header.html'),
     g.getView('picker.html'),
     g.getView('guide.html'),
+    g.getView('market.html'),
   ]);
-  $('app').innerHTML = [header, picker, guideView].join('\n');
+  $('app').innerHTML = [header, picker, guideView, market].join('\n');
+}
+
+// Retrigger the fade-in animation on a panel (restart by reflow).
+function railFade(el) {
+  el.classList.remove('rail-fade');
+  void el.offsetWidth;
+  el.classList.add('rail-fade');
+}
+
+// Left rail: switch between the guides catalog and the apps installer.
+function bindRail() {
+  document.querySelectorAll('.rail-btn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.rail-btn').forEach(b => b.classList.toggle('active', b === btn));
+      const market = btn.dataset.view === 'market';
+      $('market').hidden = !market;
+      if (market) { $('picker').hidden = true; $('guide').hidden = true; }
+      else { showPicker(); renderConsoles(allGuides); }
+      railFade($(market ? 'market' : 'picker'));
+    };
+  });
 }
 
 // Tiny markdown: **bold**, `code`, `!!danger!!`, and paragraphs. Enough for guide bodies.
@@ -228,7 +250,19 @@ function renderHomeResume() {
   const resumeBtn = document.createElement('button');
   resumeBtn.textContent = 'Resume';
   resumeBtn.onclick = () => start(sessionState.file, sessionState);
+  const dismissBtn = document.createElement('button');
+  dismissBtn.className = 'resume-dismiss';
+  dismissBtn.textContent = 'Dismiss';
+  dismissBtn.onclick = async () => {
+    const go = await showConfirm('Are you sure you want to dismiss this session?',
+      { continueLabel: 'Dismiss', countdownSeconds: 3 });
+    if (!go) return;
+    await g.clearState();
+    sessionState = null;
+    renderHomeResume();
+  };
   actions.appendChild(resumeBtn);
+  actions.appendChild(dismissBtn);
 
   box.appendChild(info);
   box.appendChild(actions);
@@ -236,36 +270,40 @@ function renderHomeResume() {
 }
 
 // Step 1: pick console. Guides grouped by their `console` field (one per folder).
-function showConsoles(guides) {
+// renderConsoles builds the DOM; showConsoles wraps it in the curtain transition.
+// Building without the curtain lets finishGuide prep home behind the success overlay.
+function renderConsoles(guides) {
   const byConsole = {};
   guides.forEach(gd => (byConsole[gd.console] ||= []).push(gd));
-  withCurtain(() => {
-    $('picker-title').textContent = 'Pick your console';
-    $('guide-list').innerHTML = '';
-    clearHomeResume();
-    renderBack(null);
-    const grid = document.createElement('div');
-    grid.className = 'console-grid';
-    Object.keys(byConsole).forEach(c => {
-      const count = byConsole[c].length;
-      const btn = tileButton(() => showModelOrMethods(c, byConsole[c]));
-      btn.className = 'console-tile';
-      // identity color comes from the console's console.json (guides:list attaches it)
-      const edge = byConsole[c].find(gd => gd.edge)?.edge;
-      if (edge) btn.style.setProperty('--edge', edge);
-      const tileImg = byConsole[c].find(gd => gd.consoleTileImage)?.consoleTileImage;
-      if (tileImg) {
-        btn.classList.add('has-console-img');
-        btn.style.setProperty('--console-img', `url('${tileImg}')`);
-      }
-      btn.innerHTML = '<span class="console-name">' + c + '</span><span class="console-count">' + count + ' guide' + (count !== 1 ? 's' : '') + '</span>';
-      const li = document.createElement('li');
-      li.appendChild(btn);
-      grid.appendChild(li);
-    });
-    $('guide-list').appendChild(grid);
-    renderHomeResume();
+  $('picker-title').textContent = 'Pick your console';
+  $('guide-list').innerHTML = '';
+  clearHomeResume();
+  renderBack(null);
+  const grid = document.createElement('div');
+  grid.className = 'console-grid';
+  Object.keys(byConsole).forEach(c => {
+    const count = byConsole[c].length;
+    const btn = tileButton(() => showModelOrMethods(c, byConsole[c]));
+    btn.className = 'console-tile';
+    // identity color comes from the console's console.json (guides:list attaches it)
+    const edge = byConsole[c].find(gd => gd.edge)?.edge;
+    if (edge) btn.style.setProperty('--edge', edge);
+    const tileImg = byConsole[c].find(gd => gd.consoleTileImage)?.consoleTileImage;
+    if (tileImg) {
+      btn.classList.add('has-console-img');
+      btn.style.setProperty('--console-img', `url('${tileImg}')`);
+    }
+    btn.innerHTML = '<span class="console-name">' + c + '</span><span class="console-count">' + count + ' guide' + (count !== 1 ? 's' : '') + '</span>';
+    const li = document.createElement('li');
+    li.appendChild(btn);
+    grid.appendChild(li);
   });
+  $('guide-list').appendChild(grid);
+  renderHomeResume();
+}
+
+function showConsoles(guides) {
+  withCurtain(() => renderConsoles(guides));
 }
 
 function showModelOrMethods(console, methods) {
@@ -392,7 +430,7 @@ async function showDetails(console, methods, guideFile, selectedModel = null, mo
 
     if (needsStorageSelection) {
       addTextLine(`Select your SD/microSD card in ${osExplorerName()}.`, 'meta-instruction');
-      listItem(button(`Select in ${osExplorerName()}`, () => start(guideFile, null, details), 'action-btn'));
+      listItem(button(`Select in ${osExplorerName()}`, () => start(guideFile, null, details, true), 'action-btn'));
     } else {
       addTextLine('This guide does not require selecting SD/microSD in Graphite.', 'meta-instruction');
       listItem(button('Continue', () => start(guideFile, null, details), 'action-btn'));
@@ -416,6 +454,7 @@ async function showDetails(console, methods, guideFile, selectedModel = null, mo
 async function init() {
   await buildShell();
   bindGuideNav();
+  bindRail();
   allGuides = await g.listGuides();
   os = await g.getPlatform();
   sessionState = await g.getState();
@@ -423,13 +462,15 @@ async function init() {
   showConsoles(allGuides);
 }
 
-async function start(f, st, loadedGuide = null) {
+async function start(f, st, loadedGuide = null, forcePick = false) {
   file = f;
   guide = loadedGuide || await g.loadGuide(f);
   // Drop steps meant for other platforms (e.g. the Mac-only clean-and-eject step).
   guide.steps = guide.steps.filter(s => !s.platform || s.platform === os);
   const needsStorageSelection = guideStorage.requiresStorageSelection(guide);
-  sd = needsStorageSelection ? (st?.sd || sd) : null;
+  // forcePick: the "Select in Finder" button always re-opens the picker rather
+  // than silently reusing a card chosen for an earlier guide this session.
+  sd = needsStorageSelection ? (forcePick ? null : (st?.sd || sd)) : null;
   if (needsStorageSelection && !sd) {
     sd = await g.pickSD();
     if (!sd) return;
@@ -479,6 +520,15 @@ function render() {
     btn.onclick = () => runStep(step, btn);
     box.appendChild(btn);
   }
+  // Optional per-step troubleshooting — shows the relevant errors in-app.
+  const ts = $('step-troubleshoot');
+  ts.innerHTML = '';
+  if (step.troubleshoot?.topic) {
+    const btn = button(step.troubleshoot.label || 'Having trouble with this step?',
+      () => showTroubleshoot(step.troubleshoot.topic), 'troubleshoot-btn');
+    ts.appendChild(btn);
+  }
+
   $('next').disabled = !isDone && !!step.action && !step.action.optional;
   $('next').textContent = i === guide.steps.length - 1 ? 'Finish' : 'Next';
 }
@@ -504,8 +554,8 @@ async function renderFat32Check(step, box) {
   const check = await g.checkSD(sd);
   box.innerHTML = '';
 
-  if (!check.ok) { // platform can't auto-check (e.g. Windows) — manual fallback
-    fat32Status(box, 'Cannot auto-verify format here. Make sure the card is FAT32.', 'warn');
+  if (!check.ok) { // check tool missing/failed — manual fallback
+    fat32Status(box, 'Cannot auto-verify format' + (check.error ? ` (${check.error})` : '') + '. Make sure the card is FAT32.', 'warn');
     const btn = button('It is FAT32 — continue', () => { markStepDone(step); render(); }, 'action-btn');
     box.appendChild(btn);
     return;
@@ -534,6 +584,7 @@ async function runFormat(step, box) {
     box.appendChild(button('Try again', () => render(), 'action-btn'));
     return;
   }
+  if (result.mount) sd = result.mount; // card remounted at a new path after formatting
   render(); // re-runs the check — should now pass and mark the step done
 }
 
@@ -569,14 +620,12 @@ function save() {
 }
 
 // Guide complete: clear the session, celebrate, then return home.
+// Home is built *behind* the success overlay while it's up, so when the overlay
+// fades it reveals a ready picker with no second curtain flash.
 async function finishGuide() {
   await g.clearState();
   sessionState = null;
-  showSuccess(() => withCurtain(() => {
-    $('guide').hidden = true;
-    showPicker();
-    showConsoles(allGuides);
-  }));
+  showSuccess(() => { showPicker(); renderConsoles(allGuides); });
 }
 
 let successEl = null;
@@ -593,17 +642,66 @@ function showSuccess(onDone) {
   }
   successEl.hidden = false;
   requestAnimationFrame(() => successEl.classList.add('show'));
+
+  // Build home behind the opaque overlay (run once), so the reveal is instant.
+  let prepped = false;
+  const prep = () => { if (prepped) return; prepped = true; onDone(); };
+  const prepTimer = setTimeout(prep, 400); // after the fade-in, while fully opaque
+
   const finish = () => {
     if (successEl.hidden) return;
-    successEl.classList.remove('show');
+    prep(); // guarantee home is ready underneath before we uncover it
+    clearTimeout(prepTimer);
     clearTimeout(timer);
-    setTimeout(() => { successEl.hidden = true; onDone(); }, 300);
+    successEl.classList.remove('show'); // fade out uncovers the ready home
+    setTimeout(() => { successEl.hidden = true; }, 300);
   };
   const timer = setTimeout(finish, 2800);
   successEl.onclick = finish; // let the user skip the wait
 }
 
+// In-app troubleshooting panel: error → fix pairs from the current console's topics file.
+// Pass a topic to show just that section, or nothing to show every common issue.
+const troubleshootByFolder = {}; // folder -> topics, cached per console
+let troubleshootEl = null;
+function tsSection(t) {
+  const items = (t?.items || []).map(it =>
+    `<div class="ts-item"><h4>${md(it.error).replace(/<\/?p>/g, '')}</h4>${md(it.fix)}</div>`
+  ).join('');
+  return `<h3>${t?.title || 'Troubleshooting'}</h3>${items}`;
+}
+function hideTroubleshoot() {
+  troubleshootEl.classList.add('closing');
+  setTimeout(() => {
+    troubleshootEl.hidden = true;
+    troubleshootEl.classList.remove('closing');
+  }, 200); // matches the modalOut animation
+}
+async function showTroubleshoot(topic) {
+  const folder = file ? file.split('/')[0] : '';
+  const troubleshootData = troubleshootByFolder[folder]
+    ||= await g.getTroubleshoot(folder);
+  if (!troubleshootEl) {
+    troubleshootEl = document.createElement('div');
+    troubleshootEl.className = 'modal';
+    troubleshootEl.onclick = e => { if (e.target === troubleshootEl) hideTroubleshoot(); };
+    document.body.appendChild(troubleshootEl);
+  }
+  const sections = topic
+    ? tsSection(troubleshootData[topic])
+    : Object.keys(troubleshootData).filter(k => !k.startsWith('_'))
+        .map(k => tsSection(troubleshootData[k])).join('');
+  troubleshootEl.innerHTML =
+    `<div class="modal-card ts-card">${sections}`
+    + '<div class="modal-actions"><button class="ts-close">Close</button></div></div>';
+  troubleshootEl.querySelector('.ts-close').onclick = () => hideTroubleshoot();
+  troubleshootEl.classList.remove('closing'); // in case reopened mid-close
+  troubleshootEl.hidden = false;
+}
+
 function bindGuideNav() {
+  // Always-available button: shows every common issue for this console.
+  $('common-issues').onclick = () => showTroubleshoot();
   // Exit to home, keeping progress saved so the session can be resumed later.
   $('exit-home').onclick = async () => {
     await save();

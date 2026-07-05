@@ -25,7 +25,11 @@
     {
       "id": "cbhc",
       "title": "Uninstall CBHC",
-      "body": "Press the button to download the **Homebrew Launcher** and the **CBHC installer** onto your SD card, then on the Wii U:\n\n1. Launch the **Homebrew Launcher**.\n2. Open the **CBHC Installer**.\n3. Select the DS Virtual Console game you want to remove CBHC from, press **A**.\n4. Read the warnings, then press **B**.\n5. Reboot and confirm the Wii U **no longer autoboots** into CBHC (no boot menu appears).\n6. Once it boots straight to the Wii U Menu, open **System Settings → Data Management** and safely delete the app called **DON'T TOUCH ME**.\n\nIf you get a system-memory error deleting `DON'T TOUCH ME`, restart and try again. Only after this is CBHC fully gone and the DS game safe to remove.",
+      "body": "Press the button to download the **Homebrew Launcher** and the **CBHC installer** onto your SD card, then on the Wii U:\n\n1. Launch the **Homebrew Launcher**.\n2. Open the **CBHC Installer**.\n3. Select the DS Virtual Console game you want to remove CBHC from, press **A**.\n4. Read the warnings, then press **B**.\n5. Reboot and confirm the Wii U **no longer autoboots** into CBHC (no boot menu appears).\n6. Once it boots straight to the Wii U Menu, open **System Settings → Data Management** and safely delete the app called **DON'T TOUCH ME**.\n\n!!Only after this is CBHC fully gone and the DS game safe to remove.!!",
+      "troubleshoot": {
+        "label": "I've got an error deleting DON'T TOUCH ME",
+        "topic": "wiiu-uninstall-errors"
+      },
       "action": {
         "type": "sdinstall",
         "label": "Download CBHC tools to SD card",
@@ -52,8 +56,8 @@
     },
     {
       "id": "indexiine",
-      "title": "Uninstall Indexiine",
-      "body": "Press the button to download the **Homebrew Launcher** and the **Indexiine Installer** onto your SD card, then on the Wii U:\n\n1. Insert the card and launch the **Homebrew Launcher** through the Internet Browser (wait a few seconds).\n2. Open the **Indexiine Installer** and press **B** to uninstall.\n3. Restart and confirm the Homebrew Launcher no longer auto-launches when you open the browser.",
+      "title": "Uninstall Indexiine: get the tools",
+      "body": "Press the button to download the **Homebrew Launcher** and the **Indexiine Installer** onto your SD card.",
       "action": {
         "type": "sdinstall",
         "label": "Download Indexiine tools to SD card",
@@ -79,9 +83,48 @@
       }
     },
     {
+      "id": "indexiine-restore-page",
+      "title": "Uninstall Indexiine: get the stock home page",
+      "body": "The uninstaller needs the browser's **original home page file** (`backup-index.html`) to put back in place of the modified one.\n\nPress the button and Graphite downloads it from the official guide.",
+      "action": {
+        "type": "download",
+        "label": "Download backup-index.html",
+        "optional": true,
+        "url": "https://wiiu.hacks.guide/files/backup-index.html",
+        "dest": "backup-index.html",
+        "sha256": ""
+      }
+    },
+    {
+      "id": "indexiine-copy-page",
+      "title": "Uninstall Indexiine: copy it to the SD card",
+      "body": "Press the button and Graphite copies `backup-index.html` into the Indexiine Installer's folder on your SD card (`wiiu/apps/indexiine-installer`), where the uninstaller looks for it.",
+      "action": {
+        "type": "copy",
+        "label": "Copy to SD card",
+        "optional": true,
+        "src": "backup-index.html",
+        "destSubpath": "wiiu/apps/indexiine-installer/backup-index.html"
+      }
+    },
+    {
+      "id": "indexiine-uninstall",
+      "title": "Uninstall Indexiine: on the Wii U",
+      "body": "1. Insert the card and launch the **Homebrew Launcher** through the Internet Browser (wait a few seconds).\n2. Open the **Indexiine Installer** and press **B** to uninstall.\n3. Restart and confirm the Homebrew Launcher no longer auto-launches when you open the browser.",
+      "troubleshoot": {
+        "label": "I've got an error on the browser",
+        "topic": "wiiu-browser-errors"
+      },
+      "action": {
+        "type": "manual",
+        "optional": true
+      }
+    },
+    {
       "id": "payloadloader-autoboot",
       "title": "PayloadLoader: undo autoboot first",
-      "body": "If your Wii U autoboots into the PayloadLoader/Aroma, undo that before removing it:\n\n1. Launch the **PayloadLoader Installer** from the Wii U Menu.\n2. Press **A** to select **Check**.\n3. Select **Boot options**.\n4. When asked, press **A** to select **Switch back to Wii U Menu**.\n5. When it finishes, press **A** to shut down.\n\nThe console now boots to the Wii U Menu; the PayloadLoader can still be reached via the **Health & Safety** app.",
+      "body": "If your Wii U autoboots into the PayloadLoader/Aroma, undo that before removing it:\n\n1. Launch the **PayloadLoader Installer** from the Wii U Menu (the rocket coming out of a box, like the picture).\n2. Press **A** to select **Check**.\n3. Select **Boot options**.\n4. When asked, press **A** to select **Switch back to Wii U Menu**.\n5. When it finishes, press **A** to shut down.\n\nThe console now boots to the Wii U Menu; the PayloadLoader can still be reached via the **Health & Safety** app.",
+      "image": "../images/steps/PLLI.png",
       "action": {
         "type": "manual",
         "optional": true
@@ -90,7 +133,8 @@
     {
       "id": "payloadloader-remove",
       "title": "PayloadLoader: remove it",
-      "body": "Press the button to download the latest Aroma payloads and base files onto your SD card, then on the Wii U:\n\n1. Launch the **Health & Safety** app and boot into Aroma.\n2. Open the **PayloadLoader Installer** from the Wii U Menu.\n3. Press **A** to select **Check**.\n4. Select **Remove**.\n5. When asked to confirm, select **Remove** again.\n6. When it finishes, press **A** to shut down.\n\nNote: a factory reset does **not** remove the injected PayloadLoader; this is the !!only way!! to fully uninstall it.",
+      "body": "Press the button to download the latest Aroma payloads and base files onto your SD card, then on the Wii U:\n\n1. Launch the **Health & Safety** app and boot into Aroma.\n2. Open the **PayloadLoader Installer** from the Wii U Menu (the rocket coming out of a box, like the picture).\n3. Press **A** to select **Check**.\n4. Select **Remove**.\n5. When asked to confirm, select **Remove** again.\n6. When it finishes, press **A** to shut down.\n\nNote: a factory reset does **not** remove the injected PayloadLoader; this is the !!only way!! to fully uninstall it.",
+      "image": "../images/steps/PLLI.png",
       "action": {
         "type": "sdinstall",
         "label": "Download Aroma files to SD card",
