@@ -106,14 +106,14 @@ async function runAction(action, { root, cache }) {
     // Copy the NAND backup files the console dumped to the SD root into a fresh
     // Desktop folder, then clear them off the card. The dump itself is on-console.
     case 'backupnand': {
-      const core = ['slc.bin', 'slccmpt.bin', 'seeprom.bin', 'otp.bin'];
+      const core = ['slc.bin', 'slccmpt.bin', 'seeprom.bin', 'otp.bin', 'nand.bin', 'keys.bin'];
       // Card may be unplugged (ENOENT) — treat that the same as "no backup here".
       const entries = await fs.promises.readdir(root).catch(() => []);
       const files = entries.filter(f => core.includes(f) || f.startsWith('mlc.bin.part'));
       if (!files.length) {
-        throw new Error('No NAND backup registered — plug the SD card back into your computer and make sure you ran the dump on your Wii U first.');
+        throw new Error('No NAND backup found on the SD card. Make sure you ran the dump on your console first.');
       }
-      const destDir = uniqueDir(path.join(os.homedir(), 'Desktop'), action.name || 'Wii U NAND Backup');
+      const destDir = uniqueDir(path.join(os.homedir(), 'Desktop'), action.name || 'Wii NAND Backup');
       await fs.promises.mkdir(destDir, { recursive: true });
       for (const f of files) {
         await fs.promises.copyFile(path.join(root, f), path.join(destDir, f));

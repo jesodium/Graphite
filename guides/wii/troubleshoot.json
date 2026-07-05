@@ -1,0 +1,93 @@
+{
+  "_source": "Text from https://wii.hacks.guide — kept locally so errors show in-app.",
+  "wii-str2hax-errors": {
+    "title": "str2hax DNS / EULA issues",
+    "items": [
+      {
+        "error": "Connection test fails with error 521xx",
+        "fix": "Double-check the DNS entry: Primary DNS must be `3.143.163.250`. Make sure `Auto-Obtain DNS` is set to `No` and you entered this on the right page (the one with 2 fields, not 3)."
+      },
+      {
+        "error": "Normal User Agreements show up instead of the exploit page",
+        "fix": "Your ISP or network environment blocks custom DNS servers. Switch to a different network, or use a different exploit like **LetterBomb** (requires an SD card)."
+      },
+      {
+        "error": "Hanging. or ERROR! if_config (ret = ...)",
+        "fix": "The exploit failed to load. Restart your Wii and try again. If it persists, your network may be blocking the server — try using a mobile hotspot or another connection."
+      },
+      {
+        "error": "The HackMii Installer shows a black screen after the exploit",
+        "fix": "Restart the Wii and try again. Make sure the date on your Wii is set correctly. If you recently installed CTGP Revolution or Project+, remove your SD card before running str2hax."
+      }
+    ]
+  },
+  "wii-hackmii-errors": {
+    "title": "HackMii Installer issues",
+    "items": [
+      {
+        "error": "Press 1 doesn't appear on the scam warning screen",
+        "fix": "Wait a full 30 seconds. The `Press 1 to continue` text is delayed. If it still doesn't appear, restart the Wii and trigger the exploit again."
+      },
+      {
+        "error": "Homebrew Channel install fails or freezes",
+        "fix": "Restart the Wii and re-trigger the exploit. If it persists, reformat the SD card as FAT32 with MBR partitioning and try again."
+      }
+    ]
+  },
+  "wii-bootmii-errors": {
+    "title": "BootMii issues",
+    "items": [
+      {
+        "error": "Black screen and blue disc drive light blinking when launching BootMii",
+        "fix": "BootMii is missing its SD card files. Download the BootMii SD files zip from `https://wii.hacks.guide/assets/files/bootmii_sd_files.zip`, extract it to the root of your SD card, and try again."
+      },
+      {
+        "error": "Launch BootMii button doesn't appear in Homebrew Channel",
+        "fix": "BootMii wasn't installed successfully. Re-launch the HackMii Installer (re-trigger the exploit) and install BootMii again."
+      },
+      {
+        "error": "Exception IOS occurred! when launching nanddumper@ios",
+        "fix": "Simply restart your Wii and try again."
+      },
+      {
+        "error": "No storage devices are attached (in nanddumper@ios)",
+        "fix": "Make sure your SD card or USB drive is directly connected to the Wii. USB drives should not go through a hub."
+      }
+    ]
+  },
+  "wii-nand-backup": {
+    "title": "NAND backup issues",
+    "items": [
+      {
+        "error": "Bad blocks during NAND backup verification",
+        "fix": "Bad blocks are normal and mostly originate from the factory due to NAND binning. If all non-bad blocks are green after verification, the backup is fine."
+      }
+    ]
+  },
+  "wii-priiloader-errors": {
+    "title": "Priiloader issues",
+    "items": [
+      {
+        "error": "Priiloader can't find hacks_hash.ini",
+        "fix": "If you copied the installer to a USB drive, make sure you DON'T have an SD card inserted at the same time. The presence of both confuses Priiloader."
+      },
+      {
+        "error": "Priiloader doesn't load when holding RESET",
+        "fix": "Make sure you're holding RESET (the red button near the eject button) while pressing POWER. On Wii Family Edition, hold RESET while the console is already on from the Wii Menu."
+      }
+    ]
+  },
+  "wii-sd-errors": {
+    "title": "SD card issues",
+    "items": [
+      {
+        "error": "Wii doesn't recognize the SD card",
+        "fix": "The SD card must be formatted as **FAT32** (not exFAT or NTFS) with **MBR** partitioning. Cards larger than 32GB may need a third-party tool to format as FAT32. Also check that the physical lock switch on the SD card is in the **unlocked** position (up)."
+      },
+      {
+        "error": "SD card not showing in Data Management",
+        "fix": "Turn the Wii off, remove and reinsert the card, and try again. If it still doesn't show, reformat the card as FAT32."
+      }
+    ]
+  }
+}

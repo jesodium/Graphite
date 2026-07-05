@@ -636,7 +636,7 @@ function showSuccess(onDone) {
     successEl.hidden = true;
     successEl.innerHTML = '<div class="success-inner">'
       + '<div class="success-check">✅</div>'
-      + '<h2>You have successfully modded your Wii U!</h2>'
+      + '<h2>You have successfully modded your ' + (guide?.console || 'console') + '!</h2>'
       + '<p>Returning home…</p></div>';
     document.body.appendChild(successEl);
   }
@@ -711,8 +711,11 @@ function bindGuideNav() {
   $('next').onclick = async () => {
     if (i < guide.steps.length - 1) { i++; await save(); render(); }
     else { await finishGuide(); }
+    window.scrollTo(0, 0);
   };
-  $('back').onclick = () => { if (i > 0) { i--; render(); } };
+  $('back').onclick = () => { if (i > 0) { i--; render(); }
+    window.scrollTo(0, 0);
+  };
 }
 
 init();
