@@ -227,8 +227,5 @@
       "body": "Your Wii has the **Homebrew Channel**, **BootMii**, and **Priiloader** installed. You're fully protected and ready to run homebrew apps.\n\nDrop homebrew apps into the `apps` folder on your SD card and launch them from the Homebrew Channel. For USB loaders, cIOS, or restoring online services, check the guides at `wii.hacks.guide`.\n\nTo enter Priiloader in the future: hold **RESET** while powering on. To restore your NAND: launch BootMii from the Homebrew Channel or use the BootMii recovery guide.",
       "action": null
     }
-  ],
-  "models": [
-    "standard"
   ]
 }
