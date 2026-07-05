@@ -8,10 +8,35 @@
     "test": "node test/engine.test.js && node test/guide-index.test.js && node test/picker-logic.test.js && node test/guide-storage.test.js",
     "dist": "electron-builder"
   },
+  "build": {
+    "appId": "com.graphite.app",
+    "productName": "Graphite",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "guides/**/*",
+      "node_modules/**/*"
+    ],
+    "mac": {
+      "icon": "src/images/logo.png",
+      "target": "dmg"
+    },
+    "win": {
+      "icon": "src/images/logo.png",
+      "target": "nsis"
+    },
+    "linux": {
+      "icon": "src/images/logo.png",
+      "target": "AppImage"
+    }
+  },
   "dependencies": {
     "extract-zip": "^2.0.1"
   },
   "devDependencies": {
-    "electron": "^31.0.0"
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
   }
 }

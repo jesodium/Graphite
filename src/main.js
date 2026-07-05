@@ -11,6 +11,8 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 900,
     height: 700,
+    title: 'Graphite',
+    icon: path.join(__dirname, 'images', 'logo.png'),
     webPreferences: { preload: path.join(__dirname, 'preload.js') },
   });
   win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
