@@ -1,0 +1,116 @@
+{
+  "console": "Wii",
+  "title": "Legacy Exploits",
+  "extra": true,
+  "tileImage": "../images/steps/wii_str2hax_eula.png",
+  "method": "legacy",
+  "requirements": [],
+  "warnings": [],
+  "_note": "Info-only reference page covering legacy Wii exploits that are largely superseded by modern methods like str2hax, LetterBomb, and FlashHax.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "What are legacy exploits?",
+      "body": "Before str2hax, LetterBomb, and FlashHax became the standard ways to hack a Wii, there were many other exploits — each tied to a specific game disc, a specific System Menu version, or specific hardware. Most of these are **obsolete** for modern hacking because they require a rare game disc, an old System Menu, or hardware that's hard to find.\n\nThis page lists them for reference. If you own the required game or have an older Wii, some of these still work — but the recommended guides on this site use the exploits that work on every 4.3 Wii without needing a rare disc.\n\nUnless you specifically need one of these (e.g. you're restoring a Wii that can't run the modern exploits), use the main guides instead.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "smash-stack",
+      "title": "Smash Stack",
+      "body": "**Game:** Super Smash Bros Brawl\n**SD card:** 2GB or less\n**Versions:** All System Menu versions\n\nSmash Stack works by loading a custom `private` folder from an SD card through Super Smash Bros Brawl's stage builder. It was one of the most widely used exploits and works on every Wii, but requires the Brawl disc.\n\nPlace the exploit files on a 2GB or smaller SD card, insert it, launch Brawl → Stage Builder, and the exploit triggers automatically.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "twilight-hack",
+      "title": "Twilight Hack",
+      "body": "**Game:** The Legend of Zelda: Twilight Princess\n**Versions:** Up to System Menu 3.4\n\nThe original Wii homebrew exploit. It uses a specially crafted save file for Twilight Princess that triggers a buffer overflow when loaded. Requires an older System Menu (3.4 or below) and the Twilight Princess disc.\n\nCopy the hacked save to your SD card, launch the game, talk to the postman in the first area, and the exploit loads the Homebrew Channel installer.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "indiana-pwns",
+      "title": "Indiana Pwns",
+      "body": "**Game:** LEGO Indiana Jones (original, not the sequel)\n**Versions:** All System Menu versions\n\nUses a buffer overflow in LEGO Indiana Jones through a custom save file. Works on any System Menu version as long as you have the LEGO Indiana Jones disc.\n\nCopy the exploit save to your SD card, launch LEGO Indiana Jones → select the hacked save, and the exploit runs.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "bathaxx",
+      "title": "Bathaxx",
+      "body": "**Game:** LEGO Batman\n**Versions:** All System Menu versions\n\nIdentical approach to Indiana Pwns but for LEGO Batman. Another game-disc save exploit that works on any System Menu version.\n\nCopy the hacked save to your SD card, launch LEGO Batman → load the exploit save.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "return-of-the-jodi",
+      "title": "Return of the Jodi",
+      "body": "**Game:** LEGO Star Wars (the original, not the Complete Saga)\n**Versions:** All System Menu versions\n\nYet another save-based exploit, this time using LEGO Star Wars. Same approach as the other LEGO game exploits.\n\nCopy the hacked save to your SD card, launch LEGO Star Wars → load the exploit save.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "eri-hakawai",
+      "title": "Eri HaKawai",
+      "body": "**Game:** Tales of Symphonia\n**Versions:** All System Menu versions\n\nSave-based exploit using Tales of Symphonia on the Wii. (Tales of Symphonia was originally a GameCube game but the Wii can play it.)\n\nCopy the hacked save to your SD card, launch Tales of Symphonia → load the exploit save.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "yugi-owned",
+      "title": "Yu-Gi-OWNED! / Yu-Gi-Vah",
+      "body": "**Game:** Yu-Gi-Oh 5D's Wheelie Breakers\n**Versions:** All System Menu versions\n\nA save-based exploit using the underrated (and unfortunately not great) Yu-Gi-Oh 5D's Wheelie Breakers game for the Wii. Not many people have this disc, but if you do, it works.\n\nCopy the hacked save to your SD card, launch the game → load the exploit save.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "szshaxx",
+      "title": "szsHaxx",
+      "body": "**Game:** Mario Kart Wii\n**SD card:** 2GB or less\n**Versions:** All System Menu versions\n\nszsHaxx uses a custom track file loaded through Mario Kart Wii's track editor. It doesn't require a save file — instead it loads a hacked `.szs` file from the SD card. Requires a 2GB or smaller SD card.\n\nPlace the hacked track file on your SD card, launch Mario Kart Wii → Track Editor → select the custom track.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "bannerbomb",
+      "title": "Bannerbomb",
+      "body": "**Game:** None (System Menu only)\n**Versions:** System Menu 3.0–4.2\n\nBannerbomb was the first exploit that didn't need a game disc. It works by exploiting a vulnerability in how the Wii renders banner animations in the System Menu's SD card menu.\n\nPlace the exploit files on an SD card, insert it into the Wii, and navigate to the SD card menu (bottom-left of the Wii Menu). The exploit triggers when the banner loads.\n\n!!This only works on System Menu 3.0 through 4.2!!. If you're on 4.3, use LetterBomb instead.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "letterbomb",
+      "title": "LetterBomb",
+      "body": "**Game:** None (System Menu only)\n**Versions:** System Menu 4.3 only\n\nLetterBomb is the successor to Bannerbomb for 4.3 Wiis. It exploits a vulnerability in the Wii Message Board to load the HackMii Installer — no game disc needed.\n\nLetterBomb is still a fully supported modern exploit. If you're on 4.3, use **its dedicated guide** instead of any of the legacy exploits above.\n\n**This guide:** `wii/letterbomb.json`",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "flashhax",
+      "title": "FlashHax",
+      "body": "**Game:** None (Internet Channel only)\n**Versions:** Any System Menu version\n\nFlashHax works through the Wii's Internet Channel browser. It exploits a vulnerability in Flash to load the HackMii Installer — no SD card or game disc needed.\n\nFlashHax is still a fully supported modern exploit. Use **its dedicated guide** if the Internet Channel is installed.\n\n**This guide:** `wii/flashhax.json`",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "wuphax",
+      "title": "Wuphax",
+      "body": "**VWii only**\n\nWuphax is specifically for the **vWii** (the Wii mode on a Wii U). It exploits the Wii U's Wii Mode to install the Homebrew Channel.\n\nThis is still a modern exploit for vWii. If you're hacking a Wii U's vWii, use the dedicated vWii guide.\n\n**This guide:** `wii/wuphax.json`",
+      "action": {
+        "type": "manual"
+      }
+    }
+  ]
+}

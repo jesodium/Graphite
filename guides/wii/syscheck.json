@@ -1,0 +1,86 @@
+{
+  "console": "Wii",
+  "title": "SysCheck",
+  "extra": true,
+  "tileImage": "../images/steps/wii_syscheck_hbc.png",
+  "method": "syscheck",
+  "requirements": [
+    "A Wii with the Homebrew Channel installed",
+    "An SD card, any size up to 32GB",
+    "A Wii Remote and sensor bar"
+  ],
+  "warnings": [
+    "SysCheck is a read-only tool — it cannot damage your Wii.",
+    "The generated .csv report contains no personal information, only IOS details."
+  ],
+  "_note": "SysCheck generates a detailed report of your Wii's IOS configuration, stub IOS slots, and custom IOS (cIOS) installations. Run it before installing or troubleshooting USB loaders so you know exactly what's on your system.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "**SysCheck** is a homebrew app that scans your Wii's IOS configuration and writes a full report — every IOS version, which are stubs (fake empty IOS slots), and any custom IOS (cIOS) you've installed.\n\nIt's the first thing helpers ask for when you have USB loader problems. Running it now means you have a clean report to reference or share later.\n\nFirst, I'll check your SD card is FAT32 so the Homebrew Channel can read it.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-setup",
+      "title": "Put SysCheck on your SD card",
+      "body": "Graphite downloads **SysCheck** from the Open Shop Channel and unpacks it into the right `apps` folder on your SD card.\n\nJust press the button and wait.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/SysCheck/SysCheck.zip",
+            "dest": "syscheck.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull the card out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
+      "id": "insert-sd",
+      "title": "Move the SD card to your Wii",
+      "body": "Take the SD card out of your computer and slot it into the **SD card slot on the front of the Wii**. A USB adapter won't work — it must be the built-in slot.\n\nPress **I did this** once the card is in.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "run-syscheck",
+      "title": "Run SysCheck",
+      "body": "1. From the Wii Menu, launch the **Homebrew Channel**.\n2. Find **SysCheck** in the app grid and press **A**.\n3. Press **A** again when prompted to start the check.\n4. SysCheck scans every IOS slot. This takes about 30–60 seconds.\n5. When the scan completes, you'll see a summary on screen. Press **A** to exit.\n\nIf SysCheck shows any IOS as `stub`, those are safe to overwrite with cIOS later.",
+      "troubleshoot": {
+        "label": "SysCheck doesn't appear in the Homebrew Channel",
+        "topic": "wii-syscheck-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "view-results",
+      "title": "View your SysCheck report",
+      "body": "SysCheck saved a report to the root of your SD card as a `.csv` file (something like `SysCheck_YYYY-MM-DD_######.csv`).\n\nPut the SD card back into this computer and open the file with any text editor or spreadsheet app — the data is comma-separated.\n\nThe report lists every IOS slot, its version, and whether it's a stub, Nintendo IOS, or custom IOS. If you ever need help with USB loaders, share this file with whoever's helping you.\n\nOnce you've seen the report, press **Next**.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "SysCheck is a tool you can run any time — after installing new cIOS, before troubleshooting USB loaders, or just to keep a record of your Wii's state.\n\nKeep the `.csv` file somewhere safe on your computer. If you run SysCheck again later, the new file won't overwrite the old one (the timestamp is part of the filename), so you can track what changed.\n\nThe SysCheck app stays on your SD card. Run it again whenever you need by launching it from the Homebrew Channel.",
+      "action": null
+    }
+  ]
+}

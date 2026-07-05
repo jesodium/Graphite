@@ -1,0 +1,80 @@
+{
+  "console": "Wii",
+  "title": "Advanced Priiloader Usage",
+  "extra": true,
+  "tileImage": "../images/steps/wii_prii_menu.png",
+  "method": "priiloader-usage",
+  "requirements": [
+    "A Wii with Priiloader installed",
+    "An SD card with homebrew apps",
+    "Load Priiloader installed from the Priiloader guide",
+    "A Wii Remote and sensor bar"
+  ],
+  "warnings": [
+    "!!Do NOT!! delete Priiloader's bootmii files or hacks_hash.ini — removing them can prevent Priiloader from loading.",
+    "!!Test!! each autoboot setting in Priiloader before relying on it — a bad .dol path just hangs the console, not bricks it, but it's annoying."
+  ],
+  "_note": "Priiloader is a boot-time IOS module that loads before the System Menu. This guide covers advanced features: autobooting homebrew directly, configuring launch targets, and using system menu hacks beyond the standard brick-protection ones from the install guide.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "This guide picks up where the Priiloader install guide leaves off. You already have Priiloader installed and the basic hacks enabled (Block Disc Updates, Block Online Updates, etc.). Now you'll learn what else Priiloader can do.\n\nPriiloader is more than just brick protection — it can:\n- **Autoboot a homebrew app** when the console turns on (boot straight into a USB loader or emulator)\n- **Autoboot the Homebrew Channel** or stay on the System Menu\n- **Apply system menu hacks** that change Wii behavior (region-free, no background music, remove health screen, and more)\n\nAll configuration happens in the Priiloader menu. Hold **RESET** while powering on to get there.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "autoboot-app",
+      "title": "Autoboot a homebrew app",
+      "body": "Priiloader can bypass the System Menu entirely and launch a homebrew app (.dol) directly at boot. This is useful for dedicated use cases — a Wii that only runs a USB loader, for example.\n\n1. Make sure the app you want to autoboot is on your SD card under `apps/` and works from the Homebrew Channel first.\n2. Launch **Load Priiloader** from the Homebrew Channel.\n3. In Load Priiloader, select **Install a new file to Priiloader**. Navigate to the app's `.dol` file (usually at `sd:/apps/yourapp/boot.dol`).\n4. Give it a name you'll recognize and install it.\n5. Exit to the Priiloader menu (hold **RESET** while powering on).\n6. Go to **Settings** → **Autoboot** and set it to **Installed File**.\n7. Below that, set **Return To** to the installed file you just added.\n8. Save settings and select **System Menu** to test. The console now boots straight into that app.\n\n!!If the app crashes or hangs!! — hold **RESET** to re-enter Priiloader and change the autoboot setting back to Disabled or System Menu.",
+      "image": [
+        "../images/steps/wii_prii_menu.png",
+        "../images/steps/wii_prii_hacks.png"
+      ],
+      "troubleshoot": {
+        "label": "The autoboot app won't launch",
+        "topic": "wii-priiloader-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "autoboot-hbc",
+      "title": "Autoboot Homebrew Channel (or Priiloader menu)",
+      "body": "You don't have to boot to the System Menu every time. Priiloader can boot straight into the Homebrew Channel or even back into the Priiloader menu itself.\n\n1. Hold **RESET** while powering on to enter the Priiloader menu.\n2. Scroll to **Settings** and press **A**.\n3. Set **Autoboot** to:\n   - **Homebrew Channel** — boots directly into the HBC every time\n   - **Priiloader** — boots directly into the Priiloader menu (useful for frequent hacking)\n   - **Disabled** — normal behavior, boots to System Menu\n4. Optionally, set **Return To** if you want a specific destination when you exit an app (e.g., back to the Homebrew Channel instead of the System Menu).\n5. Save settings.\n\nUseful combo: set Autoboot to **Homebrew Channel** and Return To to **Homebrew Channel** — the console always lands in HBC even after exiting an app.",
+      "image": [
+        "../images/steps/wii_prii_menu.png"
+      ],
+      "troubleshoot": {
+        "label": "Autoboot setting won't save",
+        "topic": "wii-priiloader-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "system-menu-hacks",
+      "title": "System menu hacks reference",
+      "body": "**System Menu Hacks** in Priiloader contains dozens of patches that modify how the Wii's menu behaves. You already enabled the essential ones during installation. Here are the most useful additional hacks:\n\n| Hack | What it does | Notes |\n|------|-------------|-------|\n| **Remove Diagnostic Check** | Skips the health/safety screen at boot | Speeds up boot time |\n| **Region Free (Wii Games)** | Lets you play Wii discs from any region | Does not apply to GameCube games |\n| **Region Free (GC Games)** | Lets you play GameCube discs from any region | Requires a Wii with GC ports |\n| **No System Menu Background Music** | Removes Wii Menu music | Quiet boots, great for kiosks |\n| **Replace Health Screen with Backplain** | Replaces health screen with a solid color | Faster boot without the text screen |\n| **Move Disc Channel** | Re-orders the disc channel to position 1 | Cosmetic |\n| **4:3 Button Correction** | Fixes off-center buttons in 4:3 mode | Only if you use 4:3 |\n| **Wiiminame** | Changes the Wii Menu copyright year text | Cosmetic |\n\nTo enable any of these:\n1. Hold **RESET** and power on to enter Priiloader.\n2. Select **System Menu Hacks**.\n3. Scroll to the hack and press **A** — a tick appears next to it.\n4. Scroll to **Save Settings** and press **A**.\n5. Select **System Menu** to reboot.\n\nDon't enable everything at once — some hacks conflict. Test one at a time.",
+      "image": [
+        "../images/steps/wii_prii_hacks.png"
+      ],
+      "troubleshoot": {
+        "label": "A hack broke the system menu",
+        "topic": "wii-priiloader-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Priiloader is now fully configured. You can autoboot apps, skip straight to the Homebrew Channel, and apply system menu hacks beyond the basic brick protection.\n\nIf something goes wrong:\n- Hold **RESET** while powering on to always get back into Priiloader (regardless of autoboot settings).\n- If Priiloader itself won't load or you have a full brick, use **BootMii** to restore your NAND backup.\n- The hacks_hash.ini file is stored on your SD card at `sd:/priiloader/hacks_hash.ini` — you can delete it to reset all hacks to defaults.\n\nTo enter Priiloader in the future: hold **RESET** while powering on.",
+      "action": null
+    }
+  ]
+}

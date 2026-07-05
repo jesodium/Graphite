@@ -1,0 +1,79 @@
+{
+  "console": "Wii",
+  "title": "Nintendo Wi-Fi Connection",
+  "extra": true,
+  "tileImage": "../images/steps/wii_nintendowfc.png",
+  "method": "nintendowfc",
+  "requirements": [
+    "A Wii with the Homebrew Channel and Priiloader (for the Priiloader method)"
+  ],
+  "warnings": [
+    "The DNS method (95.217.77.181) works without homebrew but only supports a limited set of games — check the Wiimmfi compatibility list first.",
+    "!!vWii (Wii U) users!! must enable 'Block IOS Reload' in Priiloader before using the WiiLink WFC alternative.",
+    "If your ISP blocks custom DNS, the DNS method won't work — use the Priiloader or patcher method instead."
+  ],
+  "_note": "Wiimmfi is a third-party replacement for Nintendo Wi-Fi Connection that lets you play Wii games online again. There are three approaches: Priiloader patching (easiest), DNS auto-patching (no homebrew), and the Auto Wiimmfi Patcher (most compatible). WiiLink WFC is an alternative service that also restores online play for supported titles.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Nintendo Wi-Fi Connection",
+      "body": "Nintendo Wi-Fi Connection was the online service that powered multiplayer in games like Mario Kart Wii, Super Smash Bros Brawl, Animal Crossing City Folk, and dozens of others. It was discontinued in 2014.\n\n**Wiimmfi** is the main third-party replacement that brings online play back. It works by redirecting the Wii's network calls from the official servers to their own, and you can use it even on an unmodded Wii.\n\nThere are three methods. Pick the one that fits your setup:\n\n1. **Priiloader method** (easiest — recommended) — If you have Priiloader installed, just enable a setting and every game is auto-patched. Zero effort after setup.\n2. **DNS method** (no homebrew needed) — Change your DNS to 95.217.77.181 and compatible games are patched automatically at connection time. No SD card, no Homebrew Channel.\n3. **Auto Wiimmfi Patcher** (most compatible) — Run a homebrew app from the Homebrew Channel that patches the current game disc or USB loader title on-the-fly. Works with every game.\n\n**WiiLink WFC** is an alternative service that also restores online play for some games. It uses a different patching approach and supports titles that Wiimmfi doesn't always handle well. If a game doesn't work on Wiimmfi, WiiLink WFC is worth trying.\n\n!!You need online play games that originally supported Nintendo Wi-Fi Connection!!. This guide doesn't create online play for offline-only games.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "priiloader-method",
+      "title": "Enable the Wiimmfi patch in Priiloader",
+      "body": "If you have **Priiloader** installed (from the initial modding guide), this is the easiest method. Once enabled, every game that uses Nintendo Wi-Fi Connection is automatically patched to use Wiimmfi — you never need to think about it again.\n\n1. Power off the Wii.\n2. Hold the **RESET button** on the console while pressing **POWER**. Keep holding RESET until the Priiloader menu appears.\n3. Scroll down to **System Menu Hacks** and press **A**.\n4. Find **Wiimmfi Patch v4** (or similar — older Priiloader versions label it differently) and press **A** to enable it. It should show as **Enabled** or have a checkmark.\n5. Scroll down to **save settings** and press **A**.\n6. Press **B** to go back, then select **System Menu** to boot normally.\n\nThat's it. Every time you start a Wi-Fi compatible game, Priiloader intercepts the connection and redirects it to Wiimmfi. No per-game setup, no extra steps.\n\n!!If you don't see Wiimmfi Patch in the list!! — your Priiloader may be too old. Install the latest version from the Homebrew Browser and check again.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "dns-method",
+      "title": "Use a custom DNS for auto-patching",
+      "body": "This method doesn't need the Homebrew Channel, an SD card, or any modding at all. It works by changing your Wii's DNS server to one hosted by Wiimmfi, which intercepts connection attempts and patches them on the fly.\n\n!!Limited game support!! — the DNS method only works with games where Wiimmfi has set up a redirect for the game's specific server domains. Mario Kart Wii works great; some less popular titles don't.\n\n1. From the Wii Menu, go to **Wii Options** → **Wii Settings** → **Page 2** → **Internet** → **Connection Settings**.\n\n2. Select your active connection slot and choose **Change Settings**.\n\n3. Set **Auto-Obtain DNS** to **No**, then click **Advanced Settings**.\n\n4. Set the **Primary DNS** to `95.217.77.181`. Leave the Secondary DNS blank (or set it to `95.217.77.151` as a fallback).\n\n5. Click **Confirm**, then **Save**, then **OK** to run the connection test. If the test passes, choose **No** to skip the system update.\n\n6. Launch a compatible online game. When the game tries to connect to Nintendo Wi-Fi Connection, the DNS redirects it to Wiimmfi.\n\nTo revert: just change Auto-Obtain DNS back to **Yes**.\n\nCheck the Wiimmfi website for an up-to-date compatibility list — the DNS method is updated as new games are added.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "manual-patcher",
+      "title": "Use Auto Wiimmfi Patcher from the Homebrew Channel",
+      "body": "The **Auto Wiimmfi Patcher** is a homebrew app that patches whatever game you're about to play — whether it's from a disc or a USB loader. This is the most compatible method since it works with every Wiimmfi-supported game regardless of whether the DNS or Priiloader method supports it.\n\nPress the button to download the patcher to your SD card, put the card in the Wii, and launch it from the Homebrew Channel.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/wiimmfi-patcher/wiimmfi-patcher.zip",
+            "dest": "wiimmfi-patcher.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "run-patcher",
+      "title": "Run the patcher on the Wii",
+      "body": "With the patcher on your SD card and the card in the Wii:\n\n1. Launch the **Homebrew Channel**.\n2. Open **Wiimmfi Patcher** from the list of apps.\n3. Insert the game disc you want to play (or, if using a USB loader, make sure the loader is running).\n4. Press **A** to start patching. The patcher modifies the game's network code in memory and then launches it automatically.\n5. The game connects to Wiimmfi instead of the defunct Nintendo servers.\n\nYou need to run the patcher every time you play — it doesn't persist across reboots. If you play regularly, the Priiloader method (step 2) is more convenient.\n\n!!If the patcher fails!! — make sure your Homebrew Channel and IOS are up to date. Some games need cIOS installed (check the USB loader guide).",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "wiilink-wfc",
+      "title": "Alternative: WiiLink WFC",
+      "body": "**WiiLink WFC** is a separate service from the WiiConnect24 restoration project that also brings back online multiplayer for select Wii games. It uses a different infrastructure from Wiimmfi and may support games that Wiimmfi doesn't.\n\nTo use WiiLink WFC:\n\n1. Go to **https://wiilink.ca** on your computer.\n2. Find the **WiiLink WFC** section — they provide custom DNS settings and patcher downloads.\n3. Follow their setup guide, which is similar to the DNS method above but uses their DNS servers.\n\n!!WiiLink WFC and Wiimmfi are separate services!! — you can only use one at a time for a given game session. If a game doesn't connect to Wiimmfi, try WiiLink WFC's DNS instead, or check their compatibility list.\n\nNote: WiiLink WFC is part of the larger WiiLink project (which also restores WiiConnect24 channels). If you installed WiiLink for weather/news/etc., using their WFC DNS may work better for you since you're already on their infrastructure.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your Wii can now play **Nintendo Wi-Fi Connection** games online again through **Wiimmfi** (or **WiiLink WFC** as an alternative).\n\n- **Priiloader method**: Auto-patches every game transparently. No further action needed.\n- **DNS method**: Works without homebrew but only for supported games. Change DNS back to auto if you want to switch off Wiimmfi.\n- **Auto Wiimmfi Patcher**: Run it from the Homebrew Channel before playing any disc or USB loader game.\n\nOnline communities are active — Mario Kart Wii, Mario Strikers Charged, and Animal Crossing City Folk all have healthy player bases on Wiimmfi. Check the Wiimmfi website for events, tournaments, and community resources.",
+      "action": null
+    }
+  ]
+}

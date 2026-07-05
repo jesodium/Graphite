@@ -1,0 +1,215 @@
+{
+  "console": "Wii",
+  "title": "FlashHax",
+  "tileImage": "../images/steps/wii_flashhax.png",
+  "method": "flashhax",
+  "requirements": [
+    "A Wii with an internet connection",
+    "The Internet Channel installed on the Wii",
+    "An SD card, any size up to 32GB (for BootMii and Priiloader — FlashHax itself doesn't need one)",
+    "A Wii Remote and sensor bar",
+    "About 45 minutes"
+  ],
+  "warnings": [
+    "Every time you modify a Wii there is a !!small chance of an unrecoverable brick!!. Follow each step exactly.",
+    "FlashHax is an !!unreliable exploit!! — it may take several tries to trigger. Be patient.",
+    "!!Do NOT!! follow old video tutorials — they often recommend outdated software that can cause bricks.",
+    "Make a NAND backup when the guide tells you to. Don't skip it — it's your only recovery if something goes wrong."
+  ],
+  "_note": "FlashHax is an unreliable exploit that uses the Internet Channel's browser to load the HackMii Installer. No SD card needed for the exploit itself — BootMii and Priiloader still need one later.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "This guide installs the **Homebrew Channel**, **BootMii**, and **Priiloader** on your Wii — the full set of modern homebrew tools. The exploit itself (**FlashHax**) uses the Internet Channel's web browser to load the HackMii Installer, so you don't even need an SD card to get started. Once the Homebrew Channel is installed, Graphite helps you set up the SD card for everything else.\n\nGraphite handles file downloads, SD card setup, and even saves your NAND backup to the Desktop. The only things you do on the Wii are button presses and navigating menus — I'll walk you through each one with a picture.\n\nFirst, I'll check that your SD card is FAT32 (if you don't have one yet, get one — you need it for BootMii).",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-setup",
+      "title": "Put the Priiloader files on your SD card",
+      "body": "Graphite downloads the **Priiloader Installer** and **Load Priiloader** and unpacks them into the right `apps` folders on your SD card. These are the tools you'll use later to install brick protection.\n\nIf you don't have an SD card yet, you can skip this step and come back to it later — just press **Next**. But having one now is strongly recommended.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "optional": true,
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/priiloader/priiloader.zip",
+            "dest": "priiloader.zip"
+          },
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/LoadPriiloader/LoadPriiloader.zip",
+            "dest": "loadpriiloader.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull the card out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
+      "id": "insert-sd",
+      "title": "Move the SD card to your Wii",
+      "body": "Take the SD card out of your computer and slot it into the **SD card slot on the front of the Wii**. A USB adapter won't work — it must be the built-in slot.\n\nMake sure the console is connected to the internet. Press **I did this** once the card is in.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "launch-channel",
+      "title": "Launch the Internet Channel",
+      "body": "On the Wii Menu, open the **Internet Channel** (the globe icon). If you don't have it installed, download it from the **Wii Shop Channel** — it's free.\n\nWait for the browser to fully load. You'll see a small toolbar at the bottom of the screen.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "visit-site",
+      "title": "Visit the FlashHax site",
+      "body": "In the Internet Channel's address bar, go to **flashhax.com**. The page shows region buttons (**USA**, **EUR**, **JPN**). Select the one that matches your Wii's region.\n\nA note about bookmarks will appear. Press **OK**. Then **Bookmark this page** when prompted. After that, press **Browse** to go to the page.\n\nWait for the exploit to load — you should see the scam warning screen (the **HackMii Installer**). If you just see a white screen or nothing happens after 30 seconds, refresh and try again. FlashHax is unreliable — it can take many attempts.\n\n!!Do NOT pay any attention to the scam warning!! It's just telling you not to pay for free software.",
+      "image": [
+        "../images/steps/wii_scam.png"
+      ],
+      "troubleshoot": {
+        "label": "The exploit isn't working",
+        "topic": "wii-flashhax-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "install-hbc",
+      "title": "Install the Homebrew Channel",
+      "body": "You're now in the **HackMii Installer**. The first screen is the scam warning — just a reminder not to pay for free software.\n\n1. Wait 30 seconds for **Press 1 to continue** to appear, then press **1** on your Wii Remote.\n2. You'll see the system test results. Select **Continue**.\n3. Select **Install the Homebrew Channel**. It installs in a few seconds.\n4. When the green tick appears, select **Continue**.",
+      "image": [
+        "../images/steps/wii_scam.png",
+        "../images/steps/wii_test_results.png",
+        "../images/steps/wii_hbc_install.png",
+        "../images/steps/wii_hbc_ok.png"
+      ],
+      "troubleshoot": {
+        "label": "The installer isn't responding",
+        "topic": "wii-hackmii-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "install-bootmii",
+      "title": "Install BootMii",
+      "body": "Still in the HackMii Installer, select **BootMii...**.\n\nSelect **Install BootMii as IOS**. Wait for the progress bars to complete. When the green tick appears, select **Continue**.\n\n!!If you see the option to Install BootMii as boot2!! — this gives stronger brick protection. Install that too. (Most Wiis won't show this option; yours was made before 2009 if it does.)\n\nFinally, select **Return to the main menu**, then **Exit**. The console boots into the **Homebrew Channel**.",
+      "image": [
+        "../images/steps/wii_bootmii_install.png",
+        "../images/steps/wii_bootmii_install1.png",
+        "../images/steps/wii_bootmii_install2.png",
+        "../images/steps/wii_bootmii_install3.png",
+        "../images/steps/wii_bootmii_ok.png",
+        "../images/steps/wii_bootmii_boot2.png"
+      ],
+      "troubleshoot": {
+        "label": "BootMii install failed",
+        "topic": "wii-hackmii-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "launch-bootmii",
+      "title": "Launch BootMii",
+      "body": "You're now at the **Homebrew Channel** — a grid of homebrew apps. Before installing Priiloader, make a NAND backup so you can recover from any future problems.\n\nPress the **HOME** button on your Wii Remote, then select **Launch BootMii**.\n\n(If the button doesn't appear, BootMii wasn't installed — re-run the exploit and install it again.)\n\nYou should see BootMii's main menu (the second picture). Use the **GameCube controller's D-pad** or the **console's POWER/RESET buttons** (POWER = move right, RESET = select).",
+      "image": [
+        "../images/steps/wii_hbc_blank.png",
+        "../images/steps/wii_bootmii_hbc.png",
+        "../images/steps/wii_bootmii_main.png",
+        "../images/steps/wii_bootmii_gears.png"
+      ],
+      "troubleshoot": {
+        "label": "BootMii won't launch",
+        "topic": "wii-bootmii-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "nand-backup",
+      "title": "Make a NAND backup",
+      "body": "This is !!your safety net!!. If anything ever goes wrong, this backup can bring the Wii back.\n\nIn BootMii, select the **Options** button (the gears icon). Then select the first icon on the left (NAND Backup).\n\nBootMii dumps your NAND and shows the progress. \"Bad Blocks\" are normal — they come from the factory. When the dump finishes, BootMii verifies the backup. Ideally all blocks are green.\n\nPress the **Back** button (arrow icon), then select either the **Wii Menu** or **Homebrew Channel** to exit BootMii.\n\nPower off the Wii.",
+      "image": [
+        "../images/steps/wii_bootmii_backup.png",
+        "../images/steps/wii_bootmii_dumping.png",
+        "../images/steps/wii_bootmii_verify.png",
+        "../images/steps/wii_bootmii_exit.png"
+      ],
+      "troubleshoot": {
+        "label": "The backup failed or has errors",
+        "topic": "wii-nand-backup"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "save-backup",
+      "title": "Save your NAND backup",
+      "body": "Take the SD card out of the Wii and plug it back into this computer.\n\nPress the button and Graphite grabs the backup the console just made (`nand.bin` and `keys.bin`), copies it into a folder on your **Desktop**, and clears the files off the SD card to free up space. If a backup folder already exists, it saves a new one alongside it.\n\nThis is optional; you can skip ahead with **Next**, but keeping the backup is strongly recommended.",
+      "action": {
+        "type": "backupnand",
+        "label": "Copy backup to Desktop",
+        "optional": true
+      }
+    },
+    {
+      "id": "install-priiloader",
+      "title": "Install Priiloader",
+      "body": "Priiloader is your brick protection — it loads before the System Menu, so even if the menu is corrupt, you can recover. Put the SD card back in the Wii and power it on.\n\n1. Launch the **Homebrew Channel**.\n2. Open **Priiloader Installer** from the list.\n3. Press the **+ Button** on your Wii Remote (or **A** on a GameCube controller).\n4. Wait for the install to complete, then press **A** to return to the Homebrew Channel.\n5. Press **HOME**, then select **Exit to System Menu**. The console will load Priiloader's menu automatically.",
+      "image": [
+        "../images/steps/wii_prii_hbc_launcher.png",
+        "../images/steps/wii_prii_installer.png",
+        "../images/steps/wii_prii_installing.png",
+        "../images/steps/wii_prii_menu.png"
+      ],
+      "troubleshoot": {
+        "label": "Priiloader won't install",
+        "topic": "wii-priiloader-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "config-priiloader",
+      "title": "Configure Priiloader",
+      "body": "Now enable the system menu hacks that keep your Wii safe:\n\n1. In Priiloader, scroll down to **System Menu Hacks** and press **A**.\n2. Enable the following:\n   - **Block Disc Updates** (stops game discs from forcing updates)\n   - **Block Online Updates** (stops Nintendo from force-updating you)\n   - If you play in 480p: **480p graphics fix in the system menu**\n   - If you're not on a CRT: **Remove Deflicker** (makes text sharper)\n3. Scroll to **save settings** and press **A**.\n4. Press **B** to go back, then select **System Menu**.\n\nFrom now on, hold **RESET** while powering on to enter Priiloader. You're protected.",
+      "image": [
+        "../images/steps/wii_prii_menu.png",
+        "../images/steps/wii_prii_hacks.png"
+      ],
+      "troubleshoot": {
+        "label": "Can't find hacks settings",
+        "topic": "wii-priiloader-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your Wii has the **Homebrew Channel**, **BootMii**, and **Priiloader** installed. You're fully protected and ready to run homebrew apps.\n\nDrop homebrew apps into the `apps` folder on your SD card and launch them from the Homebrew Channel. For USB loaders, cIOS, or restoring online services, check the guides at `wii.hacks.guide`.\n\nTo enter Priiloader in the future: hold **RESET** while powering on. To restore your NAND: launch BootMii from the Homebrew Channel or use the BootMii recovery guide.",
+      "action": null
+    }
+  ]
+}

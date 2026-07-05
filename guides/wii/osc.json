@@ -1,0 +1,82 @@
+{
+  "console": "Wii",
+  "title": "Open Shop Channel",
+  "extra": true,
+  "tileImage": null,
+  "method": "open-shop-channel",
+  "requirements": [
+    "A Wii with the Homebrew Channel installed",
+    "An SD card, any size up to 32GB",
+    "A Wii Remote and sensor bar",
+    "An internet connection on the Wii"
+  ],
+  "warnings": [
+    "The Open Shop Channel is a trusted repository, but always check app descriptions and reviews before installing."
+  ],
+  "_note": "Open Shop Channel is a trusted repository for homebrew apps accessible both on and off the Wii.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "The **Open Shop Channel (OSC)** is a trusted repository of homebrew apps for the Wii — think of it as an app store for homebrew. You can browse apps on your computer at **oscwii.org** or directly on the Wii using the OSC homebrew app.\n\nThis guide installs the OSC app on your SD card so you can browse and install homebrew apps directly from your Wii. No more downloading zip files on your computer and dragging them to the SD card by hand — everything happens on the console.\n\nGraphite handles downloading the OSC app and setting up your SD card. You just need a Wii with the Homebrew Channel already installed.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "sd-setup",
+      "title": "Download the OSC app to your SD card",
+      "body": "Graphite downloads the **Open Shop Channel** app and unpacks it into the right `apps` folder on your SD card.\n\nThis is the app you'll launch from the Homebrew Channel to browse and install homebrew directly on the Wii.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/OpenShopChannel/OpenShopChannel.zip",
+            "dest": "openshopchannel.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull the card out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
+      "id": "insert-sd",
+      "title": "Move the SD card to your Wii",
+      "body": "Take the SD card out of your computer and slot it into the **SD card slot on the front of the Wii**. A USB adapter won't work — it must be the built-in slot.\n\nMake sure the console is connected to the internet. Press **I did this** once the card is in.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "launch-osc",
+      "title": "Launch the Open Shop Channel",
+      "body": "Power on the Wii and launch the **Homebrew Channel**.\n\nYou should see **Open Shop Channel** in the app grid. Select it with the Wii Remote.\n\nWait for the app to load — it fetches the latest app list from the internet when it starts.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "browse",
+      "title": "Browse and install apps",
+      "body": "The Open Shop Channel shows a list of available homebrew apps. Use the **D-pad** to scroll.\n\nSelect an app to see its description, screenshots, and download count. Press **Install** to download and install it directly to your SD card — no computer needed.\n\nThe app appears in the Homebrew Channel the next time you launch it. Some apps need a fresh install from the **Load** button instead.\n\nYou can also visit **oscwii.org** on your computer to browse the same catalog and read reviews before installing.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "The **Open Shop Channel** app is installed on your SD card. Whenever you want to find new homebrew, just launch it from the Homebrew Channel.\n\nBookmark **oscwii.org** to browse apps from your computer too — it's the same catalog.",
+      "action": null
+    }
+  ]
+}

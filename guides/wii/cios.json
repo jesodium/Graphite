@@ -1,0 +1,118 @@
+{
+  "console": "Wii",
+  "title": "cIOS",
+  "extra": true,
+  "tileImage": "../images/steps/wii_cios_intro.png",
+  "method": "cios",
+  "requirements": [
+    "A modded Wii with the Homebrew Channel installed",
+    "An SD card or USB drive formatted to FAT32",
+    "A computer with internet access to download files",
+    "d2x cIOS Installer (downloaded during this guide)",
+    "NUSGet (Windows/macOS/Linux) to download official IOS WADs",
+    "About 30 minutes"
+  ],
+  "warnings": [
+    "!!Do NOT!! install cIOS to slots other than 248-251 — overwriting the wrong slot can break specific IOS functions.",
+    "!!Do NOT!! follow old video tutorials — they often use outdated slots like 249 and 250 that conflict with modern homebrew.",
+    "Make sure your SD card or USB drive is !!FAT32!! — NTFS and exFAT don't work with the Homebrew Channel."
+  ],
+  "_note": "cIOS (custom IOS) patches Nintendo's official IOS to add functionality that USB loaders and other advanced homebrew need. This guide installs four cIOS slots (248-251) using d2x v11 — the modern standard.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "cIOS stands for **custom IOS**. Nintendo's Wii uses IOS (Input/Output System) modules to handle USB, storage, networking, and other hardware. cIOS patches these official IOS files to add functionality that **USB loaders** (like USB Loader GX and WiiFlow) and other advanced homebrew need to work.\n\nThis guide installs four custom IOS slots — **248, 249, 250, and 251** — using **d2x cIOS Installer v11**. Each slot is based on a different official IOS (38, 56, 57, and 58) so that different homebrew apps can pick the right one for their needs.\n\nFirst, I'll check that your SD card or USB drive is formatted as FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "download-ios",
+      "title": "Download the IOS WADs on your computer",
+      "body": "This guide needs the **official IOS WAD files** from Nintendo's update servers. You download them with **NUSGet** (Nintendo Update Server Getter).\n\n1. Download **NUSGet** from the releases page on your browser.\n\n2. Extract the NUSGet folder wherever you like (Desktop is fine).\n\n3. Open a **terminal** (macOS/Linux) or **command prompt** (Windows) in the NUSGet folder.\n\n4. Run these four commands, one at a time:\n\n   ```\n   NUSGet.exe IOS38 4123 --v64 --wad\n   NUSGet.exe IOS56 5661 --v64 --wad\n   NUSGet.exe IOS57 5918 --v64 --wad\n   NUSGet.exe IOS58 6176 --v64 --wad\n   ```\n\n   On macOS/Linux use `./NUSGet` instead of `NUSGet.exe`. If a version number fails, check Wii.hacks.guide for the latest NUSGet version numbers.\n\n5. When all four finish, you'll have these files in the NUSGet folder:\n   - `IOS38-64-v4123.wad`\n   - `IOS56-64-v5661.wad`\n   - `IOS57-64-v5918.wad`\n   - `IOS58-64-v6176.wad`\n\nLeave them in the NUSGet folder for now — the next step copies them to your SD card.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "sd-setup",
+      "title": "Copy d2x cIOS Installer and WADs to your SD card",
+      "body": "Graphite downloads **d2x cIOS Installer** and unpacks it into the right `apps` folder on your SD card.\n\nYou also need to copy the four WAD files you just downloaded. After Graphite finishes the download below:\n\n1. Open the **NUSGet folder** where you downloaded the WADs.\n2. Copy all four `.wad` files to the **root** of your SD card (not inside any folder).\n3. Also copy them into a `wad` folder on the SD card root as a backup — create it if needed.\n\nGraphite will also clean up macOS junk files after this step.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/d2x-cios-installer/d2x-cios-installer.zip",
+            "dest": "d2x-cios-installer.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull the card out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
+      "id": "insert-sd",
+      "title": "Put the SD card in your Wii",
+      "body": "Take the SD card out of your computer and slot it into the **SD card slot on the front of the Wii**. If you're using a USB drive, plug it into the **bottom USB port** (port 0) if possible — some loaders are picky about the port.\n\nPress **I did this** once the card or drive is in.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "launch-installer",
+      "title": "Launch d2x cIOS Installer",
+      "body": "1. Power on your Wii and open the **Homebrew Channel**.\n2. Find **d2x cIOS Installer** in the app grid and select it.\n3. The installer starts with a warning screen — press any button to continue.\n\nYou should now see the main menu with these options:\n- **Select cIOS** (choose version)\n- **Select cIOS base** (choose the IOS to patch)\n- **Select cIOS slot** (choose the slot number)\n- **Select cIOS revision** (choose revision number)\n\nThe next four steps walk through each installation.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "install-248",
+      "title": "Install cIOS 248 (base IOS38)",
+      "body": "In d2x cIOS Installer, set the following:\n\n1. **Select cIOS**: `v11` (or the latest version shown, likely v11 beta 2 or v11 beta 1)\n2. **Select cIOS base**: `IOS38` (press left/right to scroll through the list)\n3. **Select cIOS slot**: `248`\n4. **Select cIOS revision**: `65535`\n\nDouble-check: **base IOS38 → slot 248 → revision 65535**.\n\nPress **A** to install. The installer patches the IOS and writes it — this takes about 30 seconds. When the green tick appears, press any button to return to the main menu.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "install-249",
+      "title": "Install cIOS 249 (base IOS56)",
+      "body": "Still in d2x cIOS Installer, set the following:\n\n1. **Select cIOS**: keep `v11`\n2. **Select cIOS base**: change to `IOS56`\n3. **Select cIOS slot**: change to `249`\n4. **Select cIOS revision**: keep `65535`\n\nDouble-check: **base IOS56 → slot 249 → revision 65535**.\n\nPress **A** to install. Wait for the green tick, then press any button to return to the main menu.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "install-250",
+      "title": "Install cIOS 250 (base IOS57)",
+      "body": "In d2x cIOS Installer, change the settings:\n\n1. **Select cIOS**: keep `v11`\n2. **Select cIOS base**: change to `IOS57`\n3. **Select cIOS slot**: change to `250`\n4. **Select cIOS revision**: keep `65535`\n\nDouble-check: **base IOS57 → slot 250 → revision 65535**.\n\nPress **A** to install. Wait for the green tick, then press any button to return to the main menu.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "install-251",
+      "title": "Install cIOS 251 (base IOS58)",
+      "body": "In d2x cIOS Installer, set the final one:\n\n1. **Select cIOS**: keep `v11`\n2. **Select cIOS base**: change to `IOS58`\n3. **Select cIOS slot**: change to `251`\n4. **Select cIOS revision**: keep `65535`\n\nDouble-check: **base IOS58 → slot 251 → revision 65535**.\n\nPress **A** to install. Wait for the green tick.\n\nPress **B** or select **Exit** to leave d2x cIOS Installer and return to the Homebrew Channel.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your Wii now has four custom IOS slots installed:\n\n- **cIOS 248** — based on IOS38, used by some older homebrew\n- **cIOS 249** — based on IOS56, the standard slot for USB Loader GX\n- **cIOS 250** — based on IOS57, an alternative for USB loaders\n- **cIOS 251** — based on IOS58, used by apps that need full USB 2.0 speed\n\nUSB loaders and other cIOS-aware homebrew will automatically detect and use the right slot. To use USB loaders, install **USB Loader GX** or **WiiFlow** from the Open Shop Channel.\n\nYou can delete the `.wad` files from your SD card if you need space — they're only needed for installation.",
+      "action": null
+    }
+  ]
+}

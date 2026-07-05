@@ -1,0 +1,161 @@
+{
+  "console": "Wii",
+  "title": "BlueBomb",
+  "models": ["mini"],
+  "recommended": true,
+  "tileImage": "../images/steps/wii_scam.png",
+  "method": "bluebomb",
+  "requirements": [
+    "A Wii mini console",
+    "A Linux machine with built-in Bluetooth (for BlueBomb Classic) — or a Raspberry Pi Pico W / ESP32 (for BlueBomb Micro)",
+    "A USB drive formatted as FAT32",
+    "A Wii Remote (doesn't need to be synced)"
+  ],
+  "warnings": [
+    "Every time you modify a Wii there is a !!small chance of an unrecoverable brick!!. Follow each step exactly.",
+    "!!Do NOT!! follow old video tutorials — they often recommend outdated software that can cause bricks.",
+    "BlueBomb is intended for the Wii mini. If you have an original Wii, use str2hax or LetterBomb instead — they're much simpler."
+  ],
+  "_note": "BlueBomb is the ONLY exploit that works on the Wii mini. It uses a Bluetooth vulnerability to load the HackMii Installer. You'll need a Linux machine, a Raspberry Pi Pico W, or an ESP32 to send the exploit payload over Bluetooth. An original Wii can also use BlueBomb for brick recovery, but easier methods exist for regular Wiis.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "This guide installs the **Homebrew Channel**, **Priiloader**, and **cIOS** on your **Wii mini** using the **BlueBomb exploit**.\n\nBlueBomb works by exploiting a Bluetooth vulnerability in the Wii's IOS. You'll need a second device to send the exploit payload wirelessly. There are three ways to do this:\n\n- **BlueBomb Classic** — a Linux computer with built-in Bluetooth\n- **BlueBomb Micro** — a Raspberry Pi Pico W or ESP32 with BR/EDR support\n- **BlueMii** — another Wii that already has the Homebrew Channel\n\nThis guide covers **BlueBomb Classic** (the most common method). If you're using a Pico W or ESP32, the steps are similar — just use the correct helper script for your device.\n\nGraphite will handle file downloads and USB drive setup. First, I'll check that your USB drive is FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "prep-usb",
+      "title": "Copy the HackMii Installer to your USB drive",
+      "body": "Graphite downloads **boot.elf** (the HackMii Installer) and copies it to the root of your USB drive. This is the exploit payload that BlueBomb sends to your Wii.\n\nPress the button to download and copy it over.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to USB drive",
+        "downloads": [
+          {
+            "url": "https://bootmii.org/download/",
+            "dest": "boot.elf",
+            "destSubpath": "root"
+          }
+        ]
+      }
+    },
+    {
+      "id": "check-region",
+      "title": "Check your System Menu region",
+      "body": "Before running the exploit, you need to know your Wii mini's region. This determines which exploit payload to send.\n\nOn your Wii mini:\n\n1. Go to **Wii Options** → **Wii Settings**.\n2. Look at the **top-right corner** of the settings screen.\n3. Note the letter shown there:\n   - **E** — USA / North America\n   - **P** — Europe / PAL\n   - **J** — Japan\n   - **K** — Korea\n\nWrite this letter down — you'll need it in the next step.",
+      "image": [
+        "../images/steps/wii_settings1.png"
+      ],
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "setup-linux",
+      "title": "Set up BlueBomb on your Linux machine",
+      "body": "Now you'll set up the BlueBomb exploit on your Linux computer. You need a machine with built-in Bluetooth (or an external USB Bluetooth dongle).\n\n1. Make sure Bluetooth is enabled on your Linux machine.\n2. Download the **bluebomb-helper.sh** script from the official BlueBomb repository.\n3. Open a terminal in the directory where you saved the script.\n4. Run the script with:\n   ```\n   sudo ./bluebomb-helper.sh\n   ```\n5. The script will ask which method to use. Choose **BlueBomb Classic**.\n6. Select your region from the list (**E**, **P**, **J**, or **K**).\n7. Select your Bluetooth adapter when prompted.\n\nThe script prepares the exploit and waits for the Wii. Leave the terminal open.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "perform-exploit",
+      "title": "Trigger the exploit on your Wii mini",
+      "body": "Your Linux machine is now waiting to send the exploit. Get your Wii mini ready:\n\n1. Plug your **FAT32 USB drive** (with `boot.elf` on it) into the Wii mini.\n2. Make sure **no Wii Remotes are synced** to the console (if any are connected, remove their batteries).\n3. Power on the Wii mini.\n4. As soon as the console boots, **repeatedly press the SYNC button** on the Wii mini (the red one on the front).\n5. Keep pressing until the screen turns black or purple.\n\nIf the exploit works, you'll see the **scam warning screen** — that's the HackMii Installer loading. If the console freezes or nothing happens, power off, wait a few seconds, and try again.\n\n!!The Wii mini's disc drive will NOT read USB drives — that's normal. The exploit bypasses this limitation.!!",
+      "image": [
+        "../images/steps/wii_scam.png"
+      ],
+      "troubleshoot": {
+        "label": "The exploit isn't working",
+        "topic": "wii-bluebomb-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "install-hbc",
+      "title": "Install the Homebrew Channel",
+      "body": "You're now in the **HackMii Installer**. The first screen is the scam warning — just a reminder not to pay for free software.\n\n1. Wait 30 seconds for **Press 1 to continue** to appear, then press **1** on your Wii Remote.\n2. You'll see the system test results. Select **Continue**.\n3. Select **Install the Homebrew Channel**. It installs in a few seconds.\n4. When the green tick appears, select **Continue**.\n\n!!On the Wii mini, BootMii installation will NOT show up in the HackMii Installer — this is normal. The Wii mini can't use BootMii without soldering. We'll set up alternative brick protection instead.!!",
+      "image": [
+        "../images/steps/wii_scam.png",
+        "../images/steps/wii_test_results.png",
+        "../images/steps/wii_hbc_install.png",
+        "../images/steps/wii_hbc_ok.png"
+      ],
+      "troubleshoot": {
+        "label": "The installer isn't responding",
+        "topic": "wii-hackmii-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "nand-backup",
+      "title": "Back up your NAND (via USB)",
+      "body": "Since BootMii can't run on the Wii mini without soldering, you can't make a bootable NAND backup. However, you can still dump your NAND using software tools from the Homebrew Channel.\n\n1. From the **Homebrew Channel**, launch **WiiXplorer** or **Multi-Mod Manager**.\n2. Navigate to the NAND dump option.\n3. Dump the NAND to your **USB drive**.\n4. Once finished, power off the Wii mini and plug the USB drive into your computer.\n5. Move the `nand.bin` and `keys.bin` files (they'll be in a folder on the USB) to a safe folder on your computer.\n\nThis backup won't be as easy to restore as a BootMii backup, but it's better than nothing.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "install-priiloader",
+      "title": "Install Priiloader (brick protection)",
+      "body": "Priiloader is your brick protection on the Wii mini — it loads before the System Menu, so even if the menu is corrupt, you can recover. Put the USB drive back in the Wii mini and power it on.\n\n1. Launch the **Homebrew Channel**.\n2. Open **Priiloader Installer** from the list.\n3. Press the **+ Button** on your Wii Remote (or **A** on a GameCube controller).\n4. Wait for the install to complete, then press **A** to return to the Homebrew Channel.\n5. Press **HOME**, then select **Exit to System Menu**. The console will load Priiloader's menu automatically.",
+      "image": [
+        "../images/steps/wii_prii_hbc_launcher.png",
+        "../images/steps/wii_prii_installer.png",
+        "../images/steps/wii_prii_installing.png",
+        "../images/steps/wii_prii_menu.png"
+      ],
+      "troubleshoot": {
+        "label": "Priiloader won't install",
+        "topic": "wii-priiloader-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "config-priiloader",
+      "title": "Configure Priiloader",
+      "body": "Now enable the system menu hacks that keep your Wii mini safe:\n\n1. In Priiloader, scroll down to **System Menu Hacks** and press **A**.\n2. Enable the following:\n   - **Block Disc Updates** (stops game discs from forcing updates)\n   - **Block Online Updates** (stops Nintendo from force-updating you)\n   - If you play in 480p: **480p graphics fix in the system menu**\n   - If you're not on a CRT: **Remove Deflicker** (makes text sharper)\n3. Scroll to **save settings** and press **A**.\n4. Press **B** to go back, then select **System Menu**.\n\nFrom now on, hold **RESET** while powering on to enter Priiloader. You're protected.",
+      "image": [
+        "../images/steps/wii_prii_menu.png",
+        "../images/steps/wii_prii_hacks.png"
+      ],
+      "troubleshoot": {
+        "label": "Can't find hacks settings",
+        "topic": "wii-priiloader-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "install-cios",
+      "title": "Install cIOS (d2xl for Wii mini)",
+      "body": "The Wii mini doesn't use standard cIOS like the original Wii. It uses a special version called **d2xl cIOS** that's compatible with the mini's hardware.\n\nGraphite downloads the **d2xl cIOS Installer** and sets it up on your USB drive.\n\nOn your Wii mini:\n\n1. Launch the **Homebrew Channel**.\n2. Open **d2xl cIOS Installer** from the list.\n3. Select **d2xl v11 beta1** as the cIOS version.\n4. Select **cIOS 249** as the slot.\n5. Select **IOS57** as the base IOS.\n6. Confirm the installation and wait for it to finish.\n7. Repeat the process for **cIOS 250** (using **IOS56** as the base).\n\ncIOS allows USB loaders and other homebrew to work properly on the Wii mini.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to USB drive",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/d2xl-cIOS-Installer/d2xl-cIOS-Installer.zip",
+            "dest": "d2xl-cIOS-Installer.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your Wii mini has the **Homebrew Channel**, **Priiloader**, and **d2xl cIOS** installed. You're ready to run homebrew apps and USB loaders.\n\nA few important notes about the Wii mini:\n\n- !!No SD card slot!! — all homebrew goes on the USB drive.\n- !!No Ethernet port!! — you'll need a USB Ethernet adapter for online play.\n- !!BootMii is not available!! — your brick protection is Priiloader, but you won't have a BootMii NAND backup that can restore from any state.\n- Disc drive is compatible with Wii and GameCube discs.\n\nDrop homebrew apps into the `apps` folder on your USB drive and launch them from the Homebrew Channel. For USB loaders or restoring online services, check the guides at `wii.hacks.guide`.\n\nTo enter Priiloader in the future: hold **RESET** while powering on.",
+      "action": null
+    }
+  ]
+}
