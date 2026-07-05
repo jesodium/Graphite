@@ -252,6 +252,11 @@ function showConsoles(guides) {
       // identity color comes from the console's console.json (guides:list attaches it)
       const edge = byConsole[c].find(gd => gd.edge)?.edge;
       if (edge) btn.style.setProperty('--edge', edge);
+      const tileImg = byConsole[c].find(gd => gd.consoleTileImage)?.consoleTileImage;
+      if (tileImg) {
+        btn.classList.add('has-console-img');
+        btn.style.setProperty('--console-img', `url('${tileImg}')`);
+      }
       btn.innerHTML = '<span class="console-name">' + c + '</span><span class="console-count">' + count + ' guide' + (count !== 1 ? 's' : '') + '</span>';
       const li = document.createElement('li');
       li.appendChild(btn);

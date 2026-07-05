@@ -33,6 +33,7 @@ ipcMain.handle('guides:list', async () => {
       const meta = normalizeGuideMetadata(`${e.name}/${f}`, g);
       if (meta.wip) continue;
       meta.edge = cfg.edge || null;
+      if (cfg.tileImage) meta.consoleTileImage = cfg.tileImage;
       out.push(meta);
     }
   }

@@ -1,4 +1,5 @@
 {
   "name": "Wii U",
-  "edge": "#0092C4"
+  "edge": "#0092C4",
+  "tileImage": "../images/wiiu.png"
 }
