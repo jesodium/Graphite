@@ -1,6 +1,6 @@
 # graphite
 
-graphite is a desktop app that walks you through homebrewing your consoles step by step. pick your console, pick your model, pick a method, and follow along. graphite will automatically handle for you the process of downloading files, extracting them, placing them onto your sd card. all you have to do is the manual work on your console.
+graphite is a desktop app written with electron that walks you through homebrewing your consoles step by step. pick your console, pick your model, pick a method, and follow along. graphite will automatically handle for you the process of downloading files, extracting them, placing them onto your sd card. all you have to do is the manual work on your console.
 
 graphite is currently a work in progress.
 
