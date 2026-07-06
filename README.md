@@ -36,7 +36,7 @@ npm start
 
 # a note on ai
 
-almost all of the guides in this project are ai generated, because lets be honest writing and testing every single step by hand for every console and method is just not feasible for me. It takes too much time and school does not give me the ability to sit down and write down these guides step by step. if a step seems off or dosent match what you saw on your console, that's why.
+almost all of the guides in this project are ai generated, (paraphrased from guide sites) because lets be honest writing and testing every single step by hand for every console and method is just not feasible for me. It takes too much time and school does not give me the ability to sit down and write down these guides step by step. if a step seems off or dosent match what you saw on your console, that's why.
 
 # pls help
 
