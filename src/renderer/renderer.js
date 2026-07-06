@@ -241,7 +241,9 @@ function renderHomeResume() {
   label.textContent = 'Ongoing session';
   const detail = document.createElement('span');
   detail.className = 'resume-detail';
-  detail.textContent = sessionState.file + ' (step ' + resumeStepLabel(sessionState) + ')';
+  const found = allGuides.find(x => x.file === sessionState.file);
+  const guideLabel = found ? `${found.console} (${found.title})` : sessionState.file;
+  detail.textContent = guideLabel + ' (step ' + resumeStepLabel(sessionState) + ')';
   info.appendChild(label);
   info.appendChild(detail);
 
