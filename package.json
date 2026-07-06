@@ -1,6 +1,6 @@
 {
   "name": "graphite",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "User-friendly onboarding for homebrewing your consoles.",
   "main": "src/main.js",
   "scripts": {
