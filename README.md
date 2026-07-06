@@ -4,14 +4,22 @@ graphite is a desktop app that walks you through homebrewing your consoles step 
 
 graphite is currently a work in progress.
 
+![alt text](image.png)
+
+
+
 # why did i create this?
 i came up with this idea while modding my friend's wii u. they said they've always wanted to mod theirs but they never got past the FSGetMountSource error. they also did not know how to install apps onto their sd card. while for me it's a breeze to mod practically any console, theres people who want to but can't because they don't know how to understand the terminology like formatting sd cards, merging folders, etc. Also, the hacks.guide websites (which are great) might be a bit too complex for non-tech people.
+
+![alt text](/docs/image-1.png)
 
 # features
 - step by step instructions for the consoles you want
 - will write files for you and download them from latest official sources
 - will save your nand backup onto your pc without you digging each file up.
 - will make sure you have everything right before modding
+
+![alt text](/docs/image-2.png)
 
 # installation
 
