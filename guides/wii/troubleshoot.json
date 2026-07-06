@@ -89,5 +89,281 @@
         "fix": "Turn the Wii off, remove and reinsert the card, and try again. If it still doesn't show, reformat the card as FAT32."
       }
     ]
+  },
+  "wii-bluebomb-errors": {
+    "title": "BlueBomb issues",
+    "items": [
+      {
+        "error": "Exception 0700 occurred!",
+        "fix": "This is usually a failed connection attempt. Power-cycle the console and retry — make sure no Wii Remotes are synced or nearby when you start."
+      },
+      {
+        "error": "Sync button presses don't register / the Pico's LED never flashes rapidly",
+        "fix": "Keep the console within about 3 feet of the microcontroller, and double check the firmware you flashed matches your console's exact region and System Menu version."
+      },
+      {
+        "error": "The normal Wii Menu boots instead of the HackMii Installer",
+        "fix": "The firmware file is for the wrong region or System Menu version. Re-check the version letter in Wii Settings and re-flash the correct .uf2 file."
+      }
+    ]
+  },
+  "wii-flashhax-errors": {
+    "title": "FlashHax issues",
+    "items": [
+      {
+        "error": "The Internet Channel freezes or the cursor stops responding",
+        "fix": "Restart the Wii and retry from the Internet Channel."
+      },
+      {
+        "error": "FlashHax fails on the first few attempts",
+        "fix": "This is normal — FlashHax is unreliable and often needs several tries. Clear the Internet Channel's cookies and saved data if it keeps failing."
+      },
+      {
+        "error": "Still doesn't work after many attempts",
+        "fix": "Switch to a different exploit — str2hax, LetterBomb, or Wilbrand are all more reliable if any of them apply to your console."
+      }
+    ]
+  },
+  "wii-letterbomb-errors": {
+    "title": "LetterBomb issues",
+    "items": [
+      {
+        "error": "The bomb letter doesn't show up on the Message Board",
+        "fix": "Check that the Wii's date is set correctly — try setting it a day earlier or later and check again."
+      },
+      {
+        "error": "please.hackmii.com rejects the MAC address",
+        "fix": "Make sure you entered your own console's MAC address exactly, not an example from a screenshot or guide."
+      },
+      {
+        "error": "The console freezes on a black or blue screen after opening the letter",
+        "fix": "You likely selected the wrong region. Power-cycle, confirm the region letter from Wii Settings, and regenerate the LetterBomb file."
+      },
+      {
+        "error": "SD card errors when copying the files",
+        "fix": "Check Data Management on the Wii for format issues — the card must be FAT32."
+      }
+    ]
+  },
+  "wii-wilbrand-errors": {
+    "title": "Wilbrand issues",
+    "items": [
+      {
+        "error": "The bomb letter doesn't show up on the Message Board",
+        "fix": "Check that the Wii's date is set correctly, and confirm the SD card's physical lock switch is unlocked."
+      },
+      {
+        "error": "wilbrand.donut.eu.org rejects the MAC address",
+        "fix": "Make sure you entered your own console's MAC address exactly, not an example from a screenshot or guide."
+      },
+      {
+        "error": "The console freezes on a black or blue screen after opening the letter",
+        "fix": "Double-check the region, System Menu version, and MAC address you entered, then regenerate the file."
+      },
+      {
+        "error": "SD card larger than 2GB isn't recognized",
+        "fix": "System Menu versions before 4.0 only support SD cards 2GB or smaller — use a smaller card or update first."
+      }
+    ]
+  },
+  "wii-cios-errors": {
+    "title": "cIOS install issues",
+    "items": [
+      {
+        "error": "d2x cIOS Installer fails or hangs mid-install",
+        "fix": "Make sure the Homebrew Channel is up to date and your SD/USB is FAT32 with MBR partitioning. Restart the Wii and retry — a partial install can safely be redone."
+      },
+      {
+        "error": "TMD version mismatch (Wii mini)",
+        "fix": "Pick the base IOS revision matching your console's region (NTSC v31775 / PAL v31776) in the d2xl installer instead of the default selection."
+      },
+      {
+        "error": "Loader still says cIOS missing after install",
+        "fix": "Confirm you installed all four slots (248-251) on a standard Wii, or cIOS 249 on Wii mini — installing only some of them isn't enough for every loader."
+      },
+      {
+        "error": "Console acts unstable after installing cIOS",
+        "fix": "Never install a standard Wii/vWii cIOS build on a Wii mini or vice versa — reinstall using the correct installer for your exact model."
+      }
+    ]
+  },
+  "wii-wiiconnect24-errors": {
+    "title": "WiiConnect24 / WiiLink issues",
+    "items": [
+      {
+        "error": "Forecast Channel shows FORE000006",
+        "fix": "Your Wii's internal clock has drifted. Run the sntp homebrew app to resync it, then retry the channel."
+      },
+      {
+        "error": "A WiiLink channel won't connect at all",
+        "fix": "Re-run the WiiLink Patcher from wiilink.ca/guide — channel server details change over time and old WADs can go stale."
+      },
+      {
+        "error": "vWii (Wii U) WiiConnect24 channels fail after working before",
+        "fix": "Check that all three required Priiloader hacks for vWii are enabled, and note some hacks conflict — only one of the conflicting pair can be on at once."
+      }
+    ]
+  },
+  "wii-wiimmfi-errors": {
+    "title": "Wiimmfi online play issues",
+    "items": [
+      {
+        "error": "Error 20100 or 20110",
+        "fix": "The game you're trying to play isn't supported by Wiimmfi. Check the current game list at wiimmfi.de."
+      },
+      {
+        "error": "Error 23400 after setting custom DNS",
+        "fix": "Your ISP or router is blocking custom DNS servers. Try a mobile hotspot, or set the DNS directly on your router instead of the console."
+      },
+      {
+        "error": "Priiloader Wiimmfi patch doesn't show v4",
+        "fix": "Your hacks_hash.ini is outdated — update Priiloader's hack list before enabling the patch, or patching will fail with error 23904."
+      },
+      {
+        "error": "Patched ISO still won't connect online",
+        "fix": "Confirm the file format is supported (ISO, WDF, WIA, CISO, WBFS, GCZ) — NKIT files can't be patched and need converting first."
+      }
+    ]
+  },
+  "wii-cleanrip-errors": {
+    "title": "CleanRip dumping issues",
+    "items": [
+      {
+        "error": "CleanRip throws an exception during the redump.org download",
+        "fix": "This is usually a network hiccup — restart CleanRip and try again."
+      },
+      {
+        "error": "Dump fails partway through",
+        "fix": "Check your storage device has enough free space (4.7GB, or 8.5GB for dual-layer discs) and try a different USB port or SD card if it keeps failing."
+      },
+      {
+        "error": "Trying to dump a GameCube disc but the option isn't there",
+        "fix": "Wii Family Edition, Wii mini, and vWii can't dump GameCube discs — only original Wii models can."
+      }
+    ]
+  },
+  "wii-loader-errors": {
+    "title": "USB Loader GX / WiiFlow issues",
+    "items": [
+      {
+        "error": "\"Waiting for HDD...\" for 20+ seconds",
+        "fix": "Make sure d2x cIOS is installed (see the cios guide), and that your USB drive is FAT32 with MBR partitioning and 32kb allocation unit size."
+      },
+      {
+        "error": "No games showing up in the list",
+        "fix": "Check your games are in the wbfs or games folder the loader expects, and in WiiFlow, make sure Startup Settings is searching the right device (SD vs USB)."
+      },
+      {
+        "error": "A specific game crashes or hangs on launch",
+        "fix": "Try a different cIOS slot (248-251) for that game — Settings > Game Load > Game IOS in USB Loader GX, or the gear icon > cIOS in WiiFlow."
+      }
+    ]
+  },
+  "wii-theme-errors": {
+    "title": "Custom theme issues",
+    "items": [
+      {
+        "error": "csm-installer can't download the base theme",
+        "fix": "Make sure the Wii is connected to the internet and retry — this step just pulls your console's own unmodified theme."
+      },
+      {
+        "error": "Theme looks corrupted or menu glitches after install",
+        "fix": "The theme's version/region didn't match your console. Boot into Priiloader (hold RESET) and reinstall the correct base/custom theme pair."
+      },
+      {
+        "error": "Wii Menu won't boot after a theme install",
+        "fix": "Use Priiloader to get back to a working System Menu, or restore your NAND backup with BootMii as a last resort."
+      }
+    ]
+  },
+  "wii-syscheck-errors": {
+    "title": "SysCheck issues",
+    "items": [
+      {
+        "error": "SysCheck won't launch from Homebrew Channel",
+        "fix": "Reinstall SysCheckME to your SD/USB root's apps folder — a partial extract is the usual cause."
+      },
+      {
+        "error": "Upload to syscheck.rc24.xyz fails",
+        "fix": "Check your Wii's internet connection; the CSV is still saved locally so you can share it manually instead."
+      }
+    ]
+  },
+  "wii-yawm-errors": {
+    "title": "YAWM WAD install issues",
+    "items": [
+      {
+        "error": "A WAD fails to install",
+        "fix": "Confirm the WAD isn't corrupted (re-download it) and that it matches your console's region/type — mismatched WADs are the most common cause."
+      },
+      {
+        "error": "YAWM doesn't see my WAD files",
+        "fix": "Put them in a folder named wad at the root of your SD card or USB drive — YAWM looks there automatically."
+      }
+    ]
+  },
+  "wii-osc-errors": {
+    "title": "Open Shop Channel issues",
+    "items": [
+      {
+        "error": "LibreShop won't connect to the store",
+        "fix": "Check your Wii's internet connection. If it persists, fall back to Homebrew Browser or use TinyWiiBackupManager/OSCDL on a computer instead."
+      },
+      {
+        "error": "Downloaded app doesn't show up in Homebrew Channel",
+        "fix": "Make sure it installed to the apps folder on the storage device you're actually booting the Homebrew Channel from."
+      }
+    ]
+  },
+  "wii-error-003": {
+    "title": "KoreanKii / Error 003",
+    "items": [
+      {
+        "error": "Error:003 unauthorized device has been detected.",
+        "fix": "This happens on region-changed Korean Wiis after a system update, from an encryption key mismatch. Recovery usually requires Recovery Mode access and a drivechip."
+      },
+      {
+        "error": "Console won't boot at all after the error appears",
+        "fix": "Try Recovery Mode (see that guide) to get a disc-read screen and load a recovery exploit from there."
+      }
+    ]
+  },
+  "wii-update-errors": {
+    "title": "System Menu update issues",
+    "items": [
+      {
+        "error": "Installed the wrong region's System Menu",
+        "fix": "This can semibrick the console (Opera browser errors in Wii Settings). Reinstall the correct regional System Menu/theme via YAWM ModMii Edition as soon as possible."
+      },
+      {
+        "error": "NUSGet download fails or times out",
+        "fix": "Nintendo's NUS servers are occasionally slow or briefly unreachable — wait and retry. Double-check you unchecked the encryption option before downloading."
+      },
+      {
+        "error": "YAWM ModMii Edition doesn't see the WAD files",
+        "fix": "Confirm all three WADs are directly inside a folder named exactly wad at the root of your SD/USB device, not in a subfolder."
+      },
+      {
+        "error": "Priiloader disappears after the update",
+        "fix": "Make sure you selected 'yes' when asked whether to keep Priiloader during the install step — if it's gone, reinstall it via the Homebrew Channel."
+      }
+    ]
+  },
+  "wii-factory-reset-errors": {
+    "title": "Factory reset / NAND restore issues",
+    "items": [
+      {
+        "error": "nandBinCheck reports errors on the blank NAND",
+        "fix": "Do not flash it. Ask for help in the Nintendo Homebrew Discord before proceeding — flashing a bad image can cause an unrecoverable brick."
+      },
+      {
+        "error": "Windows SmartScreen blocks Ohneschwanzenegger",
+        "fix": "This is a known false positive from bundling homebrew tools. Click 'More info' then 'Run anyway' if you trust the source you downloaded it from."
+      },
+      {
+        "error": "Console won't boot after flashing the new NAND",
+        "fix": "Double check you didn't overwrite your real backup, and that keys.bin on the SD card matches this exact console. If it still fails, you'll need your original NAND backup to try again."
+      }
+    ]
   }
 }

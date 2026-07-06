@@ -1,0 +1,97 @@
+{
+  "console": "Wii",
+  "title": "Recover with BootMii",
+  "extra": true,
+  "tileImage": "../images/steps/wii_bootmii_main.png",
+  "method": "bootmiirecover",
+  "requirements": [
+    "BootMii installed as boot2 or as IOS",
+    "A verified NAND backup made on this exact console (see the `str2hax`/`letterbomb`/etc. guide's NAND backup step)",
+    "An SD card, FAT32 formatted",
+    "A GameCube controller (needed to confirm the restore)",
+    "About 20 minutes"
+  ],
+  "warnings": [
+    "!!This is a last-resort repair!! for a Wii that won't boot normally. Don't use it unless something is actually broken.",
+    "!!Only restore a NAND backup made on this exact console!!. Restoring someone else's backup, or one from a different Wii, can cause serious, possibly unrecoverable damage.",
+    "!!Wii Family Edition and Wii mini cannot restore NAND backups with BootMii!! — they lack GameCube ports, which are required to enter the confirmation code during restore."
+  ],
+  "_note": "RestoreMii (BootMii's restore tool) needs a GameCube controller plugged in to enter a confirmation sequence before it'll touch your NAND — this is a deliberate safety measure, not a bug. If your console has no GameCube ports (Family Edition, Wii mini), full NAND restoration isn't possible; Dolphin Emulator can still pull individual files back out of a backup if you just need specific data.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "This guide restores a Wii from a **NAND backup** using BootMii — for when the console won't boot properly and Priiloader alone can't fix it.\n\nYou need BootMii installed (as **boot2** or **IOS**) and a NAND backup made on **this exact console**. If you don't have one, this guide can't help — restoring someone else's backup can badly damage your Wii.\n\n!!Wii Family Edition and Wii mini can't do a full NAND restore!! — RestoreMii requires a GameCube controller to confirm the restore, and those models have no GameCube ports.",
+      "action": null
+    },
+    {
+      "id": "sd-setup",
+      "title": "Put your NAND backup on an SD card",
+      "body": "If BootMii shows a **black screen with a blinking blue disc-drive light** when you try to launch it, its SD support files are missing — this can happen on consoles without boot2.\n\nGraphite downloads the **BootMii SD files** and extracts them to the root of your SD card, alongside your `nand.bin` and `keys.bin` backup files (copy those onto the card yourself from wherever you saved them — Graphite's other guides put them in a folder on your Desktop).",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://static.hackmii.com/bootmii_sd_files.zip",
+            "dest": "bootmii_sd_files.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull it out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
+      "id": "copy-backup",
+      "title": "Copy your NAND backup onto the card",
+      "body": "Before continuing, make sure your `nand.bin` and `keys.bin` (from your earlier backup) are sitting at the **root of the SD card** — not in a subfolder. RestoreMii looks for them there.\n\nOnce copied, plug the SD card into your Wii's SD slot. Connect a **GameCube controller** to controller port 1 — you'll need it in a few steps.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "launch-bootmii",
+      "title": "Launch BootMii",
+      "body": "If BootMii is installed as **boot2**: power on the Wii while holding the **RESET** button — this boots straight into BootMii.\n\nIf BootMii is installed as **IOS**: launch the **Homebrew Channel** and select **Launch BootMii**.\n\nYou should see BootMii's main menu.",
+      "image": [
+        "../images/steps/wii_bootmii_main.png"
+      ],
+      "troubleshoot": {
+        "label": "BootMii shows a black screen or won't launch",
+        "topic": "wii-bootmii-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "restoremii",
+      "title": "Run RestoreMii",
+      "body": "In BootMii, select the **Options** button (gears icon), then choose the second icon (**RestoreMii**).\n\n1. Select your backup file from the SD card.\n2. RestoreMii first runs a **simulation** — this checks the restore would work without actually writing anything. Let it finish and review the results.\n3. If the simulation looks good, confirm to do the real restore. You'll be asked to enter a confirmation sequence on the **GameCube controller**: **Up, Up, Down, Down, Left, Right, Left, Right, B, A, then Start**.\n4. RestoreMii writes your NAND backup back to the console. !!Do not power off or remove the SD card during this!!.\n5. When it finishes, exit BootMii and let the Wii boot normally.",
+      "image": [
+        "../images/steps/wii_bootmii_gears.png"
+      ],
+      "troubleshoot": {
+        "label": "The restore failed or won't confirm",
+        "topic": "wii-bootmii-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your Wii should now boot back to the state it was in when you made the backup.\n\nIf you only needed specific files back rather than a full restore, **Dolphin Emulator** can open a NAND backup and let you pull individual files out of it without doing a full restore.",
+      "action": null
+    }
+  ]
+}

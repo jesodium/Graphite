@@ -1,0 +1,65 @@
+{
+  "console": "Wii",
+  "title": "Advanced Priiloader Usage",
+  "extra": true,
+  "requiresStorageSelection": false,
+  "tileImage": "../images/steps/WII_Prii_Menu.png",
+  "method": "priiloader-usage",
+  "requirements": [
+    "Priiloader already installed"
+  ],
+  "warnings": [
+    "!!Never set autoboot to \"BootMii IOS\"!! — this creates a boot loop where you have to hold RESET every single time just to reach the Priiloader menu."
+  ],
+  "_note": "This is a reference guide for features Priiloader already has once it's installed — nothing here needs an SD card or USB drive, so there's no storage picker for this one.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "What Priiloader can do beyond brick protection",
+      "body": "Once installed, Priiloader is more than just brick protection — it can **autoboot straight into a homebrew app**, the Homebrew Channel, or its own menu, and it has a long list of **System Menu Hacks** for things like blocking updates, region-freeing, fixing WiiConnect24's clock issue, or patching games for Wiimmfi.\n\nThe full, up-to-date hacks list and FAQ live on the official Priiloader documentation — this guide covers the two things people set up most: autoboot and finding your way around the hacks list.\n\nEnter Priiloader any time by holding **RESET** while powering on (or while already on the Wii Menu, on Wii Family Edition).",
+      "image": [
+        "../images/steps/WII_Prii_Menu.png"
+      ],
+      "action": null
+    },
+    {
+      "id": "autoboot-homebrew",
+      "title": "Autoboot into a homebrew app",
+      "body": "To have your Wii boot straight into a specific homebrew app (like USB Loader GX) instead of the System Menu:\n\n1. In Priiloader, use the **file install** option to install the app's `.dol`/`.elf` file as the one Priiloader launches.\n2. Go to **Settings**.\n3. Find the autoboot option and cycle it to **Installed file**.\n4. Save settings, then return to the System Menu.\n\nFrom then on, powering on the Wii normally launches straight into that app. Hold **RESET** at power-on to get back into Priiloader if you need to change it.\n\n**Using USB Loader GX specifically?** Install its forwarder WAD and channel booter first — the guide for that loader covers this — then point autoboot at the forwarder instead of a raw file.",
+      "image": [
+        "../images/steps/wii_prii_hacks.png"
+      ],
+      "action": null
+    },
+    {
+      "id": "autoboot-hbc",
+      "title": "Autoboot into the Homebrew Channel or Priiloader itself",
+      "body": "If you'd rather boot straight into the **Homebrew Channel**, or straight into **Priiloader's own menu** every time:\n\n1. Go to **Settings** in Priiloader.\n2. Cycle the autoboot option to **Homebrew Channel** or **Priiloader Menu**.\n3. Save settings.\n\n!!Do not set this to \"BootMii IOS\"!! — that option boots straight into BootMii's low-level menu, and you'd need to hold RESET at every power-on just to reach Priiloader again.",
+      "image": [
+        "../images/steps/wii_priiloader_settings_menu.png",
+        "../images/steps/wii_priiloader_autoboot_disabled.png",
+        "../images/steps/wii_priiloader_settings_save.png"
+      ],
+      "action": null
+    },
+    {
+      "id": "hacks-list",
+      "title": "Finding your way around System Menu Hacks",
+      "body": "The **System Menu Hacks** menu is where most of Priiloader's useful features live — things like:\n\n- **Block Disc Updates** / **Block Online Updates** — stop Nintendo or game discs from forcing a system update\n- **Region Free** patches — play discs from other regions\n- **Wiimmfi patch** — auto-patch games for online play (see the `nintendowfc` guide)\n- **WiiConnect24 clock fixes** — needed on Wii U's vWii for some WiiLink channels (see the `wiiconnect24` guide)\n- Display fixes (480p, deflicker) for CRT vs. non-CRT setups\n\nScroll through the list, press **A** to toggle a hack on, then scroll to **save settings** and press **A** again — nothing takes effect until you save.\n\nIf a hack you expect to see is missing, your `hacks_hash.ini` file (Priiloader's list of known hacks) may be outdated — reinstalling Priiloader or grabbing an updated hacks file fixes this.",
+      "image": [
+        "../images/steps/wii_prii_hacks.png"
+      ],
+      "troubleshoot": {
+        "label": "Can't find a specific hack",
+        "topic": "wii-priiloader-errors"
+      },
+      "action": null
+    },
+    {
+      "id": "done",
+      "title": "That's the overview",
+      "body": "Priiloader's menu is worth exploring beyond these — poke around **Settings** and **System Menu Hacks** to see everything available for your console. Just remember: nothing sticks until you save, and avoid the BootMii IOS autoboot trap.",
+      "action": null
+    }
+  ]
+}

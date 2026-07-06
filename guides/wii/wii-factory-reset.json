@@ -1,0 +1,117 @@
+{
+  "console": "Wii",
+  "title": "Restoring a Wii to Factory Stock",
+  "extra": true,
+  "tileImage": "../images/steps/wii_factoryreset_sysmenu.png",
+  "method": "wii-factory-reset",
+  "requirements": [
+    "A Windows PC with internet access (Ohneschwanzenegger is Windows-only)",
+    "An existing NAND backup made on this specific console (nand.bin + keys.bin)",
+    "An SD card with at least 512MB free (1GB+ recommended), FAT32 formatted",
+    "Ohneschwanzenegger",
+    "nandBinCheck"
+  ],
+  "warnings": [
+    "!!This completely erases your Wii's system memory!! and replaces it with a fresh, unmodded copy. Only do this as a last resort.",
+    "Do not attempt this on a Wii U's vWii — it isn't the same process and can cause serious problems.",
+    "Only do this if you're: restoring to a fully factory state to sell/return the console, fixing a brick that has no working backup, or undoing something irreversible like DARKCORP cIOS. If you just need System Menu 4.3 with homebrew intact, use the Updating to 4.3 guide or ModMii's SysCheck Updater instead — much simpler and keeps your setup."
+  ],
+  "_note": "This uses Ohneschwanzenegger to build a factory-fresh NAND image from Nintendo's own update servers, verifies it, then flashes it with BootMii — the same tool ModMii's ecosystem uses under the hood.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "This process builds a brand-new, factory-fresh NAND image and flashes it onto your Wii, wiping out the Homebrew Channel, Priiloader, and everything else. It needs a **Windows PC** — Ohneschwanzenegger doesn't run on macOS or Linux.\n\nFirst, let's check your SD card is FAT32 with enough free space.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "get-tools",
+      "title": "Download the tools",
+      "body": "On your Windows PC, download:\n\n- **Ohneschwanzenegger**: `https://raw.githubusercontent.com/modmii/modmii.github.io/master/temp/ohneschwanzenegger.zip`\n- **nandBinCheck**: `https://wii.hacks.guide/assets/files/nandBinCheck.zip`\n\nExtract both, and put `nandBinCheck.exe` in the **same folder** as Ohneschwanzenegger. Have your existing NAND backup (`nand.bin` from this exact console) ready too.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "build-blank-nand",
+      "title": "Build a blank factory NAND",
+      "body": "1. Launch **Ohneschwanzenegger** (Windows SmartScreen may warn you — it's a known false positive, click through it).\n2. Click **Local Cache** and create a new empty folder for the NUS download cache.\n3. From the toolbar, select **Nand Dump → New nand**.\n4. Click **Existing Nand...** and locate your real NAND backup.\n5. Change the destination filename to `./blankNand.bin` only — leave every other field as auto-filled.\n6. Select **Content → Format** to initialize the **blank** NAND (this does not touch your real backup).\n7. Type your desired System Menu version — `4.3E`, `4.3U`, `4.3J`, or `4.3K` depending on your region — and press Enter or click **Get It!** to pull it from Nintendo's servers.\n8. A settings popup auto-fills; you can edit the serial number if you want, or leave it blank.\n9. Select **Content → Write meta entries**, then click **Flush**.",
+      "image": [
+        "../images/steps/wii_factoryreset_nuscache.png",
+        "../images/steps/wii_factoryreset_newnand.png",
+        "../images/steps/wii_factoryreset_renamenand.png",
+        "../images/steps/wii_factoryreset_formatnand.png",
+        "../images/steps/wii_factoryreset_sysmenu.png",
+        "../images/steps/wii_factoryreset_menudownload.png",
+        "../images/steps/wii_factoryreset_settings.png",
+        "../images/steps/wii_factoryreset_finalsteps.png"
+      ],
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "verify-blank-nand",
+      "title": "Verify the new NAND before flashing",
+      "body": "1. Open a terminal/command prompt in the folder with Ohneschwanzenegger and `nandBinCheck.exe`.\n2. Run: `.\\nandBinCheck.exe .\\blankNand.bin`\n3. !!Do NOT proceed if any errors show up!! — ask for help in the Nintendo Homebrew Discord before continuing.\n4. If it checks out clean, rename `blankNand.bin` to `nand.bin`.",
+      "image": [
+        "../images/steps/wii_factoryreset_nandcheck.png",
+        "../images/steps/wii_factoryreset_nandcheckresult.png",
+        "../images/steps/wii_factoryreset_nandname.png"
+      ],
+      "troubleshoot": {
+        "label": "nandBinCheck reports errors",
+        "topic": "wii-factory-reset-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "copy-to-sd",
+      "title": "Copy the new NAND to your SD card",
+      "body": "Copy the renamed `nand.bin` to the **root** of your SD card. !!Do not overwrite your existing backup!! — if your original `nand.bin`/`keys.bin` are on the same card, move them somewhere else first, then copy your original `keys.bin` back onto the card alongside the new `nand.bin` (BootMii needs both files present to restore).",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull the card out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
+      "id": "insert-sd",
+      "title": "Move the SD card to your Wii",
+      "body": "Put the SD card into your Wii and power it on. Press **I did this** once it's in.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "flash-nand",
+      "title": "Flash the new NAND with BootMii",
+      "body": "1. Launch the **Homebrew Channel**, press **HOME**, and select **Launch BootMii**.\n2. Open the **Options** menu (gears icon) and choose the NAND restore option.\n3. Select the `nand.bin` on your SD card and confirm.\n4. Wait for BootMii to flash the new NAND — !!do not power off or remove the SD card during this!!.\n5. When it finishes, power cycle the console. It boots as a factory-fresh Wii.",
+      "troubleshoot": {
+        "label": "The restore failed or the console won't boot after",
+        "topic": "wii-factory-reset-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your Wii is back to a factory-fresh state, as if it just came out of the box. Everything from the Homebrew Channel to your saves has been wiped. If you want to re-mod it later, start again from the beginning with str2hax, LetterBomb, Wilbrand, or BlueBomb.",
+      "action": null
+    }
+  ]
+}

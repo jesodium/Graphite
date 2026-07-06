@@ -1,0 +1,43 @@
+{
+  "console": "Wii",
+  "title": "Managing GameCube Backups",
+  "extra": true,
+  "models": ["standard"],
+  "tileImage": "../images/steps/wii_backups_twbm_games.png",
+  "method": "gc-backups",
+  "requiresStorageSelection": false,
+  "requirements": [
+    "A dumped GameCube game (ISO or ISO.GCM)",
+    "A USB drive or SD card — an external hard drive is recommended if you're keeping more than a couple of games",
+    "TinyWiiBackupManager (desktop tool)",
+    "Nintendont installed on the console"
+  ],
+  "warnings": [],
+  "_note": "Covers organizing GameCube game backups for use with Nintendont. Only applies to standard Wiis — the Wii mini has no GameCube disc support, controller ports, or memory card slots at all, so it can't play GameCube backups.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Storage setup",
+      "body": "GameCube backups are usually played from **Nintendont** off a USB drive or SD card. If you're storing more than a couple of games, an external hard drive is worth it.\n\n**Format the drive as FAT32** — this is mandatory. !!Do NOT!! use exFAT, extFS, or WBFS-formatted drives. Flash drives work but are best avoided since they're slower and wear out faster than a real hard drive or SD card; SD cards are fine but also slower than a hard drive.",
+      "action": null
+    },
+    {
+      "id": "copy-games",
+      "title": "Copy games with TinyWiiBackupManager",
+      "body": "**TinyWiiBackupManager (TWBM)** is a free desktop app (Windows, macOS, Linux) for organizing Wii and GameCube backups on a drive, without needing to manually manage folder structures.\n\n1. Plug your storage device into your computer.\n2. Open TinyWiiBackupManager and select the **root of the drive** (not a `games` or `wbfs` subfolder).\n3. Click the **+** button, or drag and drop your dumped GameCube ISOs onto the window, to add them.\n4. When done, safely eject the drive.",
+      "image": [
+        "../images/steps/wii_backups_twbm_empty.png",
+        "../images/steps/wii_backups_twbm_games.png"
+      ],
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "play",
+      "title": "Play your backups",
+      "body": "Plug the drive into your Wii, open the **Homebrew Channel**, and launch **Nintendont**. It lists the GameCube backups on the drive — select one to play. Nintendont doesn't need cIOS to run GameCube backups, unlike Wii USB loaders.",
+      "action": null
+    }
+  ]
+}

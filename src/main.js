@@ -36,6 +36,7 @@ ipcMain.handle('guides:list', async () => {
       if (meta.wip) continue;
       meta.edge = cfg.edge || null;
       if (cfg.tileImage) meta.consoleTileImage = cfg.tileImage;
+      if (cfg.modelImages) meta.modelImages = cfg.modelImages;
       out.push(meta);
     }
   }

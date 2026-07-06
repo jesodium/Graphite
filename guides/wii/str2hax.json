@@ -2,6 +2,7 @@
   "console": "Wii",
   "title": "str2hax",
   "recommended": true,
+  "models": ["standard"],
   "tileImage": "../images/steps/wii_str2hax_eula.png",
   "method": "str2hax",
   "requirements": [
@@ -194,9 +195,9 @@
       "body": "Priiloader is your brick protection — it loads before the System Menu, so even if the menu is corrupt, you can recover. Put the SD card back in the Wii and power it on.\n\n1. Launch the **Homebrew Channel**.\n2. Open **Priiloader Installer** from the list.\n3. Press the **+ Button** on your Wii Remote (or **A** on a GameCube controller).\n4. Wait for the install to complete, then press **A** to return to the Homebrew Channel.\n5. Press **HOME**, then select **Exit to System Menu**. The console will load Priiloader's menu automatically.",
       "image": [
         "../images/steps/wii_prii_hbc_launcher.png",
-        "../images/steps/wii_prii_installer.png",
-        "../images/steps/wii_prii_installing.png",
-        "../images/steps/wii_prii_menu.png"
+        "../images/steps/WII_Prii_Installer.png",
+        "../images/steps/WII_Prii_Installing.png",
+        "../images/steps/WII_Prii_Menu.png"
       ],
       "troubleshoot": {
         "label": "Priiloader won't install",
@@ -211,7 +212,7 @@
       "title": "Configure Priiloader",
       "body": "Now enable the system menu hacks that keep your Wii safe:\n\n1. In Priiloader, scroll down to **System Menu Hacks** and press **A**.\n2. Enable the following:\n   - **Block Disc Updates** (stops game discs from forcing updates)\n   - **Block Online Updates** (stops Nintendo from force-updating you)\n   - If you play in 480p: **480p graphics fix in the system menu**\n   - If you're not on a CRT: **Remove Deflicker** (makes text sharper)\n3. Scroll to **save settings** and press **A**.\n4. Press **B** to go back, then select **System Menu**.\n\nFrom now on, hold **RESET** while powering on to enter Priiloader. You're protected.",
       "image": [
-        "../images/steps/wii_prii_menu.png",
+        "../images/steps/WII_Prii_Menu.png",
         "../images/steps/wii_prii_hacks.png"
       ],
       "troubleshoot": {

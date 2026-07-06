@@ -1,0 +1,79 @@
+{
+  "console": "Wii",
+  "title": "Open Shop Channel",
+  "extra": true,
+  "tileImage": "../images/steps/wii_osc_libreshop.png",
+  "method": "osc",
+  "requirements": [
+    "The Homebrew Channel already installed",
+    "An SD card or USB drive, FAT32 formatted",
+    "An internet connection on the Wii",
+    "About 10 minutes"
+  ],
+  "warnings": [],
+  "_note": "The Open Shop Channel (OSC) is a homebrew app repository run by dhtdht020 — it's the modern, preferred way to browse and download homebrew apps directly on your Wii, instead of hunting for zips on a computer. LibreShop is the current recommended on-console app for it; Homebrew Browser is an older fallback.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "The **Open Shop Channel** is a repository of homebrew apps you can browse and install right from your Wii, instead of downloading zips on a computer and copying them over by hand (which is what Graphite's other guides do for you).\n\n**LibreShop** is the current recommended app for browsing OSC on-console. **Homebrew Browser** is an older alternative that still works as a fallback.\n\nFirst, I'll check your SD card or USB drive is FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-setup",
+      "title": "Put LibreShop on your storage device",
+      "body": "Graphite downloads **LibreShop** and **Homebrew Browser** and unpacks both into the `apps` folder on your SD card or USB drive. Use LibreShop day to day; keep Homebrew Browser around as a fallback if LibreShop ever has issues.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to storage device",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/libreshop/libreshop.zip",
+            "dest": "libreshop.zip"
+          },
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/homebrew_browser/homebrew_browser.zip",
+            "dest": "homebrew_browser.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards and USB drives, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull it out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject storage device"
+      }
+    },
+    {
+      "id": "browse-install",
+      "title": "Browse and install apps",
+      "body": "Plug the storage device into your Wii and power it on. Launch the **Homebrew Channel** and open **LibreShop**.\n\nBrowse or search the app catalog, select anything you want, and confirm to download and install it straight to your storage device's `apps` folder. Installed apps then show up in the Homebrew Channel the next time you launch it.\n\n**On a computer instead?** Tools like **TinyWiiBackupManager** (recommended, cross-platform) or **OSCDL** (the official OSC downloader) can browse the same catalog and download apps to your SD card ahead of time — useful if your Wii's internet is slow or unavailable.",
+      "image": [
+        "../images/steps/wii_osc_libreshop.png",
+        "../images/steps/wii_osc_homebrew_browser.png",
+        "../images/steps/wii_osc_twbm_home.png",
+        "../images/steps/wii_osc_twbm_search.png",
+        "../images/steps/wii_osc_twbm_dialog.png"
+      ],
+      "troubleshoot": {
+        "label": "LibreShop won't connect or install",
+        "topic": "wii-osc-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "You can now browse and install homebrew straight from your Wii any time.",
+      "action": null
+    }
+  ]
+}

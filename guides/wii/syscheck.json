@@ -1,0 +1,72 @@
+{
+  "console": "Wii",
+  "title": "System Report with SysCheck",
+  "extra": true,
+  "tileImage": "../images/steps/wii_syscheck_success.png",
+  "method": "syscheck",
+  "requirements": [
+    "The Homebrew Channel already installed",
+    "An SD card or USB drive, FAT32 formatted",
+    "An internet connection on the Wii (optional, for uploading the report)",
+    "About 5 minutes"
+  ],
+  "warnings": [],
+  "_note": "SysCheck doesn't change anything on your console — it's read-only. It's mainly useful for diagnosing IOS/cIOS problems or for pasting into a forum/troubleshooting thread.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "**SysCheck** lists every IOS and cIOS on your Wii along with your System Menu version — a quick way to see exactly what's installed when something's misbehaving or you're asking for help online.\n\nFirst, I'll check your SD card or USB drive is FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-setup",
+      "title": "Put SysCheck on your storage device",
+      "body": "Graphite downloads **SysCheck ModMii Edition (SysCheckME)** and unpacks it into the `apps` folder on your SD card or USB drive.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to storage device",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/SysCheckME/SysCheckME.zip",
+            "dest": "syscheckme.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards and USB drives, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull it out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject storage device"
+      }
+    },
+    {
+      "id": "run-syscheck",
+      "title": "Run SysCheck",
+      "body": "Plug the storage device into your Wii and power it on. Launch the **Homebrew Channel** and open **SysCheck**.\n\n1. Let it gather your console's initial data.\n2. Press **A** when prompted to test each IOS.\n3. Wait while it analyzes your IOS/cIOS configuration.\n4. Press **A** to view the finished log.\n\nWhen done, a `syscheck.csv` file is saved to the root of your storage device. If your Wii is online, you can also press **A** to upload it directly to `syscheck.rc24.xyz` for a shareable link.",
+      "image": [
+        "../images/steps/wii_syscheck_chooseios.png",
+        "../images/steps/wii_syscheck_success.png"
+      ],
+      "troubleshoot": {
+        "label": "SysCheck won't run or crashes",
+        "topic": "wii-syscheck-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "You now have a full report of your Wii's IOS/cIOS setup, either as `syscheck.csv` on your storage device or as a link from `syscheck.rc24.xyz`. Share it in a forum or troubleshooting thread if you're trying to diagnose an IOS conflict.",
+      "action": null
+    }
+  ]
+}

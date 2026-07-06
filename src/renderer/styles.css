@@ -331,7 +331,11 @@ h1 {
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.01em;
-  padding-left: 88px;
+  align-self: stretch;
+  text-align: center;
+}
+.method-grid .method-card:has(.badge) .method-name {
+  margin-top: 26px;
 }
 .method-grid .method-reqs { gap: 3px; }
 .method-grid .method-reqs .req { font-size: 10.5px; }
@@ -358,6 +362,19 @@ h1 {
   background: var(--line-strong);
 }
 .method-grid .badge { position: absolute; top: 0; left: 0; border-radius: 9px 0 5px 0; }
+
+/* Model tiles: same image card as methods, but the label is centered, big, and shouty. */
+.method-grid .model-card {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.model-card .method-name {
+  padding-left: 0;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
 
 /* Image-backed tiles: cover image + dark scrim so text stays readable. */
 .method-card.has-bg {
@@ -821,13 +838,15 @@ body { padding-left: 84px; }
   cursor: pointer;
   transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
 }
-.rail-btn img { width: 26px; height: 26px; object-fit: contain; }
+.rail-btn img { width: 26px; height: 26px; object-fit: contain; filter: grayscale(1) opacity(0.55); transition: filter var(--t-fast); }
 .rail-btn:hover { background: var(--card); color: var(--ink); }
+.rail-btn:hover img { filter: grayscale(0.3) opacity(0.85); }
 .rail-btn.active {
   background: var(--card);
   color: var(--ink);
   border-color: var(--line-strong);
 }
+.rail-btn.active img { filter: none; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 460px) {

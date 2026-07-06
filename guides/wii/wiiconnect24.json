@@ -1,0 +1,87 @@
+{
+  "console": "Wii",
+  "title": "Restore WiiConnect24",
+  "extra": true,
+  "models": ["standard"],
+  "tileImage": "../images/steps/wii_wiiconnect24_sntp_success.png",
+  "method": "wiiconnect24",
+  "requirements": [
+    "The Homebrew Channel and Priiloader already installed",
+    "An SD card, FAT32 formatted",
+    "An internet connection on the Wii",
+    "About 20 minutes"
+  ],
+  "warnings": [
+    "Nintendo shut down the original WiiConnect24 servers in 2013 — this restores the functionality using the community-run **WiiLink** service, not Nintendo's own servers.",
+    "If your Wii's clock has drifted, WiiConnect24 features can fail with connection errors — sync it with sntp before troubleshooting anything else."
+  ],
+  "_note": "Wii mini has no Wi-Fi or internet capability at all, so WiiConnect24 restoration isn't possible on it. This guide applies to standard Wii and Wii Family Edition only.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "**WiiConnect24** let your Wii receive messages, weather/news updates, and Mii contest data even in standby. Nintendo shut the real servers off in 2013, but **WiiLink**, a community project, restores it with channels like **Forecast Channel**, **News Channel**, **Everybody Votes Channel**, and more.\n\nWiiLink's installer is a personalized web-based flow that changes as they add channels, so Graphite can't fully automate it — you'll run their patcher from a browser. This guide covers what to expect and handles the one part Graphite can automate: syncing your Wii's clock, which prevents common connection errors.",
+      "action": null
+    },
+    {
+      "id": "wiilink-site",
+      "title": "Run the WiiLink Patcher",
+      "body": "On a computer, go to **wiilink.ca/guide** and choose **Wii** (not Dolphin or Wii U). Follow their **Patcher guide** — it walks you through downloading the WiiLink Patcher app, choosing which channels to install (Forecast, News, Everybody Votes, Wii Room, and others), and copying the resulting files to your SD card.\n\nInsert the SD card into your Wii, launch the Homebrew Channel, and run the WiiLink Patcher/installer app it produced. It installs the channels as WADs, similar to any other channel installer.\n\nCheck their **WiiLink DNS** guide page too — some WiiLink features need a DNS change on your Wii or router, similar to how Wiimmfi works for online games.",
+      "troubleshoot": {
+        "label": "A WiiLink channel won't connect",
+        "topic": "wii-wiiconnect24-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "sntp-setup",
+      "title": "Put the clock-sync app on your SD card",
+      "body": "WiiConnect24 features are picky about your Wii's internal clock — if it's drifted, you'll see connection errors like `FORE000006` on the Forecast Channel even though everything else is set up correctly.\n\nGraphite downloads **sntp**, a homebrew app that resyncs your Wii's clock over the internet, and unpacks it to your SD card's `apps` folder.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/sntp/sntp.zip",
+            "dest": "sntp.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull it out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
+      "id": "run-sntp",
+      "title": "Sync your Wii's clock",
+      "body": "Put the SD card back in your Wii, launch the **Homebrew Channel**, and open **sntp**.\n\nUse the D-pad to select your timezone, then press **A** to save and sync. The app pulls the current time over the internet and writes it to your Wii's internal clock.\n\nIf WiiConnect24 channels still show connection errors afterward, double check your internet connection and try the WiiLink installer again.",
+      "image": [
+        "../images/steps/wii_wiiconnect24_sntp_hbc.png",
+        "../images/steps/wii_wiiconnect24_sntp_time_select.png",
+        "../images/steps/wii_wiiconnect24_sntp_success.png"
+      ],
+      "troubleshoot": {
+        "label": "WiiConnect24 channel won't connect",
+        "topic": "wii-wiiconnect24-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "WiiConnect24 channels from WiiLink should now work, and your Wii's clock is synced to prevent time-related connection errors.\n\nIf you install new WiiLink channels later, re-run their patcher from wiilink.ca/guide — no need to repeat the clock sync unless your Wii's battery or clock drifts again.",
+      "action": null
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "console": "Wii",
+  "title": "Custom Themes",
+  "extra": true,
+  "tileImage": "../images/steps/wii_themes_menu_result.png",
+  "method": "themes",
+  "requirements": [
+    "BootMii and Priiloader already installed (Wii — strongly recommended brick protection for this)",
+    "An SD card, FAT32 formatted",
+    "A Windows PC (or Wine on Mac) to build the theme file with New ThemeMii MOD",
+    "About 20 minutes"
+  ],
+  "warnings": [
+    "!!Installing a theme from the wrong System Menu version or region can brick your Wii!!. Always match the base theme you download to your own console's version and region exactly.",
+    "Make sure BootMii and Priiloader are installed before doing this — they're your recovery path if a theme install goes wrong."
+  ],
+  "_note": "csm-installer runs on the Wii itself (via the Homebrew Channel) and installs finished .csm theme files. New ThemeMii MOD is the PC-side tool that builds a .csm file from a .mym theme plus your console's base theme — it isn't something you run on the Wii, so it isn't copied to your SD card automatically.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "Custom themes replace the look of your Wii Menu. The process has two halves: building a `.csm` theme file on a computer with **New ThemeMii MOD**, then installing it on the console with **csm-installer**.\n\n!!Version and region matching matters!! — a theme built for the wrong System Menu version or region can brick your Wii Menu. Having **BootMii** and **Priiloader** installed first means you can recover if that happens.\n\nFirst, I'll check your SD card is FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-setup",
+      "title": "Put csm-installer on your SD card",
+      "body": "Graphite downloads **csm-installer** and unpacks it into the `apps` folder on your SD card. This is the on-console app that grabs your original theme and later installs your custom one.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/csm-installer/csm-installer.zip",
+            "dest": "csm-installer.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull it out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
+      "id": "backup-base-theme",
+      "title": "Download your original base theme",
+      "body": "Put the SD card in your Wii and power it on. Launch the **Homebrew Channel** and open **csm-installer**.\n\nSelect **Download original Wii theme (Base theme)**. This saves a copy of your console's unmodified theme to the SD card — New ThemeMii MOD needs this exact file, matching your version and region, to build a working custom theme.\n\nWhen it's done, power off the Wii and move the SD card back to your computer.",
+      "troubleshoot": {
+        "label": "csm-installer can't find or download the base theme",
+        "topic": "wii-theme-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "build-theme",
+      "title": "Build your custom theme",
+      "body": "On a Windows PC (or via Wine on Mac), download **New ThemeMii MOD** from [wii.hacks.guide/assets/files/New_ThemeMii_MOD.zip](https://wii.hacks.guide/assets/files/New_ThemeMii_MOD.zip) and extract it.\n\n1. Get a `.mym` theme file from a community source (GBAtemp forums, Wii Themer, or similar) — make sure it matches your console's version and region.\n2. Open **New ThemeMii MOD**, select your `.mym` file, and point it at the **base theme** you just copied off your SD card.\n3. Build the theme — this produces a `.csm` file.\n4. Copy that `.csm` file onto your SD card's root (or wherever csm-installer expects it — check the app's on-screen instructions).",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "install-theme",
+      "title": "Install the theme",
+      "body": "Put the SD card back in your Wii, launch the **Homebrew Channel**, and open **csm-installer** again.\n\nSelect your `.csm` file from the list and confirm the install. !!Double check the version/region match one more time before confirming!! — this is the step that can brick the System Menu if it doesn't match.\n\nOnce it finishes, reboot to the System Menu to see your new theme.",
+      "image": [
+        "../images/steps/wii_themes_menu_result.png"
+      ],
+      "troubleshoot": {
+        "label": "The theme install failed or looks wrong",
+        "topic": "wii-theme-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your Wii Menu now uses your custom theme. If anything looks broken or the console won't boot normally, use Priiloader (hold **RESET** while powering on) to get back into a working menu, or restore your NAND backup with BootMii as a last resort.",
+      "action": null
+    }
+  ]
+}

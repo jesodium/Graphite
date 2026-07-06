@@ -1,0 +1,101 @@
+{
+  "console": "Wii",
+  "title": "Online Play via Wiimmfi",
+  "extra": true,
+  "models": ["standard"],
+  "tileImage": "../images/steps/wii_wiimmfi_priiloader_hacks.png",
+  "method": "nintendowfc",
+  "requirements": [
+    "The Homebrew Channel already installed",
+    "An SD card, FAT32 formatted (for the on-console patcher app)",
+    "An internet connection on the Wii",
+    "About 15 minutes"
+  ],
+  "warnings": [
+    "Nintendo shut down the WFC (Nintendo Wi-Fi Connection) servers in 2014. **Wiimmfi** is a community-run replacement, not an official Nintendo service.",
+    "The DNS method affects every game and channel that tries to go online, not just the one you want patched — some unsupported games may show connection errors as a result."
+  ],
+  "_note": "Wii mini has no Wi-Fi hardware at all, so online play (real or via Wiimmfi) isn't possible on it. This guide applies to standard Wii and Wii Family Edition only.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "**Wiimmfi** restores online multiplayer for Wii games after Nintendo shut down WFC in 2014. There are three ways to use it:\n\n1. **DNS method** — point your Wii (or router) at Wiimmfi's DNS server. Works automatically for supported disc games, no SD card needed.\n2. **Priiloader method** — a System Menu Hack that patches games automatically when launched from the Disc Channel. Needs Priiloader 0.9+.\n3. **ISO Patcher method** — for game backups run through a loader. You patch the ISO on a PC before playing.\n\nThis guide covers the DNS method (easiest) and the on-console **Wiimmfi Patcher** app used with the ISO method. Pick whichever fits how you play.",
+      "action": null
+    },
+    {
+      "id": "dns-method",
+      "title": "Method 1: Change your Wii's DNS",
+      "body": "From the Wii Menu, go to **Wii Options** → **Wii Settings** → **Page 2** → **Internet** → **Connection Settings**.\n\nSelect your connection slot and choose **Change Settings**.\n\nSet **Auto-Obtain DNS** to **No**, then open **Advanced Settings**.\n\nSet:\n- **Primary DNS**: `95.217.77.181`\n- **Secondary DNS**: `1.1.1.1`\n\nClick **Confirm**, then **Save**, then run the connection test.\n\nOnce connected, supported disc games (Mario Kart Wii and many others) connect straight to Wiimmfi through the normal online menu — no further setup needed.",
+      "image": [
+        "../images/steps/wii_wiimmfi_dns_settings.png"
+      ],
+      "troubleshoot": {
+        "label": "Can't connect after changing DNS",
+        "topic": "wii-wiimmfi-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "priiloader-method",
+      "title": "Method 2: Priiloader auto-patch",
+      "body": "If you'd rather not change your DNS globally, Priiloader can patch games automatically when you launch them from the Disc Channel.\n\nRequires **Priiloader 0.9 or later** on **System Menu 4.3**, with the latest `hacks_hash.ini`.\n\n1. Boot into Priiloader (hold **RESET** while powering on).\n2. Go to **System Menu Hacks**.\n3. Enable **Wiimmfi patch v4** — if it shows a different version number, your `hacks_hash.ini` is out of date; update Priiloader's hack list first.\n4. Save settings and boot to System Menu.\n\nNow launching a supported game from the Disc Channel patches it on the fly to connect to Wiimmfi.",
+      "image": [
+        "../images/steps/wii_wiimmfi_priiloader_menu.png",
+        "../images/steps/wii_wiimmfi_priiloader_hacks.png"
+      ],
+      "troubleshoot": {
+        "label": "Wiimmfi patch isn't working",
+        "topic": "wii-wiimmfi-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "iso-patcher-setup",
+      "title": "Method 3: Put the on-console patcher on your SD card",
+      "body": "If you play from **backups/ISOs** through a USB loader instead of discs, you need to patch the image itself. There are two ways:\n\n- **On a PC**: use the Wiimmfi ISO Patcher from wiimmfi.de/patcher (a Windows/PC tool — download it there and point it at your ISO/WBFS/CISO/WIA/WDF/GCZ file; NKIT files aren't supported).\n- **On the console**: Graphite can put the **Wiimmfi Patcher** homebrew app on your SD card, which patches games already sitting on your loader's storage device.\n\nThis step installs the on-console app.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/wiimmfipatcher/wiimmfipatcher.zip",
+            "dest": "wiimmfipatcher.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull it out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
+      "id": "run-patcher",
+      "title": "Run the Wiimmfi Patcher",
+      "body": "Put the SD card back in your Wii, launch the **Homebrew Channel**, and open **Wiimmfi Patcher**.\n\nSelect your game backup from the list and confirm to patch it. The app rewrites the game's online connection info to point at Wiimmfi instead of the dead Nintendo servers.\n\nLaunch the patched game through your loader as usual — online play should now go through Wiimmfi.",
+      "troubleshoot": {
+        "label": "The game still won't connect online",
+        "topic": "wii-wiimmfi-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Whichever method you used, supported games should now connect to Wiimmfi for online play instead of failing silently against Nintendo's dead servers.\n\nCheck wiimmfi.de for the current list of supported games before assuming a title just doesn't work.",
+      "action": null
+    }
+  ]
+}

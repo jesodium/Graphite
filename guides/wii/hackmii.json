@@ -1,0 +1,90 @@
+{
+  "console": "Wii",
+  "title": "Relaunching the HackMii Installer",
+  "extra": true,
+  "tileImage": "../images/wii.png",
+  "method": "hackmii",
+  "requirements": [
+    "A Wii with the Homebrew Channel (or Priiloader/Preloader) already installed",
+    "An SD card or USB drive, FAT32 formatted",
+    "About 10 minutes"
+  ],
+  "warnings": [
+    "Preloader and older versions of Priiloader do not support SDHC (over 2GB) cards for the Priiloader launch method."
+  ],
+  "_note": "Covers relaunching the HackMii Installer after it's already been run once — for example to reinstall BootMii, redo the Homebrew Channel, or recover from a partial install. If you've never run it before, use the str2hax, LetterBomb, Wilbrand, or BlueBomb guide instead.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "There are two ways to relaunch the **HackMii Installer**, depending on what's still working on your console:\n\n- **Via the Homebrew Channel** — if the Homebrew Channel still works, this is the easiest option.\n- **Via Priiloader** — if the Homebrew Channel is broken or missing but Priiloader still loads, use this instead.\n\nGraphite sets your SD card up for the Homebrew Channel method automatically. First, let's check your card is FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-setup",
+      "title": "Put the HackMii Installer on your SD card",
+      "body": "Graphite downloads **HackMii Installer v1.2** and unpacks it into the `apps` folder on your SD card, ready to launch from the Homebrew Channel.\n\n!!If you plan to use the Priiloader method instead!! (no working Homebrew Channel), download the same file yourself from `https://bootmii.org/hackmii_installer_v1.2.zip`, extract it, and copy just the `boot.elf` file inside to the **root** of your SD/USB drive — not into the `apps` folder.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://bootmii.org/hackmii_installer_v1.2.zip",
+            "dest": "hackmii_installer_v1.2.zip",
+            "to": "apps"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull the card out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
+      "id": "insert-sd",
+      "title": "Move the SD card to your Wii",
+      "body": "Take the SD card out of your computer and slot it into your Wii (or plug in the USB drive). Press **I did this** once it's in.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "launch-via-hbc",
+      "title": "Method 1: Launch from the Homebrew Channel",
+      "body": "Open the **Homebrew Channel** and select **hackmii_installer_v1.2** from the app list (it shows up without an icon — that's normal). It boots straight into the HackMii Installer, where you can reinstall the Homebrew Channel, BootMii, or both.",
+      "troubleshoot": {
+        "label": "The installer isn't responding",
+        "topic": "wii-hackmii-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "launch-via-priiloader",
+      "title": "Method 2: Launch from Priiloader",
+      "body": "Only do this if the Homebrew Channel isn't working. Make sure you copied `boot.elf` to the **root** of your SD/USB drive (see the SD setup step above).\n\n1. Power off, then hold **RESET** while turning the Wii on to enter **Priiloader**.\n2. Select **Load/Install File**.\n3. Navigate to `boot.elf` and press **1** to load it.\n\nThis boots into the HackMii Installer the same way Method 1 does.",
+      "troubleshoot": {
+        "label": "The installer isn't responding",
+        "topic": "wii-hackmii-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "From here, use the HackMii Installer's menu exactly as you did the first time: **Install the Homebrew Channel** and/or **BootMii...** as needed. If you're making a fresh NAND backup afterward, see the NAND backup guide.",
+      "action": null
+    }
+  ]
+}

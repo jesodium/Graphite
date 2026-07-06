@@ -1,0 +1,82 @@
+{
+  "console": "Wii",
+  "title": "Dumping Channels (WADs)",
+  "extra": true,
+  "tileImage": "../images/steps/wii_dumpwads_step4_backuptowad.png",
+  "method": "dump-wads",
+  "requirements": [
+    "The Homebrew Channel installed",
+    "An SD card or USB drive, FAT32 formatted",
+    "About 10 minutes"
+  ],
+  "warnings": [],
+  "_note": "Dumps an installed channel (game, Wii Menu, IOS, etc.) as a WAD file using Yet Another BlueDump MOD — useful for backing up channels before removing them, or for use with shortcut/forwarder tools.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "**Yet Another BlueDump MOD** reads content already installed on your Wii's system memory and saves it as a `.wad` file. First, let's check your SD card or USB drive is FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-setup",
+      "title": "Put BlueDump MOD on your SD card",
+      "body": "Graphite downloads **Yet Another BlueDump MOD** and unpacks it into the `apps` folder on your SD card, ready to launch from the Homebrew Channel.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/Yet-Another-BlueDump-Mod/Yet-Another-BlueDump-Mod.zip",
+            "dest": "yabdm.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull the card out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
+      "id": "insert-sd",
+      "title": "Move the SD card to your Wii",
+      "body": "Take the SD card out of your computer and slot it into your Wii (or plug in the USB drive). Power on the console and press **I did this**.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "dump",
+      "title": "Dump the channel",
+      "body": "1. Open the **Homebrew Channel** and launch **Yet Another BlueDump MOD**.\n2. Press **A**.\n3. Choose **Installed Channel Titles**.\n4. Find the content you want to back up and press **1**.\n5. Select **Backup to WAD**.\n6. When asked about fakesigning the **ticket**, answer **Yes**.\n7. When asked about fakesigning the **TMD**, answer **No**.\n8. When asked about changing the output WAD's region, answer **No**.\n\nThe WAD file saves to a folder on your storage device.",
+      "image": [
+        "../images/steps/wii_dumpwads_step1_pressA.png",
+        "../images/steps/wii_dumpwads_step2_installedtitles.png",
+        "../images/steps/wii_dumpwads_step3_selectcontent.png",
+        "../images/steps/wii_dumpwads_step4_backuptowad.png",
+        "../images/steps/wii_dumpwads_step5_prompts.png"
+      ],
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your dumped WAD is saved on the SD card/USB drive. You can reinstall it later with a WAD manager like YAWM ModMii Edition, or use it with shortcut tools like WiiGSC.",
+      "image": [
+        "../images/steps/wii_dumpwads_step6_complete.png",
+        "../images/steps/wii_dumpwads_step7_savedfile.png"
+      ],
+      "action": null
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "console": "Wii",
+  "title": "Recovery Mode",
+  "extra": true,
+  "models": ["standard"],
+  "tileImage": "../images/wii.png",
+  "method": "recovery-mode",
+  "requiresStorageSelection": false,
+  "requirements": [
+    "An original-revision Wii with GameCube controller ports (Wii Family Edition and Wii mini don't have them and can't use this)",
+    "A GameCube controller",
+    "An exploitable game disc, or a console that already has an exploit's files ready",
+    "An SD card formatted FAT32"
+  ],
+  "warnings": [
+    "To hold down all 4 individual D-Pad buttons on a GameCube controller you may need to take the controller's casing apart — most stock controllers can't do it with your fingers alone."
+  ],
+  "_note": "Recovery Mode is a low-level system screen used to force a disc read when the Wii won't boot normally — it's the way in for several brick-recovery and exploit methods, not an exploit itself.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "What Recovery Mode is for",
+      "body": "**Recovery Mode** forces your Wii to wait for a disc instead of booting normally, bypassing whatever is stopping the console from starting up. It's used to load a recovery exploit on a console that's otherwise stuck (bricked, or with no working exploit installed yet).\n\nThis only works on an **original-revision Wii** with GameCube controller ports on the front. Wii Family Edition and Wii mini consoles don't have GameCube ports and can't use this method at all.",
+      "action": null
+    },
+    {
+      "id": "enter-recovery",
+      "title": "Enter Recovery Mode",
+      "body": "1. Plug a **GameCube controller** into the **4th controller port** on the Wii.\n2. While powering the console on, **simultaneously hold down all 4 individual D-Pad buttons** (Up, Down, Left, and Right) on that controller.\n\n!!Most GameCube controllers can't physically press all 4 D-Pad directions with fingers alone!! — you may need to take the controller apart to hold them down at once (for example, wedging something into the case, or using a modified/hacked controller).\n\nOn System Menu 2.1 and later, a version number appears in the bottom-right corner once you're in and the console is waiting for a disc. On System Menu 2.0 and earlier, no version number shows and the console can't boot from a disc at all.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "load-exploit",
+      "title": "Load an exploit from Recovery Mode",
+      "body": "Once the console is waiting for a disc, insert one of the following depending on what you have available:\n\n- **Smash Stack** — insert a Super Smash Bros. Brawl disc with the Smash Stack save file exploit prepared.\n- **Save Game Exploit** — insert a game disc that already has a compatible save-file exploit set up on it.\n- **BlueBomb** — an SD/USB and Wii Remote based method; see the BlueBomb guide for the full setup (Recovery Mode isn't always required for it, but it's one entry point).\n\nFrom there, follow whichever exploit's own guide to finish getting the Homebrew Channel installed.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "What's next",
+      "body": "Once your chosen exploit's HackMii Installer loads, switch to that exploit's own guide (BlueBomb, if that's what you used) to finish installing the Homebrew Channel, BootMii, and Priiloader.",
+      "action": null
+    }
+  ]
+}

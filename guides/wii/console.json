@@ -1,5 +1,9 @@
 {
   "name": "Wii",
   "edge": "#c5a02e",
-  "tileImage": "../images/wii.png"
+  "tileImage": "../images/wii.png",
+  "modelImages": {
+    "standard": "../images/wii.png",
+    "mini": "../images/wii_mini.jpg"
+  }
 }

@@ -1,0 +1,102 @@
+{
+  "console": "Wii",
+  "title": "Creating Game Shortcuts (WiiGSC)",
+  "extra": true,
+  "tileImage": "../images/steps/wii_wiigsc_success.png",
+  "method": "wiigsc",
+  "requirements": [
+    "Priiloader and BootMii already installed",
+    "A Windows computer (WiiGSC only runs on Windows)",
+    "YAWM ModMii Edition (installs the resulting WAD on-console)",
+    "An SD card or USB drive, FAT32 formatted",
+    "A dumped Wii/GameCube backup and a USB loader already set up"
+  ],
+  "warnings": [
+    "!!Install Priiloader and BootMii before doing this!! A bad channel install can cause a banner brick that stops the Wii Menu from loading.",
+    "!!Do NOT!! create a shortcut channel for Mario Party 9 or A Boy and His Blob — both are known to crash the system."
+  ],
+  "_note": "WiiGSC creates a forwarder channel that launches a specific game backup straight from the Wii Menu, without going through your USB loader's game list.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "**WiiGSC** is a desktop tool — the channel gets built on your PC, and only the finished `.wad` file goes onto your Wii. First, let's check your SD card or USB drive is FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "get-wiigsc",
+      "title": "Download WiiGSC",
+      "body": "On your Windows PC, download WiiGSC from `https://github.com/modmii/WiiGSC/releases/download/1.1/WiiGSC.zip` and extract it.\n\nLaunch `WiiGSC.exe`. On first run it asks permission to create a common key, with a disclaimer — this is expected, go ahead and proceed through the prompts.",
+      "image": [
+        "../images/steps/wii_wiigsc_disclaimer.png"
+      ],
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "create-channel",
+      "title": "Create the channel",
+      "body": "1. Choose **Open WBFS Drive** to browse a device with your backups, or select an individual ISO/WBFS file directly.\n2. Pick the game you want a shortcut for and click **Use for Channel Creation**.\n3. Select the USB loader you actually use (USB Loader GX, WiiFlow, Nintendont, etc.).\n4. Click **Create Channel**. WiiGSC builds a `.wad` file for that game.",
+      "image": [
+        "../images/steps/wii_wiigsc_selection.png",
+        "../images/steps/wii_wiigsc_creation.png"
+      ],
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "copy-wad",
+      "title": "Copy the WAD to your SD card",
+      "body": "Create a folder named `wad` on the root of your SD card or USB drive (if it doesn't already exist), and copy the `.wad` file WiiGSC just created into it.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull the card out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
+      "id": "insert-sd",
+      "title": "Move the SD card to your Wii",
+      "body": "Put the SD card or USB drive into your Wii and power it on. Press **I did this** once it's in.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "install-wad",
+      "title": "Install the channel",
+      "body": "Open your WAD manager (for example **YAWM ModMii Edition**, launched from the Homebrew Channel), locate the `.wad` file you just copied over, and install it.\n\nOnce it's done, the game's shortcut appears on your Wii Menu — select it to launch straight into that game.",
+      "image": [
+        "../images/steps/wii_wiigsc_install.png"
+      ],
+      "troubleshoot": {
+        "label": "The channel doesn't work or the Wii Menu looks wrong",
+        "topic": "wii-priiloader-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your new shortcut channel launches that game directly from the Wii Menu. Repeat this guide for any other games you want a shortcut for.",
+      "image": [
+        "../images/steps/wii_wiigsc_success.png"
+      ],
+      "action": null
+    }
+  ]
+}

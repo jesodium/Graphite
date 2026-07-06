@@ -1,0 +1,112 @@
+{
+  "console": "Wii",
+  "title": "Making a NAND Backup",
+  "extra": true,
+  "tileImage": "../images/steps/wii_bootmii_backup.png",
+  "method": "nand-backup",
+  "requirements": [
+    "The Homebrew Channel installed",
+    "An SD card or USB drive with at least 512MB free (1GB+ recommended), FAT32 formatted",
+    "BootMii installed (for Method 1) — otherwise use Method 2 below"
+  ],
+  "warnings": [
+    "This backup is !!your safety net!! for any future problems — don't skip it, and don't lose it once you have it."
+  ],
+  "_note": "A NAND backup is a full copy of your Wii's internal system memory. Keep one before doing any further modding — it's what lets you recover from a bad update, a broken IOS, or most other software-level bricks. This is the same process str2hax walks you through inline, generalized for consoles that already have BootMii or need the nanddumper@IOS alternative instead.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "There are two ways to make a NAND backup:\n\n- **Method 1: BootMii** — the standard way, if BootMii is already installed on your console.\n- **Method 2: nanddumper@IOS** — a Homebrew Channel app that works even without BootMii, and is required on consoles like the **Wii mini** that don't have a working SD card slot for BootMii to use directly (use a USB drive with it instead).\n\nFirst, let's check your SD card or USB drive is FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "launch-bootmii",
+      "title": "Method 1: Launch BootMii",
+      "body": "Open the **Homebrew Channel**. Press the **HOME** button on your Wii Remote, then select **Launch BootMii**.\n\n(If the button doesn't appear, BootMii isn't installed — use Method 2 below, or see the Relaunching the HackMii Installer guide to install it.)\n\nYou should see BootMii's main menu. Use the **GameCube controller's D-pad** or the **console's POWER/RESET buttons** (POWER = move right, RESET = select).",
+      "image": [
+        "../images/steps/wii_hbc_blank.png",
+        "../images/steps/wii_bootmii_hbc.png",
+        "../images/steps/wii_bootmii_main.png",
+        "../images/steps/wii_bootmii_gears.png"
+      ],
+      "troubleshoot": {
+        "label": "BootMii won't launch",
+        "topic": "wii-bootmii-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "bootmii-backup",
+      "title": "Method 1: Make the backup",
+      "body": "In BootMii, select the **Options** button (the gears icon). Then select the first icon on the left (NAND Backup).\n\nBootMii dumps your NAND and shows the progress. \"Bad Blocks\" are normal — they come from the factory. When the dump finishes, BootMii verifies the backup. Ideally all blocks are green.\n\nPress the **Back** button (arrow icon), then select either the **Wii Menu** or **Homebrew Channel** to exit BootMii.\n\nPower off the Wii, then skip ahead to **Save the backup** below.",
+      "image": [
+        "../images/steps/wii_bootmii_backup.png",
+        "../images/steps/wii_bootmii_dumping.png",
+        "../images/steps/wii_bootmii_verify.png",
+        "../images/steps/wii_bootmii_exit.png"
+      ],
+      "troubleshoot": {
+        "label": "The backup failed or has errors",
+        "topic": "wii-nand-backup"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "nanddumper-setup",
+      "title": "Method 2: Put nanddumper@IOS on your SD card",
+      "body": "Only do this if you're not using BootMii. Graphite downloads **nanddumper@IOS** and unpacks it into the `apps` folder on your SD card or USB drive.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/nanddumper_ios/nanddumper_ios.zip",
+            "dest": "nanddumper_ios.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "nanddumper-run",
+      "title": "Method 2: Run nanddumper@IOS",
+      "body": "Insert the SD card or USB drive into your Wii and open the **Homebrew Channel**.\n\n1. Press **1** to confirm your storage device, then open **nanddumper@IOS**.\n2. Press any button (except HOME, START, or EJECT) to start the dump.\n3. Wait for it to finish, then press any button to exit. The files save to `/wii/backups/` on your storage device.\n\nOn your computer afterward, rename `DATE_SERIAL_nand_XX.bin` to `nand.bin` and `SERIAL_keys.bin` to `keys.bin` before using them with any restore tool that expects those exact names.",
+      "image": [
+        "../images/steps/wii_nanddumper_select_hbc.png",
+        "../images/steps/wii_nanddumper_startup.png",
+        "../images/steps/wii_nanddumper_progress.png",
+        "../images/steps/wii_nanddumper_complete.png",
+        "../images/steps/wii_nanddumper_rename_files.png"
+      ],
+      "troubleshoot": {
+        "label": "nanddumper@IOS won't run or errors out",
+        "topic": "wii-bootmii-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "save-backup",
+      "title": "Save your NAND backup",
+      "body": "Take the SD card out of the Wii and plug it back into this computer.\n\nPress the button and Graphite grabs the backup the console just made (`nand.bin` and `keys.bin`), copies it into a folder on your **Desktop**, and clears the files off the SD card to free up space. If a backup folder already exists, it saves a new one alongside it.\n\nIf you used Method 2 (nanddumper@IOS), rename the files as described above **before** running this step, so Graphite recognizes them.",
+      "action": {
+        "type": "backupnand",
+        "label": "Copy backup to Desktop",
+        "optional": true
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Keep this backup somewhere safe — ideally more than one place. If your Wii ever gets stuck or bricked, the factory reset / NAND restore guide covers flashing this backup back onto the console.",
+      "action": null
+    }
+  ]
+}

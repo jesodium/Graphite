@@ -1,0 +1,76 @@
+{
+  "console": "Wii",
+  "title": "WAD Management with YAWM",
+  "extra": true,
+  "tileImage": "../images/steps/wii_yawm_installing_wad_ok.png",
+  "method": "yawmme",
+  "requirements": [
+    "The Homebrew Channel already installed",
+    "An SD card or USB drive, FAT32 formatted",
+    "About 10 minutes"
+  ],
+  "warnings": [
+    "Only install WADs from sources you trust. A bad or mismatched WAD (like the wrong IOS version) can cause problems on your console."
+  ],
+  "_note": "YAWM ModMii Edition is a straightforward WAD manager — it installs WAD files (channels, IOS, forwarders) and can launch homebrew apps too.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "**YAWM ModMii Edition** installs `.wad` files onto your Wii — useful for channel forwarders, IOS installs, or any homebrew distributed as a WAD instead of a `.dol`/`.elf`.\n\nFirst, I'll check your SD card or USB drive is FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-setup",
+      "title": "Put YAWM on your storage device",
+      "body": "Graphite downloads **YAWM ModMii Edition** and unpacks it into the `apps` folder on your SD card or USB drive.\n\nIf you already have WAD files you want to install, drop them into a `wad` folder at the root of the same storage device now — YAWM automatically opens that folder if it exists.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to storage device",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/yawmME/yawmME.zip",
+            "dest": "yawmme.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards and USB drives, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull it out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject storage device"
+      }
+    },
+    {
+      "id": "run-yawm",
+      "title": "Install a WAD",
+      "body": "Plug the storage device into your Wii and power it on. Launch the **Homebrew Channel** and open **YAWM**.\n\n1. Select your storage device as the source.\n2. Browse to your WAD file(s) — YAWM opens the `wad` folder automatically if present.\n3. Press **A** on a WAD to select it, or press **+** to queue several at once.\n4. Press **A** again to start installing.\n\nWait for each install to finish before removing the storage device.",
+      "image": [
+        "../images/steps/wii_yawm_source_device.png",
+        "../images/steps/wii_yawm_file_selection.png",
+        "../images/steps/wii_yawm_install_wad.png",
+        "../images/steps/wii_yawm_installing_wad.png",
+        "../images/steps/wii_yawm_installing_wad_ok.png"
+      ],
+      "troubleshoot": {
+        "label": "A WAD won't install",
+        "topic": "wii-yawm-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your WAD(s) are installed as channels (or updated IOS) on your Wii. Re-run this guide any time you need to install more.",
+      "action": null
+    }
+  ]
+}

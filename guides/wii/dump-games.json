@@ -1,0 +1,79 @@
+{
+  "console": "Wii",
+  "title": "Dump Discs with CleanRip",
+  "extra": true,
+  "tileImage": "../images/steps/wii_cleanrip_progress.png",
+  "method": "dump-games",
+  "requirements": [
+    "The Homebrew Channel already installed",
+    "An SD card or USB drive with at least 4.7GB free (8.5GB for dual-layer discs)",
+    "About 20-40 minutes per disc"
+  ],
+  "warnings": [
+    "Only dump discs you own. Sharing dumps of games you don't own is piracy.",
+    "Dual-layer Wii discs need 8.5GB free instead of the usual 4.7GB — check your storage device has room before starting a long dump."
+  ],
+  "_note": "Wii mini can dump Wii discs the same way as a standard Wii, but has no GameCube compatibility at all — the guide's GameCube dumping steps don't apply to it. Wii Family Edition and the Wii U's vWii also can't dump GameCube discs.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "**CleanRip** dumps your Wii and GameCube discs to a `.iso` file on a USB drive or SD card, so you can back them up or use them with a loader later.\n\n**GameCube dumping only works on original Wii models** — Wii Family Edition, Wii mini, and vWii (Wii U) can't do it; they're missing the GameCube-compatible drive controller.\n\nFirst, I'll check your storage device is FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-setup",
+      "title": "Put CleanRip on your storage device",
+      "body": "Graphite downloads **CleanRip** and unpacks it into the `apps` folder on your SD card or USB drive.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to storage device",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/CleanRip/CleanRip.zip",
+            "dest": "cleanrip.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards and USB drives, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull it out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject storage device"
+      }
+    },
+    {
+      "id": "run-cleanrip",
+      "title": "Dump your disc",
+      "body": "Plug the SD card or USB drive into your Wii and power it on. Launch the **Homebrew Channel** and open **CleanRip**.\n\n1. Confirm you want checksum calculation enabled — it verifies your dump is clean against redump.org data.\n2. Select your storage device (USB or SD) and confirm the filesystem is FAT32.\n3. Insert the disc you want to dump. If asked, confirm whether it's a Datel/unlicensed disc (say no unless it actually is one).\n4. Confirm to start. Wii discs take the full 4.7GB (or 8.5GB dual-layer); GameCube discs are much faster since they're only 1.3GB.\n5. Wait for the dump to finish — this can take 20-40 minutes depending on your storage device's speed.\n6. When done, CleanRip shows an MD5 checksum. Compare it against a known-good dump online if you want to double check.\n\nIf CleanRip throws an exception during the redump.org download step, just restart the app and try again — it's usually a network hiccup.",
+      "image": [
+        "../images/steps/wii_cleanrip_checksum.png",
+        "../images/steps/wii_cleanrip_device.png",
+        "../images/steps/wii_cleanrip_filesystem.png",
+        "../images/steps/wii_cleanrip_dateldisc.png",
+        "../images/steps/wii_cleanrip_insertdisc.png",
+        "../images/steps/wii_cleanrip_progress.png",
+        "../images/steps/wii_cleanrip_complete.png"
+      ],
+      "troubleshoot": {
+        "label": "CleanRip crashed or the dump failed",
+        "topic": "wii-cleanrip-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your disc is now a `.iso` file on your storage device, ready to use with a USB loader — see the `wii-loaders` guide — or to archive somewhere safe.\n\nRepeat this guide for each disc you want to back up.",
+      "action": null
+    }
+  ]
+}

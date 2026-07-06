@@ -1,0 +1,79 @@
+{
+  "console": "Wii",
+  "title": "Transferring Save Games",
+  "extra": true,
+  "tileImage": "../images/wii.png",
+  "method": "transfer-saves",
+  "requirements": [
+    "The Homebrew Channel on both the source and destination systems",
+    "An SD card or USB drive, FAT32 formatted",
+    "About 15 minutes"
+  ],
+  "warnings": [],
+  "_note": "Moves save data between two Wii (or Wii/vWii) consoles using SaveGame Manager GX. Create a fresh save for each game on the destination console first — you're importing into an existing save slot, not creating one from scratch.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "You'll use the same tool, **SaveGame Manager GX**, on both consoles — first to **extract** saves from the source Wii, then to **install** them on the destination Wii.\n\nFirst, let's check your SD card or USB drive is FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-setup",
+      "title": "Put SaveGame Manager GX on your SD card",
+      "body": "Graphite downloads **SaveGame Manager GX** and unpacks it into the `apps` folder on your SD card, ready to launch from the Homebrew Channel.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to SD card",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/SaveGame_Manager_GX/SaveGame_Manager_GX.zip",
+            "dest": "savegame_manager_gx.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull the card out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
+      "id": "extract-saves",
+      "title": "Extract saves from the source console",
+      "body": "Put the SD card or USB drive into the **source** Wii and power it on.\n\n1. Open the **Homebrew Channel** and launch **SaveGame Manager GX**.\n2. Make sure the source is set to **Wii**.\n3. Find the save you want to copy, select it, choose **Extract**, then **Default**.\n4. Repeat for every save you want to move.\n5. Press **HOME** to exit.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "prep-destination",
+      "title": "Create matching saves on the destination console",
+      "body": "Move the SD card or USB drive to the **destination** Wii. Before importing anything, launch each game you're transferring a save for and let it create a **fresh save file** — SaveGame Manager GX installs into an existing save slot, it doesn't create the game's save structure from scratch.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "install-saves",
+      "title": "Install the saves on the destination console",
+      "body": "1. Open the **Homebrew Channel** and launch **SaveGame Manager GX**.\n2. Make sure the source is set to your SD card or USB drive.\n3. Select each extracted save and choose **Install**.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your saves are now on the destination console, with progress intact. If a save doesn't load correctly, double check you created a fresh save for that exact game on the destination console before installing.",
+      "action": null
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "console": "Wii",
+  "title": "USB Loader GX & WiiFlow",
+  "extra": true,
+  "tileImage": "../images/steps/wii_loaders_wiiflow_ui.png",
+  "method": "wii-loaders",
+  "requirements": [
+    "The Homebrew Channel already installed",
+    "d2x cIOS installed — run the `cios` guide first if you haven't",
+    "A USB hard drive or large SD card formatted FAT32 (flash drives are unreliable for this)",
+    "About 15 minutes"
+  ],
+  "warnings": [
+    "Loaders need cIOS 248-251 to function. If you skipped the cIOS guide, install games will fail or hang at \"Waiting for HDD...\"."
+  ],
+  "_note": "USB Loader GX and WiiFlow (Lite) both load game backups from a USB drive or SD card. Install either or both — WiiFlow leans toward a slicker animated interface with plugin/theme support, USB Loader GX is the older, more configurable option. Both work fine after cIOS is installed.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "This guide installs **USB Loader GX** and **WiiFlow (Lite)** — the two most common Wii game backup loaders. Either lets you launch dumped/backed-up games from a USB drive or SD card instead of a disc.\n\n!!Both require cIOS 248-251 already installed!! — if you haven't done that yet, run the `cios` guide first, or these loaders will hang at \"Waiting for HDD...\" or fail to launch games.\n\nA large external USB hard drive is strongly recommended for storing games — flash drives tend to be too slow or unreliable for this.\n\nFirst, I'll check your storage device is FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-setup",
+      "title": "Put the loaders on your storage device",
+      "body": "Graphite downloads **USB Loader GX** and **WiiFlow** and unpacks them into the `apps` folder on your storage device. Install both, or just delete the one you don't want from the Homebrew Channel later.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to storage device",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/usbloader_gx/usbloader_gx.zip",
+            "dest": "usbloader_gx.zip"
+          },
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/wiiflow/wiiflow.zip",
+            "dest": "wiiflow.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards and USB drives, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull it out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject storage device"
+      }
+    },
+    {
+      "id": "first-launch",
+      "title": "Launch your loader",
+      "body": "Plug the storage device into your Wii and power it on. Launch the **Homebrew Channel** and open either **USB Loader GX** or **WiiFlow**.\n\nOn first launch, both loaders scan your storage device for games and build their game list. If it's empty, make sure your dumped games (see the `dump-games` guide) are sitting in the `wbfs` or `games` folder the loader expects — each loader's settings menu shows where it's looking.\n\n**WiiFlow** defaults to SD-only search — if your games are on a USB drive instead, change this in **Startup Settings**. Use the bottom-left button to toggle between plugins, games, homebrew, and channels.",
+      "image": [
+        "../images/steps/wii_loaders_usbloadergx_ui.png",
+        "../images/steps/wii_loaders_wiiflow_ui.png",
+        "../images/steps/wii_loaders_wiiflow_menu.png"
+      ],
+      "troubleshoot": {
+        "label": "No games showing up",
+        "topic": "wii-loader-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "cios-slot",
+      "title": "If a game won't launch",
+      "body": "Some games need a specific cIOS slot to run correctly. Both loaders auto-select one, but you can override it if a game crashes or hangs:\n\n- **USB Loader GX**: go to **Settings** → **Game Load** → **Game IOS**, and try slots 248 through 251.\n- **WiiFlow**: select the game, press the **gear icon**, and change **cIOS** there.\n\nA compatibility list for tricky games is maintained on GBAtemp if you need to look up the right slot for a specific title.",
+      "troubleshoot": {
+        "label": "A specific game won't launch",
+        "topic": "wii-loader-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "You can now launch game backups straight from your USB drive or SD card. Dump more discs with the `dump-games` guide to grow your library, and check `wii-loaders` troubleshooting if a specific game misbehaves.",
+      "action": null
+    }
+  ]
+}

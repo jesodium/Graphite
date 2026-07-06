@@ -1,0 +1,89 @@
+{
+  "console": "Wii",
+  "title": "Updating to System Menu 4.3",
+  "extra": true,
+  "tileImage": "../images/steps/wii_update_nusget_wiimenu_dl.png",
+  "method": "update",
+  "requirements": [
+    "Homebrew Channel 1.0.8 or later",
+    "Priiloader installed",
+    "An SD card or USB drive, FAT32 formatted",
+    "NUSGet (downloads official Nintendo update files)",
+    "YAWM ModMii Edition (installs the WADs on-console)",
+    "About 20 minutes"
+  ],
+  "warnings": [
+    "!!Only install the WAD for your own console's region!! Installing the wrong region's System Menu can semibrick your Wii."
+  ],
+  "_note": "Some exploits (like str2hax) need System Menu 4.3 specifically. This uses NUSGet and YAWM ModMii Edition, which work on Windows, macOS, and Linux. If you're on Windows, the official ModMii tool automates this whole process and is described by its author as much safer — worth using instead if you have access to a Windows PC.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "This installs an official Nintendo System Menu update **without losing your Homebrew Channel or Priiloader**, using **NUSGet** to fetch the files and **YAWM ModMii Edition** to install them from your Wii.\n\nFirst, let's check your SD card or USB drive is FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "get-tools",
+      "title": "Download NUSGet and YAWM ModMii Edition",
+      "body": "These are desktop/homebrew tools without a single stable direct-download link, so grab them yourself:\n\n1. Download **NUSGet** for your operating system and extract it.\n2. Download **YAWM ModMii Edition** and extract it — this is the homebrew app you'll run on the Wii itself.\n\nBoth are commonly linked from the Nintendo Homebrew community resources — search for \"NUSGet\" and \"YAWM ModMii Edition\" if you don't already have them.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "download-wads",
+      "title": "Download the update files with NUSGet",
+      "body": "Open NUSGet and download three things, **unchecking the encryption option** for each before downloading:\n\n1. Under **System → 0000000100000002 - System Menu**, pick the latest **4.3** version for **your region** (for example, `v513 4.3U` for USA).\n2. Under the IOS section, download **IOS 58**, latest world version.\n3. Under the IOS section, download **IOS 80**, latest world version.\n\nNUSGet saves each into its own download folder. Find the `.wad` file inside each one and copy all three into a new folder named `wad` on your SD card or USB drive's root.",
+      "image": [
+        "../images/steps/wii_update_nusget_wiimenu_dl.png",
+        "../images/steps/wii_update_nusget_ios58.png",
+        "../images/steps/wii_update_nusget_ios80.png",
+        "../images/steps/wii_update_nusget_downloads.png",
+        "../images/steps/wii_update_nusget_folder.png",
+        "../images/steps/wii_update_copy_wiimenu_sd.png"
+      ],
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull the card out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject SD card"
+      }
+    },
+    {
+      "id": "insert-sd",
+      "title": "Move the SD card to your Wii",
+      "body": "Take the SD card out of your computer and put it (or the USB drive) into your Wii. Press **I did this** once it's in.",
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "install",
+      "title": "Install the update from YAWM ModMii Edition",
+      "body": "1. Power off, then hold **RESET** while turning the Wii on to enter **Priiloader**.\n2. Select **Homebrew Channel**.\n3. Launch **YAWM ModMii Edition**.\n4. Select your SD card or USB drive as the source.\n5. Highlight the **IOS 58** and **IOS 80** WADs using the **+** button, then press **A** twice to install both.\n6. Highlight and install the **System Menu** WAD the same way.\n7. When asked whether to keep Priiloader installed, choose **yes**.\n8. Press **HOME** to exit once finished.",
+      "troubleshoot": {
+        "label": "The update isn't working",
+        "topic": "wii-update-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "Your Wii is now on System Menu 4.3 with the Homebrew Channel and Priiloader intact. You can now run any exploit or guide that requires 4.3, like str2hax.",
+      "action": null
+    }
+  ]
+}

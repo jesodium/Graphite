@@ -1,0 +1,57 @@
+{
+  "console": "Wii",
+  "title": "Managing Wii Backups",
+  "extra": true,
+  "tileImage": "../images/steps/wii_backups_twbm_games.png",
+  "method": "wii-backups",
+  "requiresStorageSelection": false,
+  "requirements": [
+    "A dumped Wii game (ISO or split .part files)",
+    "A USB drive or SD card — an external hard drive is recommended if you're keeping more than a couple of games",
+    "TinyWiiBackupManager (desktop tool)",
+    "cIOS and a USB loader (USB Loader GX or WiiFlow) installed on the console"
+  ],
+  "warnings": [],
+  "_note": "Covers organizing dumped Wii game backups for use with a USB loader — joining split ISO files and getting them onto a drive USB Loader GX or WiiFlow can read.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Storage setup",
+      "body": "Wii backups are usually played from **USB Loader GX** or **WiiFlow** off a USB drive or SD card. If you're storing more than a couple of games, an external hard drive is worth it.\n\n**Format the drive as FAT32** — this is mandatory. !!Do NOT!! use exFAT, extFS, or WBFS-formatted drives. Flash drives work but are best avoided since they're slower and wear out faster than a real hard drive or SD card; SD cards are fine but also slower than a hard drive.",
+      "action": null
+    },
+    {
+      "id": "join-parts",
+      "title": "Rejoin split ISO files (if needed)",
+      "body": "FAT32 can't hold a single file over 4GB, so some dumping tools split Wii games into `game.part1.iso`, `game.part2.iso`, and so on. If your dump tool already outputs a single `.iso`, skip this step.\n\n**On Windows:**\n1. Put all the matching `.partX.iso` files for one game in a folder together.\n2. Open a command prompt in that folder.\n3. Run: `copy /b *.part?.iso game.iso`\n4. Check the resulting file's checksum against what your dumping tool reported.\n\n**On macOS/Linux:**\n1. Put all the matching `.partX.iso` files for one game in a folder together.\n2. Open a terminal in that folder.\n3. Run: `cat $(ls *.part?.iso | sort) > game.iso`\n4. Check the resulting file's checksum against what your dumping tool reported.",
+      "image": [
+        "../images/steps/wii_backups_join_dumpedparts_win.png",
+        "../images/steps/wii_backups_join_opencmd_win.png",
+        "../images/steps/wii_backups_join_result_win.png",
+        "../images/steps/wii_backups_join_md5check.png",
+        "../images/steps/wii_backups_join_dumpedparts_mac.png",
+        "../images/steps/wii_backups_join_openterminal_mac.png",
+        "../images/steps/wii_backups_join_result_mac.png"
+      ],
+      "action": null
+    },
+    {
+      "id": "copy-games",
+      "title": "Copy games with TinyWiiBackupManager",
+      "body": "**TinyWiiBackupManager (TWBM)** is a free desktop app (Windows, macOS, Linux) for organizing Wii and GameCube backups on a drive, without needing to manually manage folder structures.\n\n1. Plug your storage device into your computer.\n2. Open TinyWiiBackupManager and select the **root of the drive** (not a `games` or `wbfs` subfolder).\n3. Click the **+** button, or drag and drop your joined `.iso` files onto the window, to add them.\n4. When done, safely eject the drive.",
+      "image": [
+        "../images/steps/wii_backups_twbm_empty.png",
+        "../images/steps/wii_backups_twbm_games.png"
+      ],
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "play",
+      "title": "Play your backups",
+      "body": "Plug the drive into your Wii and open **USB Loader GX** or **WiiFlow**. Both need **cIOS** installed to run Wii backups from USB or SD — see the cIOS guide if you haven't set that up yet. Select a game from the loader's menu to launch it.",
+      "action": null
+    }
+  ]
+}

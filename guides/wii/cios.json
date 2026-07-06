@@ -1,0 +1,88 @@
+{
+  "console": "Wii",
+  "title": "Install cIOS",
+  "extra": true,
+  "tileImage": "../images/steps/wii_cios_summary.png",
+  "method": "cios",
+  "requirements": [
+    "The Homebrew Channel already installed",
+    "An SD card or USB drive, FAT32 formatted",
+    "Wii mini: a USB drive (no SD slot) — uses a different installer, see below",
+    "About 15 minutes"
+  ],
+  "warnings": [
+    "!!Never install a Wii/vWii cIOS on a Wii mini, or vice versa!! — this can brick the console. The d2x cIOS Installer and the Wii mini variant are not interchangeable.",
+    "cIOS is what lets USB Loader GX, WiiFlow, and most disc-backup tools work. It doesn't do anything on its own."
+  ],
+  "_note": "d2x cIOS installs patched IOS slots (248-251 on standard Wii, 249 on Wii mini) that loaders use to read game backups from USB/SD. Standard Wii installs four cIOS at once; Wii mini's installer (d2xl) only installs one, since it can't use GameCube or SD anyway.",
+  "steps": [
+    {
+      "id": "intro",
+      "title": "Before you start",
+      "body": "This guide installs **d2x cIOS** (custom IOS) — the piece almost every USB loader, WiiFlow, and backup tool depends on. It doesn't add any features by itself; it's a prerequisite for the guides that do (like **wii-loaders**).\n\nYou need the Homebrew Channel already set up. If you haven't done that yet, go run one of the main exploit guides first.\n\nFirst, I'll check your SD card or USB drive is FAT32.",
+      "action": {
+        "type": "fat32"
+      }
+    },
+    {
+      "id": "sd-setup",
+      "title": "Put the cIOS installer on your storage device",
+      "body": "Graphite downloads the **d2x cIOS Installer** and unpacks it into the `apps` folder on your SD card or USB drive.\n\nIf you have a **Wii mini**, this uses the mini-specific build of the installer (d2xl) instead — it's not interchangeable with the standard one.",
+      "action": {
+        "type": "sdinstall",
+        "label": "Download & copy to storage device",
+        "downloads": [
+          {
+            "url": "https://hbb1.oscwii.org/api/contents/d2x-cios-installer/d2x-cios-installer.zip",
+            "dest": "d2x-cios-installer.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-eject",
+      "title": "Clean up and eject the card",
+      "body": "macOS scatters hidden junk files (`.DS_Store`, `._` files) onto SD cards and USB drives, and Wii homebrew can choke on them.\n\nPress the button, and Graphite strips those files off the card and **safely ejects it for you**. Once it pops off, pull it out.",
+      "platform": "darwin",
+      "action": {
+        "type": "cleaneject",
+        "label": "Clean & eject storage device"
+      }
+    },
+    {
+      "id": "insert",
+      "title": "Move the card to your Wii",
+      "body": "Plug the SD card or USB drive into your Wii and power it on. Press **I did this** to continue.\n\n**Wii mini owners:** you'll instead need the [d2xl cIOS Installer](https://wii.hacks.guide/assets/files/d2xl-cios-installer-mini.zip) — download it on a computer, extract the `apps` folder to your USB drive's root, and use that instead of the file Graphite just installed.",
+      "image": [
+        "../images/steps/wii_cios_mini_ntsc.png"
+      ],
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "run-installer",
+      "title": "Run the cIOS Installer",
+      "body": "Launch the **Homebrew Channel** and open **d2x cIOS Installer** (or **d2xl cIOS Installer** on Wii mini).\n\n**Standard Wii** — install all four cIOS slots:\n- **cIOS 248**, base IOS 38\n- **cIOS 249**, base IOS 56\n- **cIOS 250**, base IOS 57\n- **cIOS 251**, base IOS 58\n\nFollow the on-screen prompts for each; the installer downloads the base IOS it needs automatically if it's missing.\n\n**Wii mini** — only one cIOS is supported: **cIOS 249**, base IOS 57. Select the option matching your console's region (NTSC or PAL) when prompted.\n\nWhen each install finishes, you'll see a confirmation. Exit the installer once done.",
+      "image": [
+        "../images/steps/wii_cios_slot_config.png",
+        "../images/steps/wii_cios_installing.png",
+        "../images/steps/wii_cios_log.png",
+        "../images/steps/wii_cios_summary.png"
+      ],
+      "troubleshoot": {
+        "label": "The cIOS installer failed",
+        "topic": "wii-cios-errors"
+      },
+      "action": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "done",
+      "title": "You're done",
+      "body": "cIOS is installed. You can now set up **USB Loader GX** or **WiiFlow** to run game backups — see the `wii-loaders` guide.\n\nIf a loader complains about missing or wrong cIOS later, re-run this guide and reinstall the slots it's asking for.",
+      "action": null
+    }
+  ]
+}

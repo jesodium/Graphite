@@ -1,5 +1,10 @@
 {
   "name": "Nintendo Switch",
   "edge": "linear-gradient(90deg, #F5321F 0 50%, #00A6C9 50% 100%)",
-  "tileImage": "../images/switch.png"
+  "tileImage": "../images/switch.png",
+  "modelImages": {
+    "Switch v1 (Erista)": "../images/switch_v1.png",
+    "Switch V2 (Mariko)": "../images/switch_v1.png",
+    "Switch OLED": "../images/switch_oled.png"
+  }
 }

@@ -314,14 +314,22 @@ function showModelOrMethods(console, methods) {
 
 // Step 2: pick model when the selected console has model-aware guides.
 function showModels(console, methods, models) {
+  const modelImages = methods.find(gd => gd.modelImages)?.modelImages || {};
   withCurtain(() => {
     $('picker-title').textContent = `${console} - pick your model`;
     $('guide-list').innerHTML = '';
     clearHomeResume();
-    models.forEach(model => {
-      const btn = button(model, () => showMethods(console, methods, model, models));
-      listItem(btn);
-    });
+    methodGrid(models.map(model => {
+      const b = tileButton(() => showMethods(console, methods, model, models));
+      b.className = 'method-card model-card';
+      const img = modelImages[model];
+      if (img) {
+        b.classList.add('has-bg');
+        b.style.setProperty('--tile-img', `url('${img}')`);
+      }
+      b.innerHTML = '<span class="method-name">' + model + '</span>';
+      return b;
+    }));
     renderBack(() => showConsoles(allGuides));
   });
 }
@@ -428,11 +436,12 @@ async function showDetails(console, methods, guideFile, selectedModel = null, mo
       addTextLine(details._note, 'meta-note');
     }
 
+    const storageLabel = details.storageLabel || 'SD/microSD card';
     if (needsStorageSelection) {
-      addTextLine(`Select your SD/microSD card in ${osExplorerName()}.`, 'meta-instruction');
+      addTextLine(`Select your ${storageLabel} in ${osExplorerName()}.`, 'meta-instruction');
       listItem(button(`Select in ${osExplorerName()}`, () => start(guideFile, null, details, true), 'action-btn'));
     } else {
-      addTextLine('This guide does not require selecting SD/microSD in Graphite.', 'meta-instruction');
+      addTextLine(`This guide does not require selecting ${storageLabel} in Graphite.`, 'meta-instruction');
       listItem(button('Continue', () => start(guideFile, null, details), 'action-btn'));
     }
 
