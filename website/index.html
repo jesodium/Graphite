@@ -62,6 +62,58 @@
     object-fit: contain;
     border-radius: 4px;
   }
+  .supported {
+    margin-bottom: 3rem;
+  }
+  .supported .label {
+    font-size: 0.75rem;
+    color: #999;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+  .supported .pills {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .supported .pill {
+    font-size: 0.9rem;
+    font-weight: 500;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    padding: 0.5rem 1.25rem;
+  }
+  .coming-soon .pill {
+    color: #999;
+    border-style: dashed;
+    cursor: default;
+  }
+  .coming-soon .pill[data-tooltip] {
+    position: relative;
+  }
+  .coming-soon .pill[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 0.7rem;
+    text-transform: none;
+    white-space: nowrap;
+    padding: 0.4rem 0.7rem;
+    border-radius: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .coming-soon .pill[data-tooltip]:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
   #download {
     display: inline-block;
     font-family: inherit;
@@ -93,6 +145,26 @@
     <div class="card"><img src="screenshots/1.png" alt="graphite screenshot"></div>
     <div class="card"><img src="screenshots/2.png" alt="graphite screenshot"></div>
     <div class="card"><img src="screenshots/3.png" alt="graphite screenshot"></div>
+  </div>
+
+  <div class="supported">
+    <div class="label">currently supported</div>
+    <div class="pills">
+      <span class="pill">wii</span>
+      <span class="pill">wii u</span>
+    </div>
+  </div>
+
+  <div class="supported coming-soon">
+    <div class="label">coming soon</div>
+    <div class="pills">
+      <span class="pill" data-tooltip="install apps without having to scatter through files">apps</span>
+      <span class="pill">3ds</span>
+      <span class="pill">psp</span>
+      <span class="pill">ps vita</span>
+      <span class="pill">dsi</span>
+      <span class="pill">ps3</span>
+    </div>
   </div>
 
   <button id="download">download</button>
