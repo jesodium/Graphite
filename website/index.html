@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>graphite</title>
+<link rel="icon" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Roboto Mono', monospace;
+    text-transform: lowercase;
+    text-align: center;
+    background: #f4f3ee;
+    color: #1a1a1a;
+    padding: 4rem 1.5rem;
+  }
+  h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  p.subtitle {
+    font-size: 1rem;
+    color: #777;
+    margin: 0.5rem 0 3rem;
+  }
+  .screenshots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .screenshots .card {
+    width: 260px;
+    height: 190px;
+    margin: 0 -8px;
+    padding: 10px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .screenshots .card:nth-child(1) { transform: rotate(-4deg); }
+  .screenshots .card:nth-child(2) { transform: rotate(2deg); z-index: 1; }
+  .screenshots .card:nth-child(3) { transform: rotate(-2deg); }
+  .screenshots .card:hover {
+    transform: rotate(0) scale(1.05);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+    z-index: 2;
+  }
+  .screenshots img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+  #download {
+    display: inline-block;
+    font-family: inherit;
+    text-transform: lowercase;
+    font-size: 1rem;
+    font-weight: 500;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.9rem 2rem;
+    cursor: pointer;
+  }
+  #other-releases {
+    display: block;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #777;
+    text-decoration: none;
+  }
+  #other-releases:hover { color: #1a1a1a; }
+</style>
+</head>
+<body>
+  <h1>graphite</h1>
+  <p class="subtitle">homebrewing, made simple</p>
+
+  <div class="screenshots">
+    <div class="card"><img src="screenshots/1.png" alt="graphite screenshot"></div>
+    <div class="card"><img src="screenshots/2.png" alt="graphite screenshot"></div>
+    <div class="card"><img src="screenshots/3.png" alt="graphite screenshot"></div>
+  </div>
+
+  <button id="download">download</button>
+  <a id="other-releases" href="https://github.com/jesodium/Graphite/releases" target="_blank" rel="noopener">not your os? click to see other releases --&gt;</a>
+
+<script>
+  const REPO = 'jesodium/Graphite';
+  const RELEASES_URL = `https://github.com/${REPO}/releases`;
+  const btn = document.getElementById('download');
+
+  function detectOS() {
+    const ua = navigator.userAgent;
+    if (/Mac/.test(ua)) return 'mac';
+    if (/Win/.test(ua)) return 'win';
+    if (/Linux/.test(ua)) return 'linux';
+    return null;
+  }
+
+  // IMPORTANT NOTE: matches release assets by file extension per OS.
+  // if electron-builder's output naming changes, update these suffixes.
+  const EXT_BY_OS = { mac: '.dmg', win: '.exe', linux: '.appimage' };
+
+  btn.textContent = detectOS() ? `download for ${detectOS()}` : 'download';
+
+  fetch(`https://api.github.com/repos/${REPO}/releases/latest`)
+    .then(res => res.ok ? res.json() : Promise.reject(res.status))
+    .then(release => {
+      const os = detectOS();
+      const ext = EXT_BY_OS[os];
+      const asset = ext && release.assets.find(a => a.name.toLowerCase().endsWith(ext));
+      if (asset) {
+        btn.onclick = () => window.location.href = asset.browser_download_url;
+      } else {
+        btn.onclick = () => window.open(RELEASES_URL, '_blank');
+      }
+    })
+    .catch(() => {
+      btn.onclick = () => window.open(RELEASES_URL, '_blank');
+    });
+</script>
+</body>
+</html>
