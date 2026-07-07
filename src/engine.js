@@ -142,4 +142,48 @@ async function runAction(action, { root, cache }) {
   }
 }
 
-module.exports = { runAction, safeJoin, sha256, download, removeMacJunk };
+// Look at what's actually on the card's top-level folders to figure out which
+// console it's set up for. IMPORTANT NOTE: folder-name heuristic, not perfect —
+// a card with none of these folders reads as unrecognized even if it's a real
+// homebrew card set up in some unusual way. Add more markers here as needed.
+async function detectConsole(root) {
+  let entries;
+  try { entries = await fs.promises.readdir(root, { withFileTypes: true }); }
+  catch { return null; }
+  const dirs = new Set(entries.filter(e => e.isDirectory()).map(e => e.name.toLowerCase()));
+  if (dirs.has('wiiu')) return 'wiiu';
+  if (dirs.has('switch') || dirs.has('atmosphere') || dirs.has('bootloader')) return 'switch';
+  if (dirs.has('apps') || dirs.has('private')) return 'wii';
+  return null;
+}
+
+// Installed homebrew apps live at <sd>/apps/<id>/ (the Homebrew Channel convention,
+// and where our own sdinstall extracts them). Returns the raw folder names found.
+async function listInstalledApps(root) {
+  try {
+    const entries = await fs.promises.readdir(path.join(root, 'apps'), { withFileTypes: true });
+    return entries.filter(e => e.isDirectory()).map(e => e.name);
+  } catch { return []; }
+}
+
+async function uninstallApp(root, appId) {
+  await fs.promises.rm(safeJoin(root, path.join('apps', appId)), { recursive: true, force: true });
+}
+
+// Top-level entries on the card, for the "you have random stuff on here" nag
+// shown when a guide starts. Empty on read failure (unplugged card, etc).
+async function listRoot(root) {
+  try { return await fs.promises.readdir(root); }
+  catch { return []; }
+}
+
+// Best-effort: SIP-protected entries like .Spotlight-V100 throw EPERM even with
+// force:true (force only swallows "doesn't exist") — skip those instead of aborting.
+async function clearRoot(root) {
+  const entries = await listRoot(root);
+  for (const name of entries) {
+    await fs.promises.rm(path.join(root, name), { recursive: true, force: true }).catch(() => {});
+  }
+}
+
+module.exports = { runAction, safeJoin, sha256, download, removeMacJunk, detectConsole, listInstalledApps, uninstallApp, listRoot, clearRoot };

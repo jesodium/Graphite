@@ -5,7 +5,7 @@ const os = require('os');
 const path = require('path');
 const crypto = require('crypto');
 const { execSync } = require('child_process');
-const { runAction, safeJoin, download, removeMacJunk } = require('../src/engine');
+const { runAction, safeJoin, download, removeMacJunk, detectConsole, listInstalledApps, uninstallApp, listRoot, clearRoot } = require('../src/engine');
 
 async function main() {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'graphite-'));
@@ -94,6 +94,33 @@ async function main() {
   assert.ok(!fs.existsSync(path.join(jroot, '.Spotlight-V100')), 'Spotlight dir gone');
   assert.ok(!fs.existsSync(path.join(jroot, 'wiiu', '.DS_Store')), 'nested .DS_Store gone');
   assert.ok(fs.existsSync(path.join(jroot, 'wiiu', 'payload.elf')), 'real file kept');
+
+  // 8. detectConsole reads top-level folder markers
+  const dr = path.join(tmp, 'detect');
+  fs.mkdirSync(dr);
+  assert.strictEqual(await detectConsole(dr), null, 'empty card is unrecognized');
+  fs.mkdirSync(path.join(dr, 'apps'));
+  assert.strictEqual(await detectConsole(dr), 'wii', 'apps folder reads as wii');
+  fs.mkdirSync(path.join(dr, 'wiiu'));
+  assert.strictEqual(await detectConsole(dr), 'wiiu', 'wiiu folder takes priority');
+
+  // 9. listInstalledApps / uninstallApp work off <root>/apps/<id>
+  fs.mkdirSync(path.join(dr, 'apps', 'wiiflow'), { recursive: true });
+  fs.writeFileSync(path.join(dr, 'apps', 'wiiflow', 'boot.dol'), 'x');
+  assert.deepStrictEqual(await listInstalledApps(dr), ['wiiflow'], 'lists installed app folders');
+  await uninstallApp(dr, 'wiiflow');
+  assert.ok(!fs.existsSync(path.join(dr, 'apps', 'wiiflow')), 'uninstall removed the app folder');
+  await assert.rejects(uninstallApp(dr, '../../escape'), /escapes/, 'uninstall rejects escaping app id');
+
+  // 10. listRoot / clearRoot — the "you have random stuff on your card" check
+  const cr = path.join(tmp, 'clutter');
+  fs.mkdirSync(cr);
+  assert.deepStrictEqual(await listRoot(cr), [], 'empty card lists nothing');
+  fs.writeFileSync(path.join(cr, 'random.txt'), 'x');
+  fs.mkdirSync(path.join(cr, 'oldfolder'));
+  assert.deepStrictEqual((await listRoot(cr)).sort(), ['oldfolder', 'random.txt'], 'lists top-level clutter');
+  await clearRoot(cr);
+  assert.deepStrictEqual(await listRoot(cr), [], 'clearRoot wipes everything');
 
   fs.rmSync(tmp, { recursive: true, force: true });
   console.log('ok — all engine checks passed');

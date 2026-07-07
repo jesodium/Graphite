@@ -53,7 +53,7 @@ function bindRail() {
       document.querySelectorAll('.rail-btn').forEach(b => b.classList.toggle('active', b === btn));
       const market = btn.dataset.view === 'market';
       $('market').hidden = !market;
-      if (market) { $('picker').hidden = true; $('guide').hidden = true; }
+      if (market) { $('picker').hidden = true; $('guide').hidden = true; openMarket(); }
       else { showPicker(); renderConsoles(allGuides); }
       railFade($(market ? 'market' : 'picker'));
     };
@@ -71,10 +71,10 @@ function md(text) {
   ).join('');
 }
 
-function listItem(node) {
+function listItem(node, listId = 'guide-list') {
   const li = document.createElement('li');
   li.appendChild(node);
-  $('guide-list').appendChild(li);
+  $(listId).appendChild(li);
 }
 
 function button(text, onclick, className = 'method-card') {
@@ -92,8 +92,8 @@ function tileButton(onclick) {
 }
 
 // Top-left "← Back" text link. Pass null to clear it (top-level screen).
-function renderBack(onclick) {
-  const nav = $('picker-nav');
+function renderBack(onclick, navId = 'picker-nav') {
+  const nav = $(navId);
   if (!nav) return;
   nav.innerHTML = '';
   if (!onclick) return;
@@ -404,6 +404,190 @@ function showMethods(console, methods, selectedModel = null, models = []) {
 }
 
 let allGuides = [];
+let allApps = [];
+const appStatus = {};      // app.id -> 'installing' | 'uninstalling' | error message
+let installedIds = new Set(); // lowercased app ids found in <sd>/apps
+let marketApps = [];       // apps for the SD card's detected console
+let marketConsoleName = '';
+let marketCategoryFilter = null; // null = show all categories
+
+const CONSOLE_NAMES = { wii: 'Wii', wiiu: 'Wii U', switch: 'Switch' };
+
+function marketNote(text) {
+  const li = document.createElement('li');
+  li.className = 'meta-note';
+  li.textContent = text;
+  return li;
+}
+
+function backToMarketHome() {
+  sd = null;
+  $('sd-label').textContent = '';
+  renderMarketHome();
+}
+
+// Apps tab home: no SD card picked yet.
+function renderMarketHome() {
+  $('market-title').textContent = 'Apps';
+  $('market-list').innerHTML = '';
+  $('market-filters').innerHTML = '';
+  renderBack(null, 'market-nav');
+  $('market-list').appendChild(marketNote("Select your SD card and Graphite will detect which console it's set up for."));
+  listItem(button('Select SD card', async () => {
+    const picked = await g.pickSD();
+    if (!picked) return;
+    sd = picked;
+    $('sd-label').textContent = `SD: ${sd}`;
+    detectAndShowMarket();
+  }, 'action-btn'), 'market-list');
+}
+
+// Apps tab entry point: reuse an already-picked SD card (e.g. from a guide), else ask for one.
+function openMarket() {
+  if (sd) detectAndShowMarket();
+  else renderMarketHome();
+}
+
+// Look at what's actually on the card and show its marketplace, or an error if
+// it's not a recognized/supported homebrew setup. No guessing "pick a console" —
+// the card tells us what it is.
+async function detectAndShowMarket() {
+  $('market-title').textContent = 'Apps';
+  $('market-list').innerHTML = '';
+  $('market-filters').innerHTML = '';
+  renderBack(backToMarketHome, 'market-nav');
+  $('market-list').appendChild(marketNote('Checking SD card…'));
+  const detected = await g.detectConsole(sd);
+  const apps = detected ? allApps.filter(a => a.folder === detected) : [];
+  if (!detected || !apps.length) return renderMarketError(detected);
+  marketConsoleName = apps[0].console;
+  marketApps = apps;
+  marketCategoryFilter = null;
+  await refreshInstalled();
+  renderAppList();
+}
+
+function renderMarketError(detected) {
+  $('market-title').textContent = 'Apps';
+  $('market-list').innerHTML = '';
+  $('market-filters').innerHTML = '';
+  renderBack(backToMarketHome, 'market-nav');
+  const msg = detected
+    ? `Detected a ${CONSOLE_NAMES[detected] || detected} SD card, but its app catalog isn't available yet.`
+    : "Couldn't recognize this as a set-up homebrew SD card. Run one of the guides first, or try a different card.";
+  $('market-list').appendChild(marketNote(msg));
+  listItem(button('Try a different SD card', backToMarketHome, 'action-btn'), 'market-list');
+}
+
+async function refreshInstalled() {
+  installedIds = new Set((await g.listInstalledApps(sd)).map(n => n.toLowerCase()));
+}
+
+// Install/update/uninstall controls for one app — split out from appTile so an
+// install/uninstall can swap just this piece in place, instead of rebuilding
+// (and refading in) the whole list on every status change.
+function buildAppActions(app) {
+  const status = appStatus[app.id];
+  const installed = installedIds.has(app.id.toLowerCase());
+  const actions = document.createElement('span');
+  actions.className = 'app-actions';
+  if (status === 'installing' || status === 'uninstalling') {
+    actions.innerHTML = `<span class="badge">${status === 'installing' ? 'Installing…' : 'Removing…'}</span>`;
+  } else {
+    if (status) actions.innerHTML = `<span class="badge warn" title="${status}">Error</span>`;
+    actions.appendChild(button(installed ? 'Update' : 'Install', () => installApp(app), 'action-btn small'));
+    if (installed) actions.appendChild(button('Uninstall', () => uninstallAppUi(app), 'action-btn small danger'));
+  }
+  return actions;
+}
+
+// Swap just one app's action controls in place — no full list rebuild.
+function updateAppRow(app) {
+  const row = document.querySelector(`.app-row[data-app-id="${CSS.escape(app.id)}"]`);
+  if (!row) return; // filtered out of view right now — nothing to update
+  row.querySelector('.app-actions').replaceWith(buildAppActions(app));
+}
+
+// One row: icon, name, description, and install/update/uninstall controls.
+function appTile(app) {
+  const row = document.createElement('div');
+  row.className = 'app-row';
+  row.dataset.appId = app.id;
+  row.innerHTML = (app.tileImage ? `<img class="app-icon" src="${app.tileImage}" alt="" />` : '')
+    + '<span class="app-info"><span class="method-name">' + app.name + '</span>'
+    + '<span class="method-desc">' + app.description + '</span></span>';
+  const img = row.querySelector('.app-icon');
+  if (img) img.onerror = () => img.remove(); // some oscwii icons 404 — don't show a broken image
+  row.appendChild(buildAppActions(app));
+  return row;
+}
+
+function categoryLabel(cat) {
+  return cat.charAt(0).toUpperCase() + cat.slice(1);
+}
+
+// Pill tabs to filter the list down to one category (or "All").
+function renderCategoryTabs() {
+  const bar = $('market-filters');
+  bar.innerHTML = '';
+  const cats = [...new Set(marketApps.map(a => a.category))].sort();
+  [{ key: null, label: 'All' }, ...cats.map(c => ({ key: c, label: categoryLabel(c) }))].forEach(({ key, label }) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'category-tab' + (marketCategoryFilter === key ? ' active' : '');
+    b.textContent = label;
+    b.onclick = () => { marketCategoryFilter = key; renderAppList(); };
+    bar.appendChild(b);
+  });
+}
+
+function renderAppList() {
+  $('market-title').textContent = `${marketConsoleName} apps`;
+  renderBack(backToMarketHome, 'market-nav');
+  renderCategoryTabs();
+  $('market-list').innerHTML = '';
+  const visible = marketCategoryFilter ? marketApps.filter(a => a.category === marketCategoryFilter) : marketApps;
+  if (marketCategoryFilter) {
+    visible.forEach(app => listItem(appTile(app), 'market-list'));
+    return;
+  }
+  const byCategory = {};
+  visible.forEach(a => (byCategory[a.category] ||= []).push(a));
+  Object.keys(byCategory).sort().forEach(cat => {
+    const sep = document.createElement('li');
+    sep.className = 'sep';
+    sep.innerHTML = `<span class="sep-text">${cat}</span>`;
+    $('market-list').appendChild(sep);
+    byCategory[cat].forEach(app => listItem(appTile(app), 'market-list'));
+  });
+}
+
+async function installApp(app) {
+  appStatus[app.id] = 'installing';
+  updateAppRow(app);
+  try {
+    await g.runAction(app.action, sd);
+    delete appStatus[app.id];
+    await refreshInstalled();
+  } catch (e) {
+    appStatus[app.id] = e.message || 'install failed';
+  }
+  updateAppRow(app);
+}
+
+async function uninstallAppUi(app) {
+  if (!await showConfirm(`Remove ${app.name} from the SD card?`, { continueLabel: 'Uninstall' })) return;
+  appStatus[app.id] = 'uninstalling';
+  updateAppRow(app);
+  try {
+    await g.uninstallApp(sd, app.id);
+    delete appStatus[app.id];
+    await refreshInstalled();
+  } catch (e) {
+    appStatus[app.id] = e.message || 'uninstall failed';
+  }
+  updateAppRow(app);
+}
 
 function osExplorerName() {
   if (os === 'darwin') return 'Finder';
@@ -466,7 +650,7 @@ async function init() {
   await buildShell();
   bindGuideNav();
   bindRail();
-  allGuides = await g.listGuides();
+  [allGuides, allApps] = await Promise.all([g.listGuides(), g.listApps()]);
   os = await g.getPlatform();
   sessionState = await g.getState();
   showPicker();
@@ -486,6 +670,7 @@ async function start(f, st, loadedGuide = null, forcePick = false) {
     sd = await g.pickSD();
     if (!sd) return;
     // FAT32 verification/format is handled by any guide step with action type "fat32".
+    await checkCardClutter(sd);
   }
   $('sd-label').textContent = needsStorageSelection && sd ? `SD: ${sd}` : '';
   i = st?.i || 0;
@@ -542,6 +727,16 @@ function render() {
 
   $('next').disabled = !isDone && !!step.action && !step.action.optional;
   $('next').textContent = i === guide.steps.length - 1 ? 'Finish' : 'Next';
+}
+
+// Freshly-picked card already has stuff on it (leftover from prior use, junk
+// files, etc) — offer to wipe it before the guide's own steps write to it.
+async function checkCardClutter(root) {
+  const entries = await g.listSDRoot(root);
+  if (!entries.length) return;
+  const go = await showConfirm('You have some files on your SD card. You should remove them.',
+    { continueLabel: 'Delete all', countdownSeconds: 3 });
+  if (go) await g.clearSDRoot(root);
 }
 
 function fat32Status(box, text, cls) {

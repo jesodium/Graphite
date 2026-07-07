@@ -28,4 +28,15 @@ function normalizeGuideMetadata(file, guide) {
   };
 }
 
-module.exports = { normalizeGuideMetadata };
+function normalizeAppMetadata(app) {
+  return {
+    id: String(app.id || '').trim(),
+    name: String(app.name || '').trim(),
+    category: String(app.category || '').trim() || 'other',
+    description: String(app.description || '').trim(),
+    tileImage: typeof app.tileImage === 'string' ? app.tileImage : null,
+    action: app.action,
+  };
+}
+
+module.exports = { normalizeGuideMetadata, normalizeAppMetadata };

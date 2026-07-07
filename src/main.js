@@ -1,8 +1,8 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('fs');
 const path = require('path');
-const { runAction } = require('./engine');
-const { normalizeGuideMetadata } = require('./guide-index');
+const { runAction, detectConsole, listInstalledApps, uninstallApp, listRoot, clearRoot } = require('./engine');
+const { normalizeGuideMetadata, normalizeAppMetadata } = require('./guide-index');
 
 const stateFile = () => path.join(app.getPath('userData'), 'state.json');
 const cacheDir = () => path.join(app.getPath('userData'), 'cache');
@@ -30,7 +30,7 @@ ipcMain.handle('guides:list', async () => {
     try { cfg = JSON.parse(await fs.promises.readFile(path.join(sub, 'console.json'), 'utf8')); }
     catch { /* no console.json for this folder */ }
     for (const f of await fs.promises.readdir(sub)) {
-      if (!f.endsWith('.json') || f === 'console.json' || f === 'troubleshoot.json') continue;
+      if (!f.endsWith('.json') || f === 'console.json' || f === 'troubleshoot.json' || f === 'apps.json') continue;
       const g = JSON.parse(await fs.promises.readFile(path.join(sub, f), 'utf8'));
       const meta = normalizeGuideMetadata(`${e.name}/${f}`, g);
       if (meta.wip) continue;
@@ -41,6 +41,41 @@ ipcMain.handle('guides:list', async () => {
     }
   }
   return out;
+});
+
+// List installable homebrew apps (metadata + install action) for the Apps tab.
+// One `apps.json` array per console folder; folders without one contribute nothing.
+ipcMain.handle('apps:list', async () => {
+  const dir = path.join(__dirname, '..', 'guides');
+  const out = [];
+  for (const e of await fs.promises.readdir(dir, { withFileTypes: true })) {
+    if (!e.isDirectory()) continue;
+    const sub = path.join(dir, e.name);
+    let cfg = {};
+    try { cfg = JSON.parse(await fs.promises.readFile(path.join(sub, 'console.json'), 'utf8')); }
+    catch { /* no console.json for this folder */ }
+    let apps;
+    try { apps = JSON.parse(await fs.promises.readFile(path.join(sub, 'apps.json'), 'utf8')); }
+    catch { continue; } // no apps.json for this console
+    for (const a of apps) {
+      const meta = normalizeAppMetadata(a);
+      meta.console = cfg.name || e.name;
+      meta.folder = e.name; // matches detectConsole()'s return value
+      meta.edge = cfg.edge || null;
+      if (cfg.tileImage) meta.consoleTileImage = cfg.tileImage;
+      out.push(meta);
+    }
+  }
+  return out;
+});
+
+ipcMain.handle('sd:detectConsole', async (_e, target) => detectConsole(target));
+
+ipcMain.handle('apps:installed', async (_e, target) => listInstalledApps(target));
+
+ipcMain.handle('apps:uninstall', async (_e, target, appId) => {
+  await uninstallApp(target, appId);
+  return true;
 });
 
 ipcMain.handle('guides:load', async (_e, file) => {
@@ -63,6 +98,13 @@ function isFat32Fs(fsName) {
   if (s.includes('exfat')) return false;
   return /fat32|vfat|ms-dos/.test(s);
 }
+
+ipcMain.handle('sd:listRoot', async (_e, target) => listRoot(target));
+
+ipcMain.handle('sd:clearRoot', async (_e, target) => {
+  await clearRoot(target);
+  return true;
+});
 
 ipcMain.handle('sd:check', async (_e, target) => {
   try {

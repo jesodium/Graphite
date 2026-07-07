@@ -147,7 +147,7 @@ h1 {
 }
 
 /* ---------- Picker ---------- */
-#picker-title {
+.panel-title {
   font-size: 25px;
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -155,7 +155,7 @@ h1 {
   line-height: 1.2;
 }
 
-#guide-list {
+.list-panel {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -163,7 +163,7 @@ h1 {
   flex-direction: column;
   gap: 10px;
 }
-#guide-list li { margin: 0; }
+.list-panel li { margin: 0; }
 
 /* ---------- Console tiles: SD-card slabs ---------- */
 .console-grid {
@@ -416,16 +416,93 @@ h1 {
   background: color-mix(in srgb, var(--ok) 12%, transparent);
   border: 1px solid color-mix(in srgb, var(--ok) 32%, transparent);
 }
+/* Apps tab: one row per app — icon, name/description, install/update/uninstall controls */
+.app-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+}
+.app-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+.app-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+.method-desc {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--ink-faint);
+  line-height: 1.35;
+}
+.app-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.action-btn.small { padding: 6px 12px; font-size: 12px; }
+.action-btn.danger { background: #DC2626; color: #fff; }
+.app-actions .badge {
+  font: 600 10px/1 var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 9px;
+  border-radius: 5px;
+  color: var(--ok);
+  background: color-mix(in srgb, var(--ok) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ok) 32%, transparent);
+}
+.app-actions .badge.warn {
+  color: var(--warn);
+  background: color-mix(in srgb, var(--warn) 12%, transparent);
+  border-color: color-mix(in srgb, var(--warn) 32%, transparent);
+}
+
+/* Category filter pills above the app list */
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.category-tabs:empty { display: none; }
+.category-tab {
+  padding: 6px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  font: 600 12px/1 var(--mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background var(--t), border-color var(--t), color var(--t);
+}
+.category-tab:hover { border-color: var(--line-strong); }
+.category-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
 /* Section separator */
-#guide-list .sep {
+.list-panel .sep {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 10px 2px 4px;
   user-select: none;
 }
-#guide-list .sep::before, #guide-list .sep::after {
+.list-panel .sep::before, .list-panel .sep::after {
   content: ""; flex: 1; height: 1px; background: var(--line);
 }
 .sep-text {
@@ -437,7 +514,7 @@ h1 {
 }
 
 /* ---------- Requirements / meta (spec sheet) ---------- */
-#guide-list .meta-title {
+.list-panel .meta-title {
   font: 600 11px/1 var(--mono);
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -445,13 +522,13 @@ h1 {
   padding: 0 2px;
   margin-top: 18px;
 }
-#guide-list .meta-item {
+.list-panel .meta-item {
   font-size: 14px;
   color: var(--ink-soft);
   padding: 1px 2px;
   line-height: 1.7;
 }
-#guide-list .meta-note {
+.list-panel .meta-note {
   font-size: 13px;
   color: var(--ink-soft);
   padding: 12px 14px;
@@ -461,7 +538,7 @@ h1 {
   background: var(--card);
   line-height: 1.55;
 }
-#guide-list .meta-instruction {
+.list-panel .meta-instruction {
   margin-top: 6px;
   padding: 14px 16px;
   border: 1px solid var(--line);
@@ -473,8 +550,8 @@ h1 {
 }
 
 /* Back = quiet text link, top-left */
-#picker-nav { margin-bottom: 16px; }
-#picker-nav:empty { display: none; }
+.panel-nav { margin-bottom: 16px; }
+.panel-nav:empty { display: none; }
 .back-link {
   display: inline-flex;
   align-items: center;
@@ -744,16 +821,16 @@ footer button:focus-visible { outline: 2px solid var(--accent); outline-offset: 
 .modal-card.shake { animation: shake 0.4s ease; }
 
 /* Staggered list entrance */
-#guide-list li { animation: fadeUp 300ms ease both; }
-#guide-list li:nth-child(1) { animation-delay: 0ms; }
-#guide-list li:nth-child(2) { animation-delay: 35ms; }
-#guide-list li:nth-child(3) { animation-delay: 70ms; }
-#guide-list li:nth-child(4) { animation-delay: 105ms; }
-#guide-list li:nth-child(5) { animation-delay: 140ms; }
-#guide-list li:nth-child(6) { animation-delay: 175ms; }
-#guide-list li:nth-child(7) { animation-delay: 210ms; }
-#guide-list li:nth-child(8) { animation-delay: 245ms; }
-#guide-list li:nth-child(n+9) { animation-delay: 280ms; }
+.list-panel li { animation: fadeUp 300ms ease both; }
+.list-panel li:nth-child(1) { animation-delay: 0ms; }
+.list-panel li:nth-child(2) { animation-delay: 35ms; }
+.list-panel li:nth-child(3) { animation-delay: 70ms; }
+.list-panel li:nth-child(4) { animation-delay: 105ms; }
+.list-panel li:nth-child(5) { animation-delay: 140ms; }
+.list-panel li:nth-child(6) { animation-delay: 175ms; }
+.list-panel li:nth-child(7) { animation-delay: 210ms; }
+.list-panel li:nth-child(8) { animation-delay: 245ms; }
+.list-panel li:nth-child(n+9) { animation-delay: 280ms; }
 
 /* ---------- Success screen ---------- */
 #success-screen {
