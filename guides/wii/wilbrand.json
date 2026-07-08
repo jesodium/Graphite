@@ -62,12 +62,13 @@
     {
       "id": "generate-letter",
       "title": "Generate your Wilbrand file",
-      "body": "On your computer, go to [wilbrand.donut.eu.org](https://wilbrand.donut.eu.org/).\n\n1. Enter your Wii's **MAC address**, **System Menu version**, and **region**.\n2. Make sure **\"Bundle the HackMii Installer\"** is checked.\n3. Download the resulting `.zip` file.\n4. Extract it, then copy the `private` folder and `boot.elf` file to the **root** of your SD card (not inside any subfolder).\n\n!!Do NOT!! use a MAC address from a screenshot or example — it must be your own console's, or the site will reject it.\n\nPrefer the command line? A **Wilbrand CLI** tool is also available from [static.wiidatabase.de/Wilbrand.zip](https://static.wiidatabase.de/Wilbrand.zip) for Windows, macOS, and Linux — it does the same thing locally instead of through a website.",
+      "body": "Enter your Wii's **MAC address**, **System Menu version**, and **region** below, and Graphite will generate the exploit file directly on your SD card — no website needed.\n\nThe MAC address is from **Internet → Console Information**. The region letter (U, E, J, or K) is in the **top-right corner of Wii Settings**. The System Menu version is shown at the top of the Settings screen.\n\n!!Do NOT!! use a MAC address from a screenshot or example — it must be your own console's.",
       "image": [
         "../images/steps/wii_wilbrand_web.png"
       ],
       "action": {
-        "type": "manual"
+        "type": "genwilbrand",
+        "label": "Generate Wilbrand file"
       }
     },
     {

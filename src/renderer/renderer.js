@@ -710,6 +710,8 @@ function render() {
 
   if (step.action?.type === 'fat32') {
     renderFat32Check(step, box);
+  } else if (step.action?.type === 'genletterbomb' || step.action?.type === 'genwilbrand') {
+    renderGenForm(step, box);
   } else if (step.action) {
     const btn = document.createElement('button');
     btn.textContent = step.action.label || (step.action.type === 'manual' ? 'I did this' : 'Run');
@@ -794,6 +796,84 @@ async function runFormat(step, box) {
   render(); // re-runs the check — should now pass and mark the step done
 }
 
+function renderGenForm(step, box) {
+  const isWilbrand = step.action.type === 'genwilbrand';
+  const form = document.createElement('div');
+  form.className = 'gen-form';
+
+  const macLabel = document.createElement('label');
+  macLabel.textContent = 'MAC address (e.g. AA:BB:CC:DD:EE:FF)';
+  const macInput = document.createElement('input');
+  macInput.type = 'text';
+  macInput.placeholder = 'AA:BB:CC:DD:EE:FF';
+  macInput.className = 'gen-input';
+  macInput.pattern = '^([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}$';
+  form.appendChild(macLabel);
+  form.appendChild(macInput);
+
+  const regionLabel = document.createElement('label');
+  regionLabel.textContent = 'Region';
+  const regionSelect = document.createElement('select');
+  regionSelect.className = 'gen-select';
+  [['U', 'Americas (NTSC)'], ['E', 'Europe (PAL)'], ['J', 'Japan'], ['K', 'Korea']].forEach(([v, l]) => {
+    const opt = document.createElement('option');
+    opt.value = v;
+    opt.textContent = l;
+    regionSelect.appendChild(opt);
+  });
+  form.appendChild(regionLabel);
+  form.appendChild(regionSelect);
+
+  if (isWilbrand) {
+    const verLabel = document.createElement('label');
+    verLabel.textContent = 'System Menu version';
+    const verSelect = document.createElement('select');
+    verSelect.className = 'gen-select';
+    ['3.0', '3.1', '3.2', '3.3', '3.4', '4.0', '4.1', '4.2', '4.3'].forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v;
+      opt.textContent = v;
+      verSelect.appendChild(opt);
+    });
+    form.appendChild(verLabel);
+    form.appendChild(verSelect);
+  }
+
+  const errorEl = document.createElement('p');
+  errorEl.className = 'gen-error';
+  errorEl.hidden = true;
+  form.appendChild(errorEl);
+
+  const submitBtn = document.createElement('button');
+  submitBtn.textContent = step.action.label || (isWilbrand ? 'Generate Wilbrand file' : 'Generate LetterBomb file');
+  submitBtn.className = 'action-btn';
+  submitBtn.onclick = async () => {
+    const mac = macInput.value.trim();
+    const macClean = mac.replace(/[^0-9a-fA-F]/g, '');
+    if (macClean.length !== 12) {
+      errorEl.textContent = 'Please enter a valid 12-character MAC address (e.g. AA:BB:CC:DD:EE:FF)';
+      errorEl.hidden = false;
+      return;
+    }
+    errorEl.hidden = true;
+    const action = {
+      ...step.action,
+      mac: macClean,
+      region: regionSelect.value,
+    };
+    if (isWilbrand) {
+      const verSelect = form.querySelector('select:last-of-type');
+      action.version = verSelect.value;
+    }
+    const pseudoBtn = document.createElement('button');
+    pseudoBtn.disabled = false;
+    await runStep({ ...step, action }, pseudoBtn);
+    if (pseudoBtn.disabled) submitBtn.disabled = true;
+  };
+  form.appendChild(submitBtn);
+  box.appendChild(form);
+}
+
 function markStepDone(step) {
   done.add(step.id);
   return save();
@@ -804,7 +884,7 @@ async function runStep(step, btn) {
   $('step-status').textContent = step.action.type === 'manual' ? '' : 'Working...';
   try {
     if (step.action.type !== 'manual') {
-      const needsSd = ['extract', 'copy', 'sdinstall', 'backupnand', 'cleaneject'];
+      const needsSd = ['extract', 'copy', 'sdinstall', 'backupnand', 'cleaneject', 'genletterbomb', 'genwilbrand'];
       if (!sd && needsSd.includes(step.action.type)) {
         throw new Error('this guide step requires storage selection');
       }

@@ -61,12 +61,13 @@
     {
       "id": "generate-letter",
       "title": "Generate your LetterBomb file",
-      "body": "On your computer, go to [please.hackmii.com](https://please.hackmii.com/).\n\n1. Enter your Wii's **MAC address** and select your **region**.\n2. Make sure **\"Bundle the HackMii Installer for me!\"** is checked.\n3. Download the resulting `.zip` file.\n4. Extract it, then copy the `private` folder and `boot.elf` file to the **root** of your SD card (not inside any subfolder).\n\n!!Do NOT!! use a MAC address from a screenshot or example — it must be your own console's, or the site will reject it.",
+      "body": "Enter your Wii's **MAC address** and **region** below, and Graphite will generate the exploit file directly on your SD card — no need to visit a website.\n\nThe MAC address is the one you noted from **Internet → Console Information**. The region letter (U, E, J, or K) is in the **top-right corner of the Wii Settings** screen.\n\n!!Do NOT!! use a MAC address from a screenshot or example — it must be your own console's.",
       "image": [
         "../images/steps/wii_letterbomb_pc.png"
       ],
       "action": {
-        "type": "manual"
+        "type": "genletterbomb",
+        "label": "Generate LetterBomb file"
       }
     },
     {

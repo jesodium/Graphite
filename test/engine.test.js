@@ -5,7 +5,8 @@ const os = require('os');
 const path = require('path');
 const crypto = require('crypto');
 const { execSync } = require('child_process');
-const { runAction, safeJoin, download, removeMacJunk, detectConsole, listInstalledApps, uninstallApp, listRoot, clearRoot } = require('../src/engine');
+const { runAction, safeJoin, download, removeMacJunk, detectConsole, listInstalledApps, uninstallApp, listRoot, clearRoot, sha1Mac, cdbFolder, cdbEntryName, isValidMac, REGIONS } = require('../src/engine');
+const { letterbombGenerate, wilbrandGenerate } = require('../src/message-gen');
 
 async function main() {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'graphite-'));
@@ -121,6 +122,93 @@ async function main() {
   assert.deepStrictEqual((await listRoot(cr)).sort(), ['oldfolder', 'random.txt'], 'lists top-level clutter');
   await clearRoot(cr);
   assert.deepStrictEqual(await listRoot(cr), [], 'clearRoot wipes everything');
+
+  // 11. sha1Mac derives a 20-byte key and isValidMac rejects bad ouis
+  const key = sha1Mac('AA:BB:CC:DD:EE:FF');
+  assert.strictEqual(key.length, 20, 'key is 20 bytes');
+  const key2 = sha1Mac('AABBCCDDEEFF');
+  assert.deepStrictEqual(key, key2, 'mac without separators produces same key');
+  assert.strictEqual(isValidMac('AA:BB:CC:DD:EE:FF'), false, 'fake OUI is rejected');
+  // Known good OUI from the list
+  assert.strictEqual(isValidMac('00:09:BF:12:34:56'), true, 'known Nintendo OUI accepted');
+  assert.strictEqual(isValidMac('0017ab789012'), true, 'known OUI without separators');
+
+  // 12. letterbombGenerate produces correct output path
+  const lb = letterbombGenerate('00:09:BF:12:34:56', 'U');
+  assert.ok(lb.path.startsWith('private/wii/title/HAEA/'), 'letterbomb path starts with HAEA dir');
+  assert.ok(lb.path.endsWith('_HABA_01_000.txt'), 'letterbomb path ends with _HABA_01_000.txt');
+  assert.ok(lb.path.includes('_HABA_'), 'letterbomb path includes HABA marker');
+  assert.strictEqual(lb.data.length, 87232, 'letterbomb output is 87232 bytes');
+  assert.strictEqual(lb.data[0], 0x43, 'letterbomb starts with CDBFILE magic');
+  assert.strictEqual(lb.data[1], 0x44);
+  assert.strictEqual(lb.data[2], 0x42);
+
+  // 13. HMAC at offset 0xB0 is non-zero (patched, not placeholder)
+  let allZero = true;
+  for (let i = 0; i < 20; i++) { if (lb.data[0xB0 + i] !== 0) { allZero = false; break; } }
+  assert.ok(!allZero, 'letterbomb HMAC at 0xB0 is non-zero');
+  // Entry name in the binary matches the filename
+  const nameInBin = lb.data.toString('ascii', 0x80, 0xA0).replace(/\x00+$/, '');
+  assert.strictEqual(nameInBin, lb.entryName, 'binary filename matches entry name');
+
+  // 14. Different regions produce different outputs for same mac
+  const lbE = letterbombGenerate('00:09:BF:12:34:56', 'E');
+  const lbJ = letterbombGenerate('00:09:BF:12:34:56', 'J');
+  assert.ok(Buffer.compare(lb.data, lbE.data) !== 0, 'different region produces different output');
+  // Same region + same mac = same output (deterministic)
+  const lb2 = letterbombGenerate('00:09:BF:12:34:56', 'U');
+  assert.deepStrictEqual(lb.data, lb2.data, 'same mac+region is deterministic');
+
+  // 15. wilbrandGenerate produces correct structure
+  const wb = wilbrandGenerate('00:09:BF:12:34:56', 'U', '4.3', null);
+  assert.ok(wb.path.startsWith('private/wii/title/HAEA/'), 'wilbrand path starts with HAEA');
+  assert.ok(wb.path.endsWith('_HABA_01_000.txt'), 'wilbrand path is a HABA txt');
+  assert.strictEqual(wb.data.length, 0x32400, 'wilbrand output is 0x32400 bytes');
+  // HMAC at 0xB0 is non-zero
+  allZero = true;
+  for (let i = 0; i < 20; i++) { if (wb.data[0xB0 + i] !== 0) { allZero = false; break; } }
+  assert.ok(!allZero, 'wilbrand HMAC at 0xB0 is non-zero');
+  // Version byte at 0x72 matches 4.3
+  assert.strictEqual(wb.data[0x72], 0x08, 'wilbrand version byte at 0x72 is 0x08 for 4.3');
+
+  // 16. genletterbomb action writes file to correct SD path
+  const letterDir = path.join(tmp, 'sd-letter');
+  fs.mkdirSync(letterDir);
+  await runAction(
+    { type: 'genletterbomb', mac: '00:09:BF:12:34:56', region: 'U' },
+    { root: letterDir, cache }
+  );
+  const lbFiles = fs.readdirSync(path.join(letterDir, 'private', 'wii', 'title', 'HAEA'));
+  assert.ok(lbFiles.length > 0, 'letterbomb creates HAEA subdirectory');
+  const lbSubDir = path.join(letterDir, 'private', 'wii', 'title', 'HAEA', lbFiles[0]);
+  const lbFile = fs.readdirSync(lbSubDir)[0];
+  assert.ok(lbFile.endsWith('_HABA_01_000.txt'), 'letterbomb writes HABA txt file');
+  assert.strictEqual(fs.statSync(path.join(lbSubDir, lbFile)).size, 87232, 'written file is 87232 bytes');
+
+  // 17. genwilbrand action writes file to correct SD path
+  const wbDir = path.join(tmp, 'sd-wilbrand');
+  fs.mkdirSync(wbDir);
+  await runAction(
+    { type: 'genwilbrand', mac: '00:09:BF:12:34:56', region: 'E', version: '4.0' },
+    { root: wbDir, cache }
+  );
+  const wbFiles = fs.readdirSync(path.join(wbDir, 'private', 'wii', 'title', 'HAEA'));
+  assert.ok(wbFiles.length > 0, 'wilbrand creates HAEA subdirectory');
+  const wbSubDir = path.join(wbDir, 'private', 'wii', 'title', 'HAEA', wbFiles[0]);
+  const wbFile = fs.readdirSync(wbSubDir)[0];
+  assert.ok(wbFile.endsWith('_HABA_01_000.txt'), 'wilbrand writes HABA txt file');
+
+  // 18. genletterbomb rejects invalid MAC
+  await assert.rejects(
+    runAction({ type: 'genletterbomb', mac: 'DE:AD:BE:EF:00:00', region: 'U' }, { root: tmp, cache }),
+    /OUI/, 'invalid OUI rejected'
+  );
+
+  // 19. genletterbomb rejects missing fields
+  await assert.rejects(
+    runAction({ type: 'genletterbomb', mac: '', region: 'U' }, { root: tmp, cache }),
+    /required/, 'empty mac rejected'
+  );
 
   fs.rmSync(tmp, { recursive: true, force: true });
   console.log('ok — all engine checks passed');

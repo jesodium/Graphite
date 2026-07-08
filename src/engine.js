@@ -5,6 +5,7 @@ const os = require('os');
 const path = require('path');
 const crypto = require('crypto');
 const extract = require('extract-zip');
+const { sha1Mac, cdbFolder, cdbEntryName, letterbombGenerate, wilbrandGenerate, isValidMac, REGIONS, WILBRAND_VERSIONS, REGION_NAMES } = require('./message-gen');
 
 // First free "<base>", "<base> (2)", "<base> (3)"… under `parent`.
 function uniqueDir(parent, base) {
@@ -134,6 +135,31 @@ async function runAction(action, { root, cache }) {
       return root;
     }
 
+    // Verify MAC is valid before proceeding.
+    // Action payload carries mac + region from the renderer form.
+    case 'genletterbomb': {
+      const { mac, region } = action;
+      if (!mac || !region) throw new Error('MAC address and region are required');
+      if (!isValidMac(mac)) throw new Error('Invalid MAC address — does not match a known Nintendo Wii OUI');
+      const result = letterbombGenerate(mac, region);
+      const dest = safeJoin(root, result.path);
+      await fs.promises.mkdir(path.dirname(dest), { recursive: true });
+      await fs.promises.writeFile(dest, result.data);
+      return dest;
+    }
+
+    case 'genwilbrand': {
+      const { mac, region, version } = action;
+      if (!mac || !region || !version) throw new Error('MAC address, region, and system menu version are required');
+      if (!isValidMac(mac)) throw new Error('Invalid MAC address — does not match a known Nintendo Wii OUI');
+      const bootElf = safeJoin(root, 'boot.elf');
+      const result = wilbrandGenerate(mac, region, version, bootElf);
+      const dest = safeJoin(root, result.path);
+      await fs.promises.mkdir(path.dirname(dest), { recursive: true });
+      await fs.promises.writeFile(dest, result.data);
+      return dest;
+    }
+
     case 'manual':
       return null; // user does it on the console; nothing to automate
 
@@ -186,4 +212,4 @@ async function clearRoot(root) {
   }
 }
 
-module.exports = { runAction, safeJoin, sha256, download, removeMacJunk, detectConsole, listInstalledApps, uninstallApp, listRoot, clearRoot };
+module.exports = { runAction, safeJoin, sha256, download, removeMacJunk, detectConsole, listInstalledApps, uninstallApp, listRoot, clearRoot, sha1Mac, cdbFolder, cdbEntryName, isValidMac, REGIONS, WILBRAND_VERSIONS, REGION_NAMES };
