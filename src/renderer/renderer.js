@@ -666,9 +666,11 @@ async function start(f, st, loadedGuide = null, forcePick = false) {
   // forcePick: the "Select in Finder" button always re-opens the picker rather
   // than silently reusing a card chosen for an earlier guide this session.
   sd = needsStorageSelection ? (forcePick ? null : (st?.sd || sd)) : null;
-  if (needsStorageSelection && !sd) {
-    sd = await g.pickSD();
-    if (!sd) return;
+  if (needsStorageSelection) {
+    if (!sd) {
+      sd = await g.pickSD();
+      if (!sd) return;
+    }
     // FAT32 verification/format is handled by any guide step with action type "fat32".
     await checkCardClutter(sd);
   }
